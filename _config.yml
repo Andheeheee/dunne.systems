@@ -1,0 +1,86 @@
+# WhatATheme
+markdown: kramdown
+
+# URL of the Site
+url: 'https://www.dunne.systems'
+# Base URL of the Site (i.e., Name of the Repository in which the Site is hosted)
+baseurl: ""
+
+# Title of the Site
+title: Andrew Dunne
+# Description of the Site
+description: Bridging the gap between hardware-level diagnostics and enterprise network security
+# URL of Image of the Site
+site-image: /assets/images/seattle.jpeg
+# Keywords of the Site
+site-keywords: Portfolio, Cybersecurity, IT, Infrastructure
+
+# URL for the Image of custom Favicon
+favicon-url: 
+
+# URL of the Image of Custom Hero Image (i.e., the image in the background of the very first section of the Homepage)
+heroimage: /assets/images/seattle.jpeg
+
+# Social Media and Contact
+email: andy@dunne.systems
+linkedin_username: andhee
+github_username: Andheeheee
+
+# Name of the Author
+author-name: Andrew Dunne
+# URL for the Image of the Author
+author-image: /assets/images/headshot.jpg
+# Main About Section (Long)
+author-about: "Dedicated IT and Cybersecurity professional with hands-on experience in public-sector network monitoring, hardware diagnostics, and enterprise system administration. Proven ability to analyze threat telemetry, optimize mass deployment workflows, and translate complex technical incidents into clear, actionable documentation."
+
+# Footer Section (Short)
+footer-about: "IT & Cybersecurity professional securing enterprise infrastructure and systems."
+# URL to the Author's Profile (i.e., Github, Twitter, Stackoverflow, etc)
+author-url: https://www.dunne.systems
+
+# SASS
+sass:
+  sass_dir: _sass
+  style: compressed
+
+# Build settings
+plugins:
+  - jekyll-admin
+  - jekyll-feed
+
+# Permalink
+permalink: "blog/:title"
+
+# Compress
+compress_html:
+  clippings: all
+
+# Defaults
+defaults:
+  -
+    scope:
+      type: 'posts'
+    values:
+      layout: post
+      post-image: ""
+      description: ""
+      tags:
+        - ""
+  -
+    scope:
+      type: 'pages'
+    values:
+      layout: page
+
+# Exclude
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

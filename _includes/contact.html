@@ -1,0 +1,53 @@
+<section class="hero is-fullheight has-text-centered" id="contact">
+    <div class="hero-body">
+        <div class="container py-6">
+            
+            <h2 class="title is-2 has-text-black mb-6">
+                Let's Connect
+            </h2>
+
+            <p class="subtitle is-5 has-text-grey-dark" style="margin-top: 5rem; margin-bottom: 4rem;">
+                I'm always open to discussing new projects, security research, or IT opportunities.
+            </p>
+
+            <div class="columns is-centered is-mobile is-multiline">
+                {% unless site.linkedin_username == %}
+                <div class="column is-narrow">
+                    <a id="contact-button" href="http://www.linkedin.com/in/{{site.linkedin_username}}"
+                        class="button is-rounded is-uppercase is-black is-outlined has-text-weight-semibold"
+                        target="_blank">
+                        <span class="icon"><i class="fab fa-linkedin"></i></span>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+                {% endunless %}
+                
+                {% unless site.github_username == %}
+                <div class="column is-narrow">
+                    <a id="contact-button" href="http://www.github.com/{{site.github_username}}"
+                        class="button is-rounded is-uppercase is-black is-outlined has-text-weight-semibold"
+                        target="_blank">
+                        <span class="icon"><i class="fab fa-github"></i></span>
+                        <span>GitHub Portfolio</span>
+                    </a>
+                </div>
+                {% endunless %}
+            </div>
+
+            <hr style="width: 30%; margin: 6rem auto; background-color: #dbdbdb;">
+
+            <h3 class="is-size-6 is-uppercase has-text-weight-semibold has-text-grey mb-5">
+                under construction 
+            </h3>
+            <div class="is-size-3">
+                {% unless site.linkedin_username == %}
+                <a href="http://www.linkedin.com/in/{{site.linkedin_username}}" target="_blank" class="has-text-black mx-4"><i class="fab fa-linkedin"></i></a>
+                {% endunless %}
+                
+                {% unless site.github_username == %}
+                <a href="http://www.github.com/{{site.github_username}}" target="_blank" class="has-text-black mx-4"><i class="fab fa-github"></i></a>
+                {% endunless %}
+            </div>
+        </div>
+    </div>
+</section>
