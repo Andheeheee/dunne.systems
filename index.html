@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Andrew Dunne · dunne.systems">
+<meta property="og:description" content="Data center infrastructure and security. Akamai Data Center Field Technician, CompTIA Security+.">
+<meta property="og:image" content="https://www.dunne.systems/assets/images/seattle.jpeg">
+<meta property="og:url" content="https://www.dunne.systems/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#2c7787">
+<link rel="canonical" href="https://www.dunne.systems/">
+<title>dunne.systems</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Andrew Dunne — data center infrastructure and security. Akamai Data Center Field Technician, CompTIA Security+.">
+<style>
+/* Layout: 2006 centered "Web 2.0" shell — glossy header, rounded tabs, content column + sidebar, badge footer. */
+:root{
+  --page:#dde4e6; --stripe:#cfd8db; --panel:#ffffff; --panel-2:#f1f5f5; --ink:#1b2a2e; --muted:#53676c;
+  --line:#b4c6c9; --link:#155f74; --blue-hi:#86c7cc; --blue:#2c7787; --blue-lo:#174d5a; --sky-hi:#b9c8cf; --sky-lo:#5f7d89; --skyline:#163a44; --mtn:#eef3f5;
+  --orange:#f07a1c; --orange-lo:#c15504; --led:#2fbf4b; --led-off:#7d8b97; --rack:#2b333b; --rack-2:#3a444e;
+  --shadow:rgba(20,40,70,.18); --hl:rgba(255,255,255,.55); --code:#eef3f8;
+  --display:"Trebuchet MS","Lucida Grande","Lucida Sans Unicode",Tahoma,sans-serif;
+  --body:Verdana,Tahoma,Geneva,"DejaVu Sans",sans-serif;
+  --mono:"Lucida Console",Monaco,"Courier New",monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --page:#0c1518; --stripe:#101d21; --panel:#152225; --panel-2:#1a2b2f; --ink:#d6e5e7; --muted:#90a9ad;
+  --line:#2a4146; --link:#7fcfdc; --blue-hi:#4c9aa5; --blue:#22626f; --blue-lo:#123c46; --sky-hi:#2d4652; --sky-lo:#0f1f27; --skyline:#050c0f; --mtn:#9fb3bb;
+  --orange:#ff9442; --orange-lo:#cf6410; --led:#45dd63; --led-off:#4a5662; --rack:#0a0f14; --rack-2:#1c252e;
+  --shadow:rgba(0,0,0,.45); --hl:rgba(255,255,255,.18); --code:#1f2d3b; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --page:#0c1518; --stripe:#101d21; --panel:#152225; --panel-2:#1a2b2f; --ink:#d6e5e7; --muted:#90a9ad;
+  --line:#2a4146; --link:#7fcfdc; --blue-hi:#4c9aa5; --blue:#22626f; --blue-lo:#123c46; --sky-hi:#2d4652; --sky-lo:#0f1f27; --skyline:#050c0f; --mtn:#9fb3bb;
+  --orange:#ff9442; --orange-lo:#cf6410; --led:#45dd63; --led-off:#4a5662; --rack:#0a0f14; --rack-2:#1c252e;
+  --shadow:rgba(0,0,0,.45); --hl:rgba(255,255,255,.18); --code:#1f2d3b; color-scheme:dark }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--page);background-image:repeating-linear-gradient(100deg,var(--stripe) 0 1px,transparent 1px 7px);
+  color:var(--ink);font:13px/1.6 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 32px}
+a{color:var(--link)} a:hover{color:var(--orange-lo)}
+:focus-visible{outline:2px dotted var(--orange);outline-offset:2px}
+.wrap{max-width:900px;margin:0 auto}
+
+/* Header */
+.masthead{position:relative;overflow:hidden;border-radius:10px 10px 0 0;padding:22px 24px 92px;color:#fff;
+  background:linear-gradient(180deg,var(--sky-hi) 0%,var(--sky-lo) 70%,var(--blue-lo) 100%);
+  border:1px solid var(--blue-lo);box-shadow:inset 0 1px 0 var(--hl)}
+.masthead::after{content:"";position:absolute;inset:0 0 50%;background:linear-gradient(180deg,var(--hl),transparent);pointer-events:none}
+.masthead>*{position:relative;z-index:2}
+.masthead .skyline{position:absolute;left:0;right:0;bottom:0;width:100%;height:96px;z-index:1}
+#rain{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.coords{font:10px var(--mono);opacity:.8;margin-top:4px}
+.logo{font:bold clamp(28px,6vw,44px)/1 var(--display);letter-spacing:-1px;margin:0;text-shadow:0 1px 2px rgba(0,0,0,.45);
+  -webkit-box-reflect:below -4px linear-gradient(transparent 55%,rgba(255,255,255,.28))}
+.logo span{color:#ffd59c}
+.tagline{margin:14px 0 0;font:12px var(--body);max-width:52ch;text-shadow:0 1px 1px rgba(0,0,0,.4)}
+.masthead .burst{position:absolute;right:22px;top:14px;width:78px;height:78px;display:grid;place-items:center;transform:rotate(14deg);
+  background:var(--orange);color:#fff;font:bold 15px/1.05 var(--display);text-align:center;text-shadow:0 1px 0 var(--orange-lo);
+  clip-path:polygon(50% 0,61% 13%,77% 6%,79% 23%,96% 25%,89% 40%,100% 50%,89% 60%,96% 75%,79% 77%,77% 94%,61% 87%,50% 100%,39% 87%,23% 94%,21% 77%,4% 75%,11% 60%,0 50%,11% 40%,4% 25%,21% 23%,23% 6%,39% 13%)}
+.masthead .burst small{display:block;font-size:9px;font-weight:normal}
+
+/* Tabs */
+.tabbar{display:flex;align-items:flex-end;gap:10px;margin-top:-32px;position:relative;z-index:3;padding:0 14px;position:relative}
+.tabs{display:flex;gap:3px;overflow-x:auto;min-width:0;flex:1;scrollbar-width:none}
+.tabs a{flex:none;text-decoration:none;font:bold 12px var(--display);color:var(--ink);padding:7px 14px 6px;border:1px solid var(--line);border-bottom:none;
+  border-radius:7px 7px 0 0;background:linear-gradient(180deg,var(--panel) 0%,var(--panel-2) 100%)}
+.tabs a:hover{color:var(--orange-lo)}
+.tabs a[aria-current="page"]{background:var(--panel);color:var(--blue);padding-bottom:9px;position:relative;top:1px}
+.tools{display:flex;gap:6px;padding-bottom:5px;flex:none}
+.gloss{font:bold 11px var(--body);color:#fff;cursor:pointer;border:1px solid var(--blue-lo);border-radius:4px;padding:4px 9px;text-shadow:0 -1px 0 rgba(0,0,0,.3);
+  background:linear-gradient(180deg,var(--blue-hi) 0%,var(--blue) 50%,var(--blue-lo) 51%,var(--blue) 100%);box-shadow:inset 0 1px 0 var(--hl);text-decoration:none;display:inline-block}
+.gloss:hover{filter:brightness(1.1);color:#fff}
+.gloss.orange{border-color:var(--orange-lo);background:linear-gradient(180deg,#ffb36b 0%,var(--orange) 50%,var(--orange-lo) 51%,var(--orange) 100%)}
+kbd{font:10px var(--mono);border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:0 4px;background:var(--panel-2);color:var(--ink)}
+.gloss kbd{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);color:#fff}
+
+/* Body */
+.sheet{background:var(--panel);border:1px solid var(--line);border-radius:0 0 10px 10px;box-shadow:0 4px 14px var(--shadow);
+  display:grid;grid-template-columns:minmax(0,1fr) 232px;gap:0}
+main{padding:22px 24px 28px;min-width:0}
+aside{border-left:1px dashed var(--line);background:var(--panel-2);padding:18px 16px;border-radius:0 0 10px 0;display:flex;flex-direction:column;gap:18px;min-width:0}
+h2{font:bold 22px/1.2 var(--display);color:var(--blue);margin:0 0 4px;text-wrap:balance}
+h3{font:bold 15px/1.3 var(--display);margin:0;text-wrap:balance}
+.crumb{font-size:11px;color:var(--muted);margin:0 0 16px}
+p{margin:0 0 12px;max-width:68ch}
+.box h4{margin:0 0 8px;font:bold 11px var(--display);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:4px}
+section[data-route]{display:flex;flex-direction:column;gap:18px}
+
+/* Home */
+.intro{display:grid;grid-template-columns:120px minmax(0,1fr);gap:18px;align-items:start}
+.polaroid{background:#fff;padding:6px 6px 22px;border:1px solid #c9c9c9;box-shadow:2px 3px 6px var(--shadow);transform:rotate(-2.5deg);width:120px}
+.polaroid img,.polaroid .initials{display:block;width:106px;height:106px;object-fit:cover}
+.polaroid .initials{display:grid;place-items:center;font:bold 34px var(--display);color:#fff;background:linear-gradient(135deg,var(--blue-hi),var(--blue-lo))}
+.polaroid figcaption{font:11px var(--display);color:#444;text-align:center;margin-top:5px}
+.lede{font:15px/1.55 var(--display);margin-bottom:12px}
+.callout{border:1px solid #e9c86a;background:#fff8d6;color:#4a3b05;border-radius:6px;padding:10px 12px;font-size:12px}
+:root[data-theme="dark"] .callout{background:#2d2610;border-color:#6b5617;color:#f0dea0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .callout{background:#2d2610;border-color:#6b5617;color:#f0dea0}}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{border:1px solid var(--line);border-radius:6px;padding:10px;background:var(--panel-2)}
+.stat b{display:block;font:bold 14px var(--display);color:var(--blue)}
+.stat span{font-size:11px;color:var(--muted)}
+.cta{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Rack */
+.rackwrap{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:start}
+.rack{background:var(--rack);border-radius:6px;padding:10px 8px;border:3px solid var(--rack-2);box-shadow:inset 0 0 0 1px #000}
+.rack-label{font:10px var(--mono);color:#9fb0bf;display:flex;justify-content:space-between;margin-bottom:6px}
+.unit{display:grid;grid-template-columns:22px minmax(0,1fr) auto;align-items:center;gap:6px;width:100%;text-align:left;cursor:pointer;
+  font:11px var(--mono);color:#cfe0ee;background:linear-gradient(180deg,#4a5561,#323b45);border:1px solid #1a1f24;border-radius:2px;padding:6px 6px;margin-bottom:3px}
+.unit:hover,.unit[aria-pressed="true"]{background:linear-gradient(180deg,#5d6c7b,#3c4855);color:#fff}
+.unit .u{color:#7f93a5;font-size:9px}
+.unit .name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leds{display:flex;gap:3px}
+.led{width:6px;height:6px;border-radius:50%;background:var(--led-off)}
+.led.on{background:var(--led);box-shadow:0 0 4px var(--led);animation:blink 1.6s steps(2) infinite}
+.led.amber{background:var(--orange);box-shadow:0 0 4px var(--orange)}
+.unit.blank{cursor:default;background:repeating-linear-gradient(90deg,#2a3139 0 6px,#252b32 6px 8px);color:#5f6d79}
+@keyframes blink{50%{opacity:.35}}
+@media (prefers-reduced-motion: reduce){.led.on{animation:none}}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11px}
+.chip{font:11px var(--body);border:1px solid var(--line);background:var(--panel-2);color:var(--ink);border-radius:10px;padding:2px 9px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue-lo)}
+.cards{display:flex;flex-direction:column;gap:12px}
+.card{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:var(--panel)}
+.card[data-active="true"]{border-color:var(--orange);box-shadow:0 0 0 2px color-mix(in srgb,var(--orange) 30%,transparent)}
+.card header{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}
+.card .meta{font-size:11px;color:var(--muted)}
+.card p{font-size:12px;margin-bottom:8px}
+.stack{display:flex;flex-wrap:wrap;gap:4px}
+.stack code{font:10px var(--mono);background:var(--code);border:1px solid var(--line);border-radius:3px;padding:1px 5px;color:var(--ink)}
+.card details summary{cursor:pointer;font-size:11px;color:var(--link);margin-top:8px}
+.card details ul{margin:6px 0 0;padding-left:18px;font-size:12px}
+
+/* Resume */
+.res-head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+.job{border-left:3px solid var(--blue);padding:2px 0 2px 12px}
+.job header{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.job .when{font:11px var(--mono);color:var(--muted)}
+.job ul{margin:6px 0 0;padding-left:18px;font-size:12px}
+.job li{margin-bottom:3px}
+.certs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.cert{border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px;background:var(--panel-2);display:flex;flex-direction:column;gap:2px}
+.pill{align-self:flex-start;font:bold 9px var(--body);text-transform:uppercase;letter-spacing:.06em;border-radius:8px;padding:1px 7px;color:#fff;background:#2f8f46}
+.pill.prog{background:var(--orange-lo)}
+.skills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.skills div{font-size:12px}
+.skills b{display:block;font:bold 12px var(--display);color:var(--blue)}
+
+/* Blog */
+.empty{border:2px dashed var(--line);border-radius:8px;padding:22px;text-align:center;color:var(--muted)}
+.construction{display:inline-block;font:bold 11px var(--display);color:#222;padding:4px 10px;margin-bottom:10px;
+  background:repeating-linear-gradient(-45deg,#f5c400 0 10px,#222 10px 20px);}
+.construction span{background:#f5c400;padding:1px 6px}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.field{display:flex;flex-direction:column;gap:3px;margin-bottom:10px;font-size:11px;font-weight:bold}
+.field input,.field textarea,.field select{font:12px var(--body);color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:6px;
+  box-shadow:inset 1px 1px 2px var(--shadow)}
+.field textarea{min-height:110px;resize:vertical}
+.field [aria-invalid="true"]{border-color:#c0392b;box-shadow:0 0 0 2px rgba(192,57,43,.2)}
+.emailrow{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.emailrow code{font:13px var(--mono);user-select:all;background:var(--code);border:1px solid var(--line);padding:3px 7px;border-radius:3px}
+.note{font-size:11px;color:var(--muted)}
+
+/* Sidebar */
+.now{font-size:12px;display:flex;flex-direction:column;gap:6px}
+.now div{display:flex;gap:6px;align-items:baseline}
+.dot{width:8px;height:8px;flex:none;border-radius:50%;background:var(--led);box-shadow:0 0 4px var(--led);position:relative;top:-1px}
+.cloud{line-height:1.9}
+.cloud button{background:none;border:none;padding:0 3px;color:var(--link);cursor:pointer;font-family:var(--body)}
+.cloud button:hover{color:var(--orange-lo);text-decoration:underline}
+.counter{display:flex;gap:2px;margin:4px 0}
+.counter span{font:bold 14px var(--mono);background:#111;color:#7dff7d;padding:1px 4px;border-radius:2px;border:1px solid #444}
+.linklist{list-style:none;padding:0;margin:0;font-size:12px;display:flex;flex-direction:column;gap:4px}
+.linklist a::before{content:"» ";color:var(--orange)}
+
+/* Seattle widget */
+.sea{font-size:12px;display:flex;flex-direction:column;gap:4px}
+.sea .clock{font:bold 20px var(--mono);color:var(--blue);font-variant-numeric:tabular-nums}
+.sea .wx{display:flex;gap:6px;align-items:baseline}
+.sea .wx b{font:bold 16px var(--display)}
+.ferry{font-size:11px;color:var(--muted)}
+
+/* Footer badges */
+footer{text-align:center;padding:16px 0 0;font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:8px;align-items:center}
+.badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.b80{display:inline-flex;width:80px;height:15px;font:9px/13px var(--mono);border:1px solid #666;overflow:hidden;text-decoration:none;color:#fff}
+.b80 i{font-style:normal;padding:0 3px;background:#555}
+.b80 em{font-style:normal;padding:0 3px;flex:1;text-align:center}
+
+/* Command palette */
+dialog{border:1px solid var(--blue-lo);border-radius:8px;padding:0;background:var(--panel);color:var(--ink);width:min(520px,calc(100vw - 32px));box-shadow:0 10px 40px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(10,25,45,.45)}
+.pal-head{background:linear-gradient(180deg,var(--blue-hi),var(--blue) 50%,var(--blue-lo) 51%,var(--blue));padding:8px 10px;border-radius:7px 7px 0 0;display:flex;justify-content:space-between;align-items:center;color:#fff;font:bold 12px var(--display)}
+.pal-head button{background:none;border:none;color:#fff;cursor:pointer;font:bold 14px var(--body)}
+#pal-q{width:100%;font:14px var(--body);padding:10px 12px;border:none;border-bottom:1px solid var(--line);background:var(--panel);color:var(--ink);outline:none}
+#pal-list{list-style:none;margin:0;padding:6px;max-height:min(340px,55vh);overflow:auto}
+#pal-list li{padding:7px 10px;border-radius:4px;cursor:pointer;display:flex;justify-content:space-between;gap:10px;font-size:12px}
+#pal-list li small{color:var(--muted)}
+#pal-list li[aria-selected="true"]{background:var(--blue);color:#fff}
+#pal-list li[aria-selected="true"] small{color:#dbe9f7}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#ffffe1;color:#222;border:1px solid #888;
+  font:11px var(--body);padding:6px 12px;box-shadow:2px 2px 4px rgba(0,0,0,.3);z-index:20}
+
+@media (max-width:760px){
+  .sheet{grid-template-columns:1fr}
+  aside{border-left:none;border-top:1px dashed var(--line);border-radius:0 0 10px 10px}
+  .rackwrap,.contact-grid{grid-template-columns:1fr}
+  .masthead .burst{width:60px;height:60px;font-size:12px;right:12px}
+  .masthead{padding-bottom:84px}
+  .tools .hide-sm{display:none}
+}
+@media (max-width:480px){
+  .intro{grid-template-columns:1fr}
+  .stats,.certs,.skills{grid-template-columns:1fr}
+  main{padding:18px 14px}
+  .tabbar{padding:0 6px}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <canvas id="rain" aria-hidden="true"></canvas>
+    <svg class="skyline" viewBox="0 0 900 96" preserveAspectRatio="xMinYMax slice" aria-hidden="true">
+      <path fill="var(--mtn)" opacity=".55" d="M560 96 L660 44 L680 30 L692 26 L704 31 L724 42 L760 58 L840 96 Z"/>
+      <path fill="var(--mtn)" opacity=".9" d="M672 36 L692 26 L712 37 L702 41 L692 35 L682 41 Z"/>
+      <path fill="var(--skyline)" opacity=".55" d="M0 96 V78 L20 72 L40 80 L60 70 L80 78 L100 74 L120 82 V96 Z M780 96 V80 L800 74 L820 82 L840 72 L860 80 L880 76 L900 82 V96 Z"/>
+      <g fill="var(--skyline)">
+        <rect x="150" y="70" width="22" height="26"/><rect x="176" y="60" width="18" height="36"/>
+        <rect x="198" y="74" width="26" height="22"/>
+        <rect x="236" y="74" width="5" height="22"/><rect x="251" y="74" width="5" height="22"/><rect x="243" y="64" width="5" height="32"/>
+        <path d="M232 76 L246 62 L260 76 L256 77 L246 67 L236 77 Z"/>
+        <ellipse cx="246" cy="22" rx="20" ry="4"/><rect x="230" y="17" width="32" height="4" rx="2"/>
+        <path d="M244 26 L240 74 L243 74 L246 30 L249 74 L252 74 L248 26 Z"/><rect x="245" y="6" width="2" height="12"/>
+        <rect x="282" y="52" width="20" height="44"/><rect x="306" y="38" width="24" height="58"/><path d="M306 38 L318 30 L330 38 Z"/>
+        <rect x="334" y="22" width="26" height="74"/><rect x="364" y="46" width="18" height="50"/>
+        <rect x="386" y="30" width="22" height="66"/><path d="M386 30 L397 20 L408 30 Z"/>
+        <rect x="412" y="56" width="26" height="40"/><rect x="442" y="42" width="16" height="54"/>
+        <rect x="462" y="62" width="30" height="34"/><rect x="496" y="70" width="22" height="26"/>
+        <path d="M522 96 V84 Q552 70 582 84 V96 Z"/>
+      </g>
+      <g fill="var(--orange)" opacity=".85">
+        <rect x="340" y="30" width="3" height="3"/><rect x="350" y="44" width="3" height="3"/><rect x="312" y="52" width="3" height="3"/>
+        <rect x="392" y="40" width="3" height="3"/><rect x="400" y="58" width="3" height="3"/><rect x="446" y="50" width="3" height="3"/>
+        <rect x="288" y="62" width="3" height="3"/><rect x="468" y="70" width="3" height="3"/><circle cx="246" cy="22" r="1.6"/>
+      </g>
+      <path d="M0 92 Q 60 89 120 92 T 240 92 T 360 92 T 480 92 T 600 92 T 720 92 T 840 92 T 960 92 V96 H0 Z" fill="var(--blue-lo)"/>
+      <g fill="#fff"><path d="M594 89 h34 l-4 4 h-28 Z"/><rect x="602" y="84" width="20" height="5"/><rect x="608" y="80" width="3" height="4"/></g>
+      <rect x="596" y="90" width="30" height="1.6" fill="var(--blue)"/>
+    </svg>
+    <h1 class="logo">dunne<span>.systems</span></h1>
+    <p class="tagline">Andrew Dunne · Data center infrastructure &amp; security · Renton, Washington</p>
+    <p class="coords">47.48°N 122.21°W · elevation: rack U12</p>
+    <div class="burst" aria-hidden="true">v2.0<small>now w/ rain</small></div>
+  </header>
+
+  <div class="tabbar">
+    <nav class="tabs" aria-label="Sections">
+      <a href="#home">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="#resume">Resume</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="tools">
+      <button class="gloss" id="open-pal" type="button" title="Command palette">Jump <kbd>Ctrl K</kbd></button>
+      <button class="gloss orange hide-sm" id="theme" type="button">Theme: Auto</button>
+    </div>
+  </div>
+
+  <div class="sheet">
+    <main>
+      <!-- HOME -->
+      <section data-route="home" aria-labelledby="h-home">
+        <div class="intro">
+          <figure class="polaroid" style="margin:0">
+            <img id="headshot" src="/assets/images/headshot.jpg" alt="Andrew Dunne" width="106" height="106">
+            <div class="initials" id="initials" hidden>AD</div>
+            <figcaption>me, dry for once</figcaption>
+          </figure>
+          <div>
+            <h2 id="h-home">Hi, I'm Andrew.</h2>
+            <p class="lede">I keep data center hardware running and secure — and I like knowing a system all the way from the fiber up to the firewall rules.</p>
+            <p>I'm a Data Center Field Technician at Akamai in the Seattle area (Renton-born-and-routed), working compute, storage and network gear under a 24/7 on-call SLA. Before that I ran Green River College's PC Repair Shop and worked as a SOC analyst for Washington public-sector networks. I hold CompTIA Security+ and I'm working on NVIDIA's AI Infrastructure &amp; Operations cert. Outside work I help Washington high schools get donated Cisco gear running for their networking labs.</p>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>24/7</b><span>on-call SLA coverage at Akamai</span></div>
+          <div class="stat"><b>Security+</b><span>SY0-701, active</span></div>
+          <div class="stat"><b>PRCCDC</b><span>team captain, 2025–2026</span></div>
+        </div>
+        <div class="callout"><b>Looking for:</b> data center engineering, infrastructure and AI/GPU operations roles around Puget Sound — Seattle, the Eastside, Tukwila, Quincy, or remote. Start with the <a href="#projects">rack</a> to see what I build at home.</div>
+        <div class="cta">
+          <a class="gloss" href="#resume">View resume</a>
+          <a class="gloss orange" href="#contact">Get in touch</a>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section data-route="projects" aria-labelledby="h-proj" hidden>
+        <div>
+          <h2 id="h-proj">Projects</h2>
+          <p class="crumb">Each lab is racked as a server. Click a unit to jump to it, or filter by tag.</p>
+        </div>
+        <div class="rackwrap">
+          <div class="rack" role="group" aria-label="Project rack">
+            <div class="rack-label"><span>RACK A01 · SEA-RENTON</span><span id="rack-count"></span></div>
+            <div id="rack"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+            <div class="filters" id="filters"><b>Filter:</b></div>
+            <div class="cards" id="cards"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RESUME -->
+      <section data-route="resume" aria-labelledby="h-res" hidden>
+        <div class="res-head">
+          <div><h2 id="h-res">Resume</h2><p class="crumb" style="margin:0">Renton, WA · updated October 2026</p></div>
+          <a class="gloss" href="/assets/Andrew_Dunne_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+        <p>Data center and infrastructure technician with hands-on experience securing and troubleshooting production compute, storage, virtualization and Linux/Windows environments under 24/7 SLA coverage. I like mentoring newer techs and giving back to Washington school networking programs.</p>
+
+        <h3>Experience</h3>
+        <article class="job">
+          <header><b>Data Center Field Technician · Akamai</b><span class="when">Jul 2026 – now</span></header>
+          <ul>
+            <li>Maintain and troubleshoot high-availability compute, storage and network infrastructure on a 24/7 on-call SLA, resolving multi-platform issues on my own.</li>
+            <li>Plan, test and execute hardware upgrades, firmware updates and physical circuit deployments under change management.</li>
+            <li>Coordinate escalations and maintenance with vendors, contractors and internal engineering teams.</li>
+            <li>Keep asset inventory, system configurations and rack mappings current, with automated and on-demand reports.</li>
+          </ul>
+        </article>
+        <article class="job">
+          <header><b>Manager, PC Repair Shop · Green River College</b><span class="when">Jan 2025 – Jun 2026</span></header>
+          <ul>
+            <li>Ran daily shop operations: schedules, deadlines, and training and mentoring junior technicians.</li>
+            <li>Built and maintained backup, recovery and OS deployment pipelines on FOG Project (UEFI PXE, SATA/NVMe imaging).</li>
+            <li>Reviewed user accounts, permissions and access rights across Linux and Windows, and wrote the shop's SOPs.</li>
+          </ul>
+        </article>
+        <article class="job">
+          <header><b>SOC Analyst · PISCES (WA local government)</b><span class="when">Jan 2025 – Mar 2026</span></header>
+          <ul>
+            <li>Monitored infrastructure health and security telemetry for public-sector networks and handled incident response within SLA.</li>
+            <li>Reviewed Palo Alto and WatchGuard firewall rules and server logs; wrote governance reports and worked with IT leadership on remediation.</li>
+          </ul>
+        </article>
+
+        <h3>Certifications &amp; accomplishments</h3>
+        <div class="certs">
+          <div class="cert"><span class="pill">Active</span><b>CompTIA Security+</b>SY0-701</div>
+          <div class="cert"><span class="pill prog">In progress</span><b>NVIDIA NCA-AIIO</b>AI Infrastructure &amp; Operations</div>
+          <div class="cert"><span class="pill">2025–2026</span><b>PRCCDC Team Captain</b>Cyberops Club President</div>
+          <div class="cert"><span class="pill">Oct 2024</span><b>FBI Teen Academy</b>Cyber operations &amp; intelligence</div>
+        </div>
+
+        <h3>Skills</h3>
+        <div class="skills">
+          <div><b>Data center &amp; virtualization</b>Compute and storage, KVM/QEMU (virsh), VMware concepts, Docker, hardware provisioning, L1–L3 troubleshooting, OTDR and fiber testing</div>
+          <div><b>Systems &amp; networking</b>Linux (Arch, Ubuntu, Alpine), Windows Server and AD hardening, Cisco IOS, ZTP, TCP/IP, VLANs, VPNs</div>
+          <div><b>Operations &amp; DR</b>24/7 on-call, change management, backup and recovery (PXE/FOG), asset inventory, patching, documentation</div>
+          <div><b>Security &amp; automation</b>Access control, FIDO hardware auth, Palo Alto, WatchGuard, nftables, Python, Bash, PowerShell</div>
+        </div>
+
+        <h3>Education</h3>
+        <article class="job"><header><b>BAS, IT – Cybersecurity &amp; Networking · Green River College</b><span class="when">Jun 2026</span></header></article>
+      </section>
+
+      <!-- BLOG -->
+      <section data-route="blog" aria-labelledby="h-blog" hidden>
+        <h2 id="h-blog">Blog</h2>
+        <div class="empty">
+          <div class="construction"><span>UNDER CONSTRUCTION</span></div>
+          <p style="margin:0 auto 8px">No posts yet. The first write-ups will cover the labs on the rack: how they're built, what broke, and what I'd change.</p>
+          <p class="note" style="margin:0 auto">An RSS feed will be at <code>/feed.xml</code> when the first post goes up.</p>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section data-route="contact" aria-labelledby="h-contact" hidden>
+        <h2 id="h-contact">Contact</h2>
+        <div class="contact-grid">
+          <div>
+            <p>I'm open to talking about data center, infrastructure and security roles, or about the labs. Email is the fastest way to reach me.</p>
+            <div class="emailrow"><code id="email">andy@dunne.systems</code><button class="gloss" type="button" id="copy-email">Copy</button></div>
+            <ul class="linklist" style="margin-top:14px">
+              <li><a href="https://www.linkedin.com/in/andhee" target="_blank" rel="noopener">LinkedIn — /in/andhee</a></li>
+              <li><a href="https://github.com/Andheeheee" target="_blank" rel="noopener">GitHub — Andheeheee</a></li>
+            </ul>
+          </div>
+          <form id="msg-form" novalidate>
+            <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" required autocomplete="name"></div>
+            <div class="field"><label for="f-email">Your email</label><input id="f-email" name="email" type="email" required autocomplete="email"></div>
+            <div class="field"><label for="f-topic">About</label>
+              <select id="f-topic" name="topic"><option>A role I'm hiring for</option><option>One of your projects</option><option>Something else</option></select></div>
+            <div class="field"><label for="f-body">Message</label><textarea id="f-body" name="message" required></textarea></div>
+            <input type="text" name="_gotcha" id="f-gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+            <button class="gloss orange" type="submit" id="f-send">Send message</button>
+            <p class="note" id="form-out" role="status" style="margin-top:8px">Goes straight to my inbox. I usually reply within a day or two.</p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="box sea" aria-live="polite">
+        <h4>Seattle right now</h4>
+        <div class="clock" id="sea-clock">--:--</div>
+        <div class="wx"><b id="wx-temp">—</b><span id="wx-desc">Checking the sky…</span></div>
+        <span class="ferry" id="wx-note">Live from the NWS station at Sea-Tac.</span>
+      </div>
+      <div class="box now">
+        <h4>Now</h4>
+        <div><span class="dot"></span><span>Racking and stacking at Akamai</span></div>
+        <div><span class="dot" style="background:var(--orange);box-shadow:0 0 4px var(--orange)"></span><span>Studying for NVIDIA NCA-AIIO</span></div>
+        <div><span class="dot"></span><span>Provisioning switches for school labs</span></div>
+      </div>
+      <div class="box">
+        <h4>Tags</h4>
+        <div class="cloud" id="cloud"></div>
+      </div>
+      <div class="box">
+        <h4>Elsewhere</h4>
+        <ul class="linklist">
+          <li><a href="https://www.linkedin.com/in/andhee" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/Andheeheee" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="#resume">Resume</a></li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>Your visits</h4>
+        <div class="counter" id="counter" aria-label="Your visit count"></div>
+        <span class="note">Counted in your browser only. No trackers here.</span>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="badges" aria-hidden="true">
+      <span class="b80"><i>SEC+</i><em style="background:#c8102e">SY0-701</em></span>
+      <span class="b80"><i>LINUX</i><em style="background:#2b6aa0">POWERED</em></span>
+      <span class="b80"><i>RSS</i><em style="background:#f07a1c">SOON</em></span>
+      <span class="b80"><i>JS</i><em style="background:#3a7d2c">OPTIONAL</em></span>
+      <span class="b80"><i>AREA</i><em style="background:#2c7787">425/206</em></span>
+      <span class="b80"><i>RAIN</i><em style="background:#5f7d89">PROOF</em></span>
+    </div>
+    <div>© 2026 Andrew Dunne · Hand-built in Renton, WA · <a href="#home">Back to top</a></div>
+  </footer>
+</div>
+
+<dialog id="pal" aria-label="Command palette">
+  <div class="pal-head"><span>Go to…</span><button type="button" id="pal-x" aria-label="Close">×</button></div>
+  <input id="pal-q" placeholder="Type a page, project or action" autocomplete="off" aria-controls="pal-list">
+  <ul id="pal-list" role="listbox"></ul>
+</dialog>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const PROJECTS=[
+ {id:"gateway",u:"U12",name:"Virtualization & Secure Gateway Lab",short:"Headless KVM/QEMU host with hardware-authenticated Linux routing nodes.",
+  desc:"A headless KVM/QEMU host I run entirely over SSH with virsh. It hosts a containerized Python and PostgreSQL environment, and traffic routes through Linux nodes locked down with nftables, Tailscale and FIDO hardware keys.",
+  stack:["KVM/QEMU","virsh","SSH tunneling","Docker","PostgreSQL","Python","nftables","Tailscale","FIDO"],
+  tags:["virtualization","linux","security","networking"],status:"on",
+  notes:["VMs are created and managed from the CLI; no GUI on the host","Remote access goes through SSH tunnels and Tailscale instead of open ports","Hardware keys gate admin access to the routing nodes"]},
+ {id:"ad",u:"U10",name:"Active Directory & Firewall Hardening",short:"Virtualized enterprise lab for hardening AD and firewall policy.",
+  desc:"A virtualized enterprise environment on QEMU/KVM used to practice hardening Active Directory and firewall rules, the same work I did on defense for PRCCDC.",
+  stack:["QEMU/KVM","Windows Server","Active Directory","Group Policy","Firewalls"],
+  tags:["security","windows","virtualization"],status:"on",
+  notes:["Domain controller and member servers run as KVM guests","Used to rehearse competition-style hardening before PRCCDC"]},
+ {id:"vpn",u:"U08",name:"Secure VPN Gateway on a Raspberry Pi 4",short:"Dual-tunnel VPN gateway with policy-based traffic routing.",
+  desc:"A Raspberry Pi 4 that runs two VPN tunnels and decides which traffic goes where, built to learn routing tables and policy routing on real hardware.",
+  stack:["Raspberry Pi 4","Linux","VPN","nftables","Policy routing"],
+  tags:["networking","linux","security"],status:"on",
+  notes:["Two tunnels up at once, with routing rules choosing the path","Small, low-power box that runs 24/7"]},
+ {id:"ztp",u:"U06",name:"Zero Touch Provisioning for School Labs",short:"Volunteer ZTP server that wipes and provisions Cisco gear for high schools.",
+  desc:"As a community volunteer, I set up Linux ZTP servers (DHCP, TFTP and HTTP) that wipe and provision donated Cisco switches and routers so local high schools can run networking labs.",
+  stack:["Linux","DHCP","TFTP","HTTP","Cisco IOS","ZTP"],
+  tags:["networking","linux","community"],status:"on",
+  notes:["Devices pull their config at boot with no console work per device","Makes donated hardware usable for students"]},
+ {id:"fog",u:"U04",name:"FOG PXE Imaging & Recovery Pipeline",short:"Backup, recovery and OS deployment for the college repair shop.",
+  desc:"At Green River's PC Repair Shop I built and ran a FOG Project pipeline for UEFI PXE boot and SATA/NVMe image capture, so machines could be reimaged or recovered quickly.",
+  stack:["FOG Project","UEFI PXE","Imaging","Windows","Linux"],
+  tags:["operations","windows","linux"],status:"on",
+  notes:["Network boot replaced USB-stick installs","Captured images doubled as the shop's recovery plan"]},
+ {id:"ccdc",u:"U02",name:"PRCCDC Team Captain",short:"Led Green River's collegiate cyber defense team, 2025–2026.",
+  desc:"Captained the team at the Pacific Rim Collegiate Cyber Defense Competition, where students defend and harden a network under live attack while keeping services up.",
+  stack:["Incident response","Hardening","Disaster recovery","Team lead"],
+  tags:["security","community"],status:"amber",
+  notes:["Split the team by system ownership and ran the inject queue","Also served as Cyberops club president"]}
+];
+const $=s=>document.querySelector(s);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,1800)}
+
+/* Routing */
+const ROUTES=["home","projects","resume","blog","contact"];
+function route(){
+  let h=(location.hash||"#home").slice(1);
+  let proj=null;
+  if(h.startsWith("p-")){proj=h.slice(2);h="projects"}
+  if(!ROUTES.includes(h))h="home";
+  document.querySelectorAll("section[data-route]").forEach(s=>s.hidden=s.dataset.route!==h);
+  document.querySelectorAll(".tabs a").forEach(a=>{if(a.getAttribute("href")==="#"+h)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(proj)focusProject(proj); else if(h!=="projects") window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+
+/* Projects */
+let filter=null;
+function renderProjects(){
+  const list=PROJECTS.filter(p=>!filter||p.tags.includes(filter));
+  $("#cards").innerHTML=list.map(p=>`<article class="card" id="card-${p.id}">
+    <header><h3>${p.name}</h3><span class="meta">${p.u} · ${p.tags.join(", ")}</span></header>
+    <p>${p.desc}</p><div class="stack">${p.stack.map(s=>`<code>${s}</code>`).join("")}</div>
+    <details><summary>Build notes</summary><ul>${p.notes.map(n=>`<li>${n}</li>`).join("")}</ul></details></article>`).join("")
+    ||`<p class="note">No projects with that tag.</p>`;
+  const rows=[];const byU={};PROJECTS.forEach(p=>byU[p.u]=p);
+  for(let n=14;n>=1;n--){const u="U"+String(n).padStart(2,"0");const p=byU[u];
+    rows.push(p?`<button class="unit" type="button" data-id="${p.id}" aria-pressed="false"><span class="u">${u}</span><span class="name">${p.name}</span><span class="leds"><span class="led ${p.status==="amber"?"amber":"on"}" style="animation-delay:${n*0.17}s"></span><span class="led"></span></span></button>`
+      :`<div class="unit blank" aria-hidden="true"><span class="u">${u}</span><span class="name">— blank —</span><span></span></div>`)}
+  $("#rack").innerHTML=rows.join("");
+  $("#rack-count").textContent=PROJECTS.length+" units";
+  $("#rack").querySelectorAll("button.unit").forEach(b=>b.onclick=()=>{location.hash="p-"+b.dataset.id});
+  document.querySelectorAll("#filters .chip").forEach(c=>c.setAttribute("aria-pressed",String((c.dataset.tag||null)===filter)));
+}
+function focusProject(id){
+  if(filter&&!PROJECTS.find(p=>p.id===id).tags.includes(filter)){filter=null;renderProjects()}
+  document.querySelectorAll(".card").forEach(c=>c.dataset.active=String(c.id==="card-"+id));
+  document.querySelectorAll(".unit[data-id]").forEach(u=>u.setAttribute("aria-pressed",String(u.dataset.id===id)));
+  const c=$("#card-"+id); if(c){c.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"}); const d=c.querySelector("details"); if(d)d.open=true}
+}
+function setFilter(t){filter=t;if(location.hash!=="#projects")location.hash="projects";renderProjects()}
+(function tags(){
+  const count={};PROJECTS.forEach(p=>p.tags.forEach(t=>count[t]=(count[t]||0)+1));
+  const keys=Object.keys(count).sort();const max=Math.max(...Object.values(count));
+  $("#cloud").innerHTML=keys.map(t=>`<button type="button" data-tag="${t}" style="font-size:${11+Math.round(count[t]/max*7)}px">${t}</button>`).join(" ");
+  $("#cloud").querySelectorAll("button").forEach(b=>b.onclick=()=>setFilter(b.dataset.tag));
+  $("#filters").insertAdjacentHTML("beforeend",`<button class="chip" type="button" data-tag="">All</button>`+keys.map(t=>`<button class="chip" type="button" data-tag="${t}">${t}</button>`).join(""));
+  $("#filters").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{filter=c.dataset.tag||null;renderProjects()});
+})();
+
+/* Theme */
+const MODES=["auto","light","dark"];
+function applyTheme(m){if(m==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",m);
+  $("#theme").textContent="Theme: "+m[0].toUpperCase()+m.slice(1);store.set("theme",m)}
+let mode=store.get("theme");if(MODES.includes(mode)&&mode!=="auto")applyTheme(mode);else mode="auto";
+function cycleTheme(){mode=MODES[(MODES.indexOf(mode)+1)%3];applyTheme(mode);toast("Theme: "+mode)}
+$("#theme").onclick=cycleTheme;
+
+/* Copy */
+function copyEmail(){const e="andy@dunne.systems";
+  navigator.clipboard.writeText(e).then(()=>toast("Email copied")).catch(()=>{const r=document.createRange();r.selectNodeContents($("#email"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Selected — press Ctrl+C")})}
+$("#copy-email").onclick=copyEmail;
+
+/* Contact form — Formspree. Paste your form endpoint below; until then it falls back to the visitor's email app. */
+const FORM_ENDPOINT="https://formspree.io/f/mnppzkrr";
+$("#msg-form").addEventListener("submit",async e=>{e.preventDefault();
+  const out=$("#form-out"),btn=$("#f-send");
+  const n=$("#f-name").value.trim(),em=$("#f-email").value.trim(),b=$("#f-body").value.trim(),t=$("#f-topic").value;
+  if(!n||!b||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){out.textContent="Add your name, a valid email and a message, then send again.";return}
+  if($("#f-gotcha").value)return;
+  const mailto=`mailto:andy@dunne.systems?subject=${encodeURIComponent(t+" — from "+n)}&body=${encodeURIComponent(b+"\n\n— "+n+" ("+em+")")}`;
+  const fallback=msg=>{out.innerHTML=msg+` <a href="${mailto}">Email me directly instead</a>, or copy the address on the left.`};
+  if(!FORM_ENDPOINT){fallback("Online sending isn't set up yet.");return}
+  btn.disabled=true;btn.textContent="Sending…";out.textContent="";
+  try{
+    const r=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Accept":"application/json","Content-Type":"application/json"},
+      body:JSON.stringify({name:n,email:em,topic:t,message:b,_subject:t+" — from "+n})});
+    if(!r.ok){
+      let data={};try{data=await r.json()}catch(_){}
+      const errs=(data.errors||[]);
+      const fieldMap={email:"#f-email",message:"#f-body",name:"#f-name"};
+      errs.forEach(x=>{const el=fieldMap[x.field]&&$(fieldMap[x.field]);if(el)el.setAttribute("aria-invalid","true")});
+      if(errs.length){out.textContent=errs.map(x=>x.message).join(" ");return}
+      throw new Error(r.status);
+    }
+    document.querySelectorAll("#msg-form [aria-invalid]").forEach(el=>el.removeAttribute("aria-invalid"));
+    $("#msg-form").reset();out.textContent="Sent. Thanks, "+n.split(" ")[0]+" — I'll get back to you at "+em+".";
+  }catch(err){fallback("That didn't go through.")}
+  finally{btn.disabled=false;btn.textContent="Send message"}
+});
+
+/* Headshot fallback */
+const img=$("#headshot");function noImg(){img.hidden=true;$("#initials").hidden=false}
+img.addEventListener("error",noImg);if(img.complete&&!img.naturalWidth)noImg();
+
+/* Visit counter (local only) */
+let v=parseInt(store.get("visits")||"0",10)+1;store.set("visits",String(v));
+$("#counter").innerHTML=String(v).padStart(6,"0").split("").map(d=>`<span>${d}</span>`).join("");
+
+/* Command palette */
+const CMDS=[...ROUTES.map(r=>({label:"Go to "+r[0].toUpperCase()+r.slice(1),hint:"page",run:()=>location.hash=r})),
+  ...PROJECTS.map(p=>({label:p.name,hint:"project",run:()=>location.hash="p-"+p.id})),
+  {label:"Copy email address",hint:"action",run:copyEmail},
+  {label:"Switch theme",hint:"action",run:cycleTheme},
+  {label:"Open LinkedIn",hint:"link",run:()=>{const a=document.createElement("a");a.href="https://www.linkedin.com/in/andhee";a.target="_blank";a.rel="noopener";a.click()}},
+  {label:"Open GitHub",hint:"link",run:()=>{const a=document.createElement("a");a.href="https://github.com/Andheeheee";a.target="_blank";a.rel="noopener";a.click()}}];
+let sel=0,shown=CMDS;
+function drawPal(){const q=$("#pal-q").value.toLowerCase();shown=CMDS.filter(c=>c.label.toLowerCase().includes(q)||c.hint.includes(q));sel=Math.min(sel,Math.max(0,shown.length-1));
+  $("#pal-list").innerHTML=shown.map((c,i)=>`<li role="option" data-i="${i}" aria-selected="${i===sel}">${c.label}<small>${c.hint}</small></li>`).join("")||`<li>No matches</li>`;
+  $("#pal-list").querySelectorAll("li[data-i]").forEach(li=>li.onclick=()=>runCmd(+li.dataset.i))}
+function openPal(){$("#pal-q").value="";sel=0;drawPal();$("#pal").showModal();$("#pal-q").focus()}
+function runCmd(i){const c=shown[i];$("#pal").close();if(c)c.run()}
+$("#open-pal").onclick=openPal;$("#pal-x").onclick=()=>$("#pal").close();
+$("#pal-q").addEventListener("input",()=>{sel=0;drawPal()});
+$("#pal-q").addEventListener("keydown",e=>{
+  if(e.key==="ArrowDown"){sel=Math.min(sel+1,shown.length-1);drawPal();e.preventDefault()}
+  else if(e.key==="ArrowUp"){sel=Math.max(sel-1,0);drawPal();e.preventDefault()}
+  else if(e.key==="Enter"){runCmd(sel);e.preventDefault()}});
+addEventListener("keydown",e=>{
+  const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();$("#pal").open?$("#pal").close():openPal()}
+  else if(e.key==="/"&&!typing&&!$("#pal").open){e.preventDefault();openPal()}});
+
+/* Seattle clock */
+function tick(){$("#sea-clock").textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/Los_Angeles",hour:"numeric",minute:"2-digit"}).format(new Date())}
+tick();setInterval(tick,15000);
+
+/* Live weather from the National Weather Service (Sea-Tac, KSEA) */
+let wxRainy=true;
+(async function weather(){
+  try{
+    const r=await fetch("https://api.weather.gov/stations/KSEA/observations/latest",{headers:{Accept:"application/geo+json"}});
+    if(!r.ok)throw 0; const o=(await r.json()).properties;
+    const c=o.temperature&&o.temperature.value; const d=o.textDescription||"Conditions unavailable";
+    $("#wx-temp").textContent=c==null?"—":Math.round(c*9/5+32)+"°F";
+    $("#wx-desc").textContent=d;
+    wxRainy=/rain|drizzle|shower|mist|fog/i.test(d);
+    $("#wx-note").textContent=wxRainy?"Rain in the masthead is live.":"Dry out there. The masthead rains anyway.";
+  }catch(e){
+    $("#wx-temp").textContent="—";$("#wx-desc").textContent="Live weather didn't load.";
+    $("#wx-note").textContent="Safe Seattle guess: grey, with a chance of drizzle.";
+  }
+})();
+
+/* Rain */
+const rainCv=$("#rain"),rx=rainCv.getContext("2d");let drops=[],rainOn=store.get("rain")!=="off",rainRaf=0;
+const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)");
+function sizeRain(){const r=rainCv.getBoundingClientRect(),dpr=devicePixelRatio||1;rainCv.width=r.width*dpr;rainCv.height=r.height*dpr;rx.setTransform(dpr,0,0,dpr,0,0);
+  drops=Array.from({length:Math.round(r.width/7)},()=>({x:Math.random()*r.width,y:Math.random()*r.height,l:6+Math.random()*10,v:4+Math.random()*4}))}
+function drawRain(still){const w=rainCv.width/(devicePixelRatio||1),h=rainCv.height/(devicePixelRatio||1);rx.clearRect(0,0,w,h);
+  rx.strokeStyle="rgba(255,255,255,.35)";rx.lineWidth=1;rx.beginPath();
+  for(const d of drops){rx.moveTo(d.x,d.y);rx.lineTo(d.x-d.l*.18,d.y+d.l);
+    if(!still){d.y+=d.v;d.x-=d.v*.18;if(d.y>h){d.y=-d.l;d.x=Math.random()*(w+40)}}}
+  rx.stroke()}
+function loop(){drawRain(false);rainRaf=requestAnimationFrame(loop)}
+function setRain(on){rainOn=on;store.set("rain",on?"on":"off");cancelAnimationFrame(rainRaf);
+  if(!on){rx.clearRect(0,0,rainCv.width,rainCv.height);return}
+  if(reduceMotion.matches)drawRain(true);else loop()}
+sizeRain();setRain(rainOn);addEventListener("resize",()=>{sizeRain();if(rainOn&&reduceMotion.matches)drawRain(true)});
+document.addEventListener("visibilitychange",()=>{if(document.hidden)cancelAnimationFrame(rainRaf);else if(rainOn)setRain(true)});
+CMDS.push({label:"Toggle rain",hint:"action",run:()=>{setRain(!rainOn);toast(rainOn?"Rain on":"Rain off. Must be August.")}});
+
+renderProjects();route();
+</script>
+
+</body>
+</html>
