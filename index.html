@@ -120,6 +120,15 @@ section[data-route]{display:flex;flex-direction:column;gap:18px}
 .unit.blank{cursor:default;background:repeating-linear-gradient(90deg,#2a3139 0 6px,#252b32 6px 8px);color:#5f6d79}
 @keyframes blink{50%{opacity:.35}}
 @media (prefers-reduced-motion: reduce){.led.on{animation:none}}
+.detail{border:1px solid var(--line);border-radius:6px;padding:14px 16px;background:var(--panel);display:flex;flex-direction:column;gap:10px;min-height:280px}
+.detail .meta{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.detail h3{font-size:18px;color:var(--blue)}
+.detail p{font-size:12px;margin:0}
+.detail ul{margin:0;padding-left:18px;font-size:12px}
+.detail h5{margin:0;font:bold 11px var(--display);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.unit.dim{opacity:.35}
+.unit[aria-pressed="true"]{outline:2px solid var(--orange);outline-offset:-2px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:11px}
 .chip{font:11px var(--body);border:1px solid var(--line);background:var(--panel-2);color:var(--ink);border-radius:10px;padding:2px 9px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--blue);color:#fff;border-color:var(--blue-lo)}
@@ -210,6 +219,7 @@ dialog::backdrop{background:rgba(10,25,45,.45)}
   .sheet{grid-template-columns:1fr}
   aside{border-left:none;border-top:1px dashed var(--line);border-radius:0 0 10px 10px}
   .rackwrap,.contact-grid{grid-template-columns:1fr}
+  .unit.blank{display:none}
   .masthead .burst{width:60px;height:60px;font-size:12px;right:12px}
   .masthead{padding-bottom:84px}
   .tools .hide-sm{display:none}
@@ -306,7 +316,7 @@ dialog::backdrop{background:rgba(10,25,45,.45)}
       <section data-route="projects" aria-labelledby="h-proj" hidden>
         <div>
           <h2 id="h-proj">Projects</h2>
-          <p class="crumb">Each lab is racked as a server. Click a unit to jump to it, or filter by tag.</p>
+          <p class="crumb">Each lab is racked as a server. Pick a unit to see it, or filter by tag.</p>
         </div>
         <div class="rackwrap">
           <div class="rack" role="group" aria-label="Project rack">
@@ -315,7 +325,8 @@ dialog::backdrop{background:rgba(10,25,45,.45)}
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
             <div class="filters" id="filters"><b>Filter:</b></div>
-            <div class="cards" id="cards"></div>
+            <article class="detail" id="detail" aria-live="polite"></article>
+            <div class="pager"><button class="gloss" type="button" id="prev">‹ Previous</button><span class="note" id="pos"></span><button class="gloss" type="button" id="next">Next ›</button></div>
           </div>
         </div>
       </section>
@@ -514,37 +525,45 @@ function route(){
 addEventListener("hashchange",route);
 
 /* Projects */
-let filter=null;
+let filter=null,current=PROJECTS[0].id;
+const visible=()=>PROJECTS.filter(p=>!filter||p.tags.includes(filter));
 function renderProjects(){
-  const list=PROJECTS.filter(p=>!filter||p.tags.includes(filter));
-  $("#cards").innerHTML=list.map(p=>`<article class="card" id="card-${p.id}">
-    <header><h3>${p.name}</h3><span class="meta">${p.u} · ${p.tags.join(", ")}</span></header>
-    <p>${p.desc}</p><div class="stack">${p.stack.map(s=>`<code>${s}</code>`).join("")}</div>
-    <details><summary>Build notes</summary><ul>${p.notes.map(n=>`<li>${n}</li>`).join("")}</ul></details></article>`).join("")
-    ||`<p class="note">No projects with that tag.</p>`;
-  const rows=[];const byU={};PROJECTS.forEach(p=>byU[p.u]=p);
+  const byU={};PROJECTS.forEach(p=>byU[p.u]=p);const rows=[];
   for(let n=14;n>=1;n--){const u="U"+String(n).padStart(2,"0");const p=byU[u];
-    rows.push(p?`<button class="unit" type="button" data-id="${p.id}" aria-pressed="false"><span class="u">${u}</span><span class="name">${p.name}</span><span class="leds"><span class="led ${p.status==="amber"?"amber":"on"}" style="animation-delay:${n*0.17}s"></span><span class="led"></span></span></button>`
+    rows.push(p?`<button class="unit${filter&&!p.tags.includes(filter)?" dim":""}" type="button" data-id="${p.id}" aria-pressed="${p.id===current}" title="${p.name}"><span class="u">${u}</span><span class="name">${p.name}</span><span class="leds"><span class="led ${p.status==="amber"?"amber":"on"}" style="animation-delay:${n*0.17}s"></span><span class="led"></span></span></button>`
       :`<div class="unit blank" aria-hidden="true"><span class="u">${u}</span><span class="name">— blank —</span><span></span></div>`)}
   $("#rack").innerHTML=rows.join("");
   $("#rack-count").textContent=PROJECTS.length+" units";
-  $("#rack").querySelectorAll("button.unit").forEach(b=>b.onclick=()=>{location.hash="p-"+b.dataset.id});
+  $("#rack").querySelectorAll("button.unit").forEach(b=>b.onclick=()=>{history.replaceState(null,"","#p-"+b.dataset.id);showProject(b.dataset.id)});
   document.querySelectorAll("#filters .chip").forEach(c=>c.setAttribute("aria-pressed",String((c.dataset.tag||null)===filter)));
+  showProject(current);
 }
-function focusProject(id){
-  if(filter&&!PROJECTS.find(p=>p.id===id).tags.includes(filter)){filter=null;renderProjects()}
-  document.querySelectorAll(".card").forEach(c=>c.dataset.active=String(c.id==="card-"+id));
-  document.querySelectorAll(".unit[data-id]").forEach(u=>u.setAttribute("aria-pressed",String(u.dataset.id===id)));
-  const c=$("#card-"+id); if(c){c.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"center"}); const d=c.querySelector("details"); if(d)d.open=true}
+function showProject(id){
+  const p=PROJECTS.find(x=>x.id===id)||PROJECTS[0];current=p.id;
+  document.querySelectorAll(".unit[data-id]").forEach(u=>u.setAttribute("aria-pressed",String(u.dataset.id===current)));
+  $("#detail").innerHTML=`<span class="meta">${p.u} · ${p.status==="amber"?"completed":"running"}</span>
+    <h3>${p.name}</h3><p>${p.desc}</p>
+    <h5>How it works</h5><ul>${p.notes.map(n=>`<li>${n}</li>`).join("")}</ul>
+    <h5>Stack</h5><div class="stack">${p.stack.map(t=>`<code>${t}</code>`).join("")}</div>
+    <div class="stack">${p.tags.map(t=>`<button class="chip" type="button" data-tag="${t}">#${t}</button>`).join("")}</div>`;
+  $("#detail").querySelectorAll(".chip").forEach(c=>c.onclick=()=>setFilter(c.dataset.tag));
+  const v=visible(),i=v.findIndex(x=>x.id===current);
+  $("#pos").textContent=i<0?"":`${i+1} of ${v.length}${filter?" tagged "+filter:""}`;
+  $("#prev").disabled=$("#next").disabled=v.length<2;
 }
-function setFilter(t){filter=t;if(location.hash!=="#projects")location.hash="projects";renderProjects()}
+function step(d){const v=visible();if(!v.length)return;let i=v.findIndex(x=>x.id===current);i=i<0?0:(i+d+v.length)%v.length;
+  history.replaceState(null,"","#p-"+v[i].id);showProject(v[i].id)}
+$("#prev").onclick=()=>step(-1);$("#next").onclick=()=>step(1);
+function focusProject(id){if(filter&&!PROJECTS.find(p=>p.id===id)?.tags.includes(filter))filter=null;current=id;renderProjects()}
+function applyFilter(t){filter=t;const v=visible();if(v.length&&!v.some(p=>p.id===current))current=v[0].id;renderProjects()}
+function setFilter(t){if(location.hash!=="#projects"&&!location.hash.startsWith("#p-"))location.hash="projects";applyFilter(t)}
 (function tags(){
   const count={};PROJECTS.forEach(p=>p.tags.forEach(t=>count[t]=(count[t]||0)+1));
   const keys=Object.keys(count).sort();const max=Math.max(...Object.values(count));
   $("#cloud").innerHTML=keys.map(t=>`<button type="button" data-tag="${t}" style="font-size:${11+Math.round(count[t]/max*7)}px">${t}</button>`).join(" ");
   $("#cloud").querySelectorAll("button").forEach(b=>b.onclick=()=>setFilter(b.dataset.tag));
   $("#filters").insertAdjacentHTML("beforeend",`<button class="chip" type="button" data-tag="">All</button>`+keys.map(t=>`<button class="chip" type="button" data-tag="${t}">${t}</button>`).join(""));
-  $("#filters").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{filter=c.dataset.tag||null;renderProjects()});
+  $("#filters").querySelectorAll(".chip").forEach(c=>c.onclick=()=>applyFilter(c.dataset.tag||null));
 })();
 
 /* Theme */
