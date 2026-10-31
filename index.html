@@ -235,10 +235,94 @@ dialog::backdrop{background:rgba(10,25,45,.45)}
   main{padding:18px 14px}
   .tabbar{padding:0 6px}
 }
+
+/* ===== XP-style intro splash ===== */
+.xp{display:none}
+html.intro .xp{display:block}
+html.intro body{overflow:hidden}
+.xp{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:none;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#fff;
+  background:#5b8fd6;transition:opacity .45s ease}
+.xp.out{opacity:0;pointer-events:none}
+.xp-wall{position:absolute;inset:0;width:100%;height:100%}
+.xp-icons{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.xp-icon{width:84px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;background:none;border:0;padding:2px;color:#fff;font:inherit;cursor:none}
+.xp-icon svg{width:40px;height:40px;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
+.xp-icon span{padding:1px 3px;text-shadow:1px 1px 1px #000,0 0 3px rgba(0,0,0,.6);line-height:1.25}
+.xp-icon.sel svg{filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35)) brightness(.7) sepia(1) hue-rotate(180deg) saturate(4)}
+.xp-icon.sel span{background:#316ac5;text-shadow:none;outline:1px dotted #fff}
+.xp-win{position:absolute;left:50%;top:46%;width:min(640px,94vw);transform:translate(-50%,-50%);box-shadow:4px 6px 18px rgba(0,0,0,.45);line-height:0;
+  animation:xpopen .18s ease-out}
+.xp-win img{width:100%;height:auto;image-rendering:pixelated;display:block}
+.xp-x{position:absolute;left:93.2%;top:2%;width:5%;height:6.6%;background:none;border:0;padding:0;cursor:none}
+@keyframes xpopen{from{transform:translate(-50%,-50%) scale(.86);opacity:.2}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.xp-cursor{position:absolute;left:0;top:0;width:22px;height:33px;pointer-events:none;z-index:5;will-change:transform}
+.xp-cursor .busy{display:none}
+.xp-cursor.wait .busy{display:inline}
+.xp-taskbar{position:absolute;left:0;right:0;bottom:0;height:calc(32px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);
+  display:flex;align-items:stretch;gap:6px;background:linear-gradient(180deg,#3d8af7 0%,#2a6be0 8%,#245edb 40%,#1f53c9 88%,#1941a5 100%);border-top:1px solid #0c3fb8}
+.xp-start{display:flex;align-items:center;gap:6px;padding:0 18px 0 10px;font:italic bold 18px "Franklin Gothic Medium","Trebuchet MS",Tahoma,sans-serif;color:#fff;
+  text-shadow:1px 1px 2px rgba(0,0,0,.5);border-radius:0 12px 12px 0;background:linear-gradient(180deg,#5eb85e 0%,#3c9a3c 12%,#2f8b2f 60%,#24732a 100%);box-shadow:inset -1px 0 2px rgba(0,0,0,.3)}
+.xp-start svg{width:20px;height:20px;border-radius:4px}
+.xp-task{align-self:center;display:flex;align-items:center;gap:6px;height:24px;min-width:0;max-width:170px;padding:0 10px;border-radius:3px;
+  background:linear-gradient(180deg,#1e52c6,#1a47ac);box-shadow:inset 1px 1px 2px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp-tray{margin-left:auto;display:flex;align-items:center;gap:8px;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 12px;
+  background:linear-gradient(180deg,#1aa1e8,#0f8ad8 50%,#0e7ac4);border-left:1px solid #0b5aa8;box-shadow:inset 1px 0 0 #39b5f3;position:relative}
+.xp-tray svg,.xp-balloon svg{width:16px;height:16px;flex:none}
+.xp-balloon{position:absolute;right:max(10px,env(safe-area-inset-right,0px));bottom:calc(44px + env(safe-area-inset-bottom,0px));width:min(250px,80vw);
+  background:#ffffe1;color:#000;border:1px solid #000;border-radius:7px;padding:8px 10px;box-shadow:2px 3px 6px rgba(0,0,0,.35);line-height:1.4}
+.xp-balloon b{display:flex;gap:6px;align-items:center;margin-bottom:2px}
+.xp-balloon::after{content:"";position:absolute;right:26px;bottom:-11px;border:10px solid transparent;border-top-color:#ffffe1;border-bottom:0;filter:drop-shadow(0 1px 0 #000)}
+.xp-skip{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:6;cursor:pointer;
+  font:11px Tahoma,sans-serif;color:#000;padding:4px 10px;border:1px solid #003c74;border-radius:3px;background:linear-gradient(180deg,#fff,#ecebe5 85%,#d6d0c5)}
+.xp-skip kbd{background:#fff;color:#000;border-color:#999}
+@media (hover:none){.xp-skip kbd{display:none}}
+@media (max-width:560px){.xp-icon{width:70px}.xp-icon svg{width:34px;height:34px}.xp-start{font-size:16px;padding-right:14px}.xp-task{display:none!important}}
 </style>
+<script>
+/* Decide before first paint whether the intro plays, so the site never flashes first. */
+(function(){var d=document.documentElement,h=location.hash;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(h&&h!=="#home")return;
+  try{if(sessionStorage.getItem("introSeen"))return}catch(e){}
+  d.classList.add("intro")})();
+</script>
 
 </head>
 <body>
+<div class="xp" id="xp" role="dialog" aria-label="Intro: connecting to dunne.systems">
+  <svg class="xp-wall" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="xsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f5fc8"/><stop offset=".55" stop-color="#5d9be6"/><stop offset="1" stop-color="#b9d6f2"/></linearGradient>
+    <linearGradient id="xsnow" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".6" stop-color="#e8eef8"/><stop offset="1" stop-color="#b8c8de"/></linearGradient>
+    <linearGradient id="xfield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fbf3a"/><stop offset=".35" stop-color="#d6d23a"/><stop offset="1" stop-color="#6f9a2a"/></linearGradient>
+    <pattern id="xdaff" width="26" height="14" patternUnits="userSpaceOnUse"><circle cx="5" cy="4" r="2.2" fill="#ffe74a"/><circle cx="18" cy="10" r="2" fill="#fff36a"/><circle cx="12" cy="2" r="1.4" fill="#f6d22a"/></pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#xsky)"/>
+  <g fill="#fff" opacity=".55"><ellipse cx="260" cy="150" rx="150" ry="26"/><ellipse cx="350" cy="135" rx="90" ry="22"/><ellipse cx="1280" cy="110" rx="170" ry="24"/><ellipse cx="1190" cy="98" rx="80" ry="18"/></g>
+  <path d="M-200 628 L60 618 L180 588 L242 555 L335 522 L471 457 L552 342 L614 301 L670 266 L683 257 L713 286 L741 275 L788 255 L831 263 L871 288 L904 270 L931 294 L974 342 L1048 432 L1172 506 L1296 572 L1420 629 L1560 659 L1800 669 V900 H-200 Z" fill="#6f84a6"/>
+  <path d="M242 555 L242 555 L335 522 L471 457 L552 342 L614 301 L670 266 L683 257 L713 286 L741 275 L788 255 L831 263 L871 288 L904 270 L931 294 L974 342 L1048 432 L1172 506 L1296 572 L1296 572 L1520 593 L1482 597 L1444 584 L1406 624 L1368 563 L1330 568 L1292 547 L1254 543 L1216 542 L1178 539 L1140 563 L1102 573 L1064 556 L1026 586 L988 541 L950 552 L912 571 L874 572 L836 561 L798 555 L760 549 L722 544 L684 554 L646 551 L608 539 L570 579 L532 554 L494 555 L456 550 L418 548 L380 557 L342 556 L304 618 L266 624 L228 601 L190 583 L152 616 Z" fill="url(#xsnow)"/>
+  <g fill="#8fa3c2" opacity=".8"><path d="M713 286 L645 408 L659 410 Z"/><path d="M871 288 L937 408 L951 410 Z"/><path d="M564 358 L496 457 L510 459 Z"/><path d="M794 293 L785 440 L799 442 Z"/><path d="M1005 391 L1085 490 L1099 492 Z"/><path d="M440 473 L379 522 L393 524 Z"/></g>
+  <path d="M-200 640 L-140 600 L-110 625 L-70 585 L-30 620 L10 590 L50 625 L90 580 L130 620 L170 595 L210 628 L250 588 L290 622 L330 596 L370 630 L410 590 L450 626 L490 598 L530 632 L570 592 L610 628 L650 600 L690 634 L730 594 L770 630 L810 602 L850 636 L890 596 L930 630 L970 600 L1010 634 L1050 594 L1090 628 L1130 598 L1170 632 L1210 592 L1250 626 L1290 598 L1330 630 L1370 594 L1410 628 L1450 600 L1490 632 L1530 596 L1570 628 L1610 600 L1700 640 V700 H-200 Z" fill="#1f3a2e"/>
+  <rect x="-200" y="690" width="2000" height="210" fill="url(#xfield)"/>
+  <rect x="-200" y="700" width="2000" height="200" fill="url(#xdaff)" opacity=".85"/>
+</svg>
+  <div class="xp-icons">
+    <button class="xp-icon" id="xp-dial" type="button" tabindex="-1"><svg viewBox="0 0 40 40"><rect x="3" y="4" width="12" height="30" rx="1.5" fill="#2b333b" stroke="#111"/><g fill="#45dd63"><rect x="5" y="7" width="8" height="2"/><rect x="5" y="12" width="8" height="2"/><rect x="5" y="17" width="8" height="2"/></g><rect x="5" y="22" width="8" height="2" fill="#f07a1c"/>
+<rect x="20" y="10" width="17" height="14" rx="1.5" fill="#efe9d6" stroke="#6d6a5e"/><rect x="22.5" y="12.5" width="12" height="9" fill="#2a6ad8"/><rect x="24" y="15" width="9" height="4" fill="#fff"/><rect x="22" y="26" width="15" height="5" rx="1" fill="#e2dcc6" stroke="#6d6a5e"/>
+<path d="M15 20 Q19 30 22 28" fill="none" stroke="#7fe3ff" stroke-width="1.6"/></svg><span>dunne.systems</span></button>
+    <div class="xp-icon"><svg viewBox="0 0 40 40"><path d="M9 3 H25 L32 10 V37 H9 Z" fill="#fff" stroke="#6b7a8c"/><path d="M25 3 V10 H32" fill="#dfe6ee" stroke="#6b7a8c"/><rect x="9" y="22" width="23" height="9" fill="#d23a2e"/><text x="20.5" y="29.2" font-size="7" font-family="Tahoma,sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">PDF</text><g fill="#9aa8b8"><rect x="13" y="13" width="14" height="1.6"/><rect x="13" y="17" width="10" height="1.6"/></g></svg><span>Resume.pdf</span></div>
+    <div class="xp-icon"><svg viewBox="0 0 40 40"><path d="M3 10 H15 L18 13 H37 V34 H3 Z" fill="#e8b83a" stroke="#a87b12"/><path d="M3 16 H37 V34 H3 Z" fill="#f6d36b" stroke="#a87b12"/></svg><span>Projects</span></div>
+  </div>
+  <div class="xp-win" id="xp-win" hidden><img id="xp-gif" width="640" height="460" alt="Dialing Progress window: connecting to dunne.systems over fiber, then Connected."><button class="xp-x" type="button" aria-label="Skip intro"></button></div>
+  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps over fiber. Welcome!</div>
+  <svg class="xp-cursor" id="xp-cursor" viewBox="0 0 22 33" aria-hidden="true"><path d="M1 1 L1 24 L6.5 18.5 L10.5 27.5 L14 26 L10 17.2 L17.5 17.2 Z" fill="#fff" stroke="#000" stroke-width="1.3" stroke-linejoin="round"/>
+<g class="busy"><path d="M13 20 h8 v1.5 l-3 3.5 l3 3.5 v1.5 h-8 v-1.5 l3 -3.5 l-3 -3.5 Z" fill="#fff" stroke="#000" stroke-width="1"/><path d="M15 27.5 h4 l-2 -2 Z" fill="#c8a24a"/></g></svg>
+  <button class="xp-skip" id="xp-skip" type="button">Skip intro <kbd>Esc</kbd></button>
+  <div class="xp-taskbar"><span class="xp-start"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="xs1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f6a66"/><stop offset=".6" stop-color="#9b8064"/><stop offset="1" stop-color="#b98a6e"/></linearGradient>
+<linearGradient id="xa1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".25" stop-color="#ffc35a"/><stop offset=".7" stop-color="#f29a6a"/><stop offset="1" stop-color="#e89aa0"/></linearGradient><clipPath id="xk"><rect width="64" height="64" rx="14"/></clipPath></defs><g clip-path="url(#xk)">
+<rect width="64" height="64" fill="url(#xs1)"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 V66 H-2 Z" fill="#6b4f6e"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 L66 39 L62 41 L59 38.5 L56 41.5 L53 38 L50 41 L47 37.5 L44 40.5 L41 37 L38 40.5 L35 36.5 L32 40 L29 37 L26 40.5 L23 37.5 L20 40.5 L17 38 L14 40.5 L11 38 L8 40 L5 38 L2 39.5 L-2 39 Z" fill="url(#xa1)"/><path d="M27.8 18.2 L22.5 26 L23.6 26.4 Z" fill="#9a6a7a"/><path d="M35.5 18.4 L31.5 27.5 L32.8 27.8 Z" fill="#9a6a7a"/><path d="M38.2 18.6 L43 27 L41.8 27.4 Z" fill="#9a6a7a"/><path d="M16 28.5 L12 34.5 L13.4 34.7 Z" fill="#9a6a7a"/><path d="M47 29 L51.5 35.5 L50.2 35.8 Z" fill="#9a6a7a"/><path d="M-2 56 L4 51 L8 54 L13 49 L18 54 L23 50 L28 55 L33 50 L38 54 L43 49 L48 54 L53 49 L58 53 L66 49 V66 H-2 Z" fill="#0f1d26"/></g></svg>start</span><span class="xp-task" id="xp-task" hidden>Dialing Progress</span>
+    <span class="xp-tray"><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg><span id="xp-clock"></span></span></div>
+</div>
 <div class="wrap">
   <header class="masthead">
     <canvas id="rain" aria-hidden="true"></canvas>
@@ -686,6 +770,50 @@ function setRain(on){rainOn=on;store.set("rain",on?"on":"off");cancelAnimationFr
 sizeRain();setRain(rainOn);addEventListener("resize",()=>{sizeRain();if(rainOn&&reduceMotion.matches)drawRain(true)});
 document.addEventListener("visibilitychange",()=>{if(document.hidden)cancelAnimationFrame(rainRaf);else if(rainOn)setRain(true)});
 CMDS.push({label:"Toggle rain",hint:"action",run:()=>{setRain(!rainOn);toast(rainOn?"Rain on":"Rain off. Must be August.")}});
+
+
+/* ===== Intro splash ===== */
+const DIAL_GIF="/assets/images/dialing-connect.gif", DIAL_MS=2450;
+const Intro=(function(){
+  const xp=$("#xp");let timers=[],done=false,anims=[];
+  const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
+  const clock=()=>{const c=$("#xp-clock");if(c)c.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/Los_Angeles",hour:"numeric",minute:"2-digit"}).format(new Date())};
+  function finish(fast){
+    if(done)return;done=true;timers.forEach(clearTimeout);anims.forEach(a=>a.cancel());
+    try{sessionStorage.setItem("introSeen","1")}catch(e){}
+    xp.classList.add("out");
+    setTimeout(()=>{document.documentElement.classList.remove("intro");xp.classList.remove("out");},fast?200:460);
+    removeEventListener("keydown",onKey,true);
+  }
+  function onKey(e){if(["Escape","Enter"," "].includes(e.key)){e.preventDefault();e.stopPropagation();finish(true)}}
+  function play(){
+    done=false;timers=[];anims=[];
+    document.documentElement.classList.add("intro");
+    ["#xp-win","#xp-balloon","#xp-task"].forEach(s=>$(s).hidden=true);
+    $("#xp-dial").classList.remove("sel");$("#xp-cursor").classList.remove("wait");
+    clock();addEventListener("keydown",onKey,true);
+    const pre=new Image();pre.src=DIAL_GIF;
+    const cur=$("#xp-cursor"),icon=$("#xp-dial svg").getBoundingClientRect();
+    const W=innerWidth,H=innerHeight;
+    const from=[W*0.62,H*0.72],to=[icon.left+icon.width*0.55,icon.top+icon.height*0.55];
+    const at=(p,s=1)=>`translate(${p[0]}px,${p[1]}px) scale(${s})`;
+    cur.style.transform=at(from);
+    anims.push(cur.animate([{transform:at(from),opacity:0},{transform:at(from),opacity:1,offset:.12},{transform:at(to)}],{duration:1050,easing:"cubic-bezier(.45,.05,.3,1)",fill:"forwards"}));
+    const click=t=>later(()=>anims.push(cur.animate([{transform:at(to)},{transform:at(to,.86)},{transform:at(to)}],{duration:130,fill:"forwards"})),t);
+    click(1150);later(()=>$("#xp-dial").classList.add("sel"),1160);click(1330);
+    later(()=>{
+      $("#xp-gif").src=DIAL_GIF;$("#xp-win").hidden=false;$("#xp-task").hidden=false;cur.classList.add("wait");
+      const r=$("#xp-win").getBoundingClientRect(),rest=[r.left+r.width*0.78,r.top+r.height*0.86];
+      anims.push(cur.animate([{transform:at(to)},{transform:at(rest)}],{duration:700,easing:"ease-in-out",fill:"forwards"}));
+      later(()=>{cur.classList.remove("wait");$("#xp-balloon").hidden=false},DIAL_MS);
+      later(()=>finish(false),DIAL_MS+1300);
+    },1520);
+  }
+  xp.addEventListener("click",()=>finish(true));
+  return {play,finish};
+})();
+if(document.documentElement.classList.contains("intro"))Intro.play();
+CMDS.push({label:"Replay intro",hint:"action",run:()=>Intro.play()});
 
 renderProjects();route();
 </script>
