@@ -275,6 +275,17 @@ html.intro body{overflow:hidden}
 .xp-skip{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:6;cursor:pointer;
   font:11px Tahoma,sans-serif;color:#000;padding:4px 10px;border:1px solid #003c74;border-radius:3px;background:linear-gradient(180deg,#fff,#ecebe5 85%,#d6d0c5)}
 .xp-skip kbd{background:#fff;color:#000;border-color:#999}
+.xp-open{position:absolute;left:50%;top:calc(46% + min(230px,33.8vw) + 16px);transform:translateX(-50%);z-index:4;cursor:pointer;
+  font:bold 13px Tahoma,"Segoe UI",sans-serif;color:#000;padding:8px 22px;border:1px solid #003c74;border-radius:3px;
+  background:linear-gradient(180deg,#ffffff 0%,#f4f3ee 45%,#e3e0d6 100%);box-shadow:inset 0 0 0 1px #fff,0 0 0 2px #7cb5f8,0 3px 10px rgba(0,0,0,.35);
+  animation:xpglow 1.4s ease-in-out infinite}
+.xp-open:hover{background:linear-gradient(180deg,#fff,#fdf3d8 50%,#f7d78a)}
+.xp-open:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+@keyframes xpglow{50%{box-shadow:inset 0 0 0 1px #fff,0 0 0 3px #f0a43a,0 3px 14px rgba(0,0,0,.4)}}
+.xp.ready,.xp.ready .xp-icon,.xp.ready .xp-x{cursor:default}
+.xp.ready .xp-cursor,.xp.ready .xp-skip{display:none}
+.xp-balloon{cursor:pointer}
+@media (prefers-reduced-motion: reduce){.xp-open{animation:none}}
 @media (hover:none){.xp-skip kbd{display:none}}
 @media (max-width:560px){.xp-icon{width:70px}.xp-icon svg{width:34px;height:34px}.xp-start{font-size:16px;padding-right:14px}.xp-task{display:none!important}}
 </style>
@@ -314,9 +325,10 @@ html.intro body{overflow:hidden}
     <div class="xp-icon"><svg viewBox="0 0 40 40"><path d="M3 10 H15 L18 13 H37 V34 H3 Z" fill="#e8b83a" stroke="#a87b12"/><path d="M3 16 H37 V34 H3 Z" fill="#f6d36b" stroke="#a87b12"/></svg><span>Projects</span></div>
   </div>
   <div class="xp-win" id="xp-win" hidden><img id="xp-gif" width="640" height="460" alt="Dialing Progress window: connecting to dunne.systems over fiber, then Connected."><button class="xp-x" type="button" aria-label="Skip intro"></button></div>
-  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps over fiber. Welcome!</div>
+  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps. Click <u>Open dunne.systems</u> to enter.</div>
   <svg class="xp-cursor" id="xp-cursor" viewBox="0 0 22 33" aria-hidden="true"><path d="M1 1 L1 24 L6.5 18.5 L10.5 27.5 L14 26 L10 17.2 L17.5 17.2 Z" fill="#fff" stroke="#000" stroke-width="1.3" stroke-linejoin="round"/>
 <g class="busy"><path d="M13 20 h8 v1.5 l-3 3.5 l3 3.5 v1.5 h-8 v-1.5 l3 -3.5 l-3 -3.5 Z" fill="#fff" stroke="#000" stroke-width="1"/><path d="M15 27.5 h4 l-2 -2 Z" fill="#c8a24a"/></g></svg>
+  <button class="xp-open" id="xp-open" type="button" hidden>Open dunne.systems</button>
   <button class="xp-skip" id="xp-skip" type="button">Skip intro <kbd>Esc</kbd></button>
   <div class="xp-taskbar"><span class="xp-start"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="xs1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f6a66"/><stop offset=".6" stop-color="#9b8064"/><stop offset="1" stop-color="#b98a6e"/></linearGradient>
 <linearGradient id="xa1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".25" stop-color="#ffc35a"/><stop offset=".7" stop-color="#f29a6a"/><stop offset="1" stop-color="#e89aa0"/></linearGradient><clipPath id="xk"><rect width="64" height="64" rx="14"/></clipPath></defs><g clip-path="url(#xk)">
@@ -785,11 +797,11 @@ const Intro=(function(){
     setTimeout(()=>{document.documentElement.classList.remove("intro");xp.classList.remove("out");},fast?200:460);
     removeEventListener("keydown",onKey,true);
   }
-  function onKey(e){if(["Escape","Enter"," "].includes(e.key)){e.preventDefault();e.stopPropagation();finish(true)}}
+  function onKey(e){if(e.key==="Escape"||(!xp.classList.contains("ready")&&["Enter"," "].includes(e.key))){e.preventDefault();e.stopPropagation();finish(true)}}
   function play(){
     done=false;timers=[];anims=[];
     document.documentElement.classList.add("intro");
-    ["#xp-win","#xp-balloon","#xp-task"].forEach(s=>$(s).hidden=true);
+    ["#xp-win","#xp-balloon","#xp-task","#xp-open"].forEach(s=>$(s).hidden=true);xp.classList.remove("ready");
     $("#xp-dial").classList.remove("sel");$("#xp-cursor").classList.remove("wait");
     clock();addEventListener("keydown",onKey,true);
     const pre=new Image();pre.src=DIAL_GIF;
@@ -805,11 +817,14 @@ const Intro=(function(){
       $("#xp-gif").src=DIAL_GIF;$("#xp-win").hidden=false;$("#xp-task").hidden=false;cur.classList.add("wait");
       const r=$("#xp-win").getBoundingClientRect(),rest=[r.left+r.width*0.78,r.top+r.height*0.86];
       anims.push(cur.animate([{transform:at(to)},{transform:at(rest)}],{duration:700,easing:"ease-in-out",fill:"forwards"}));
-      later(()=>{cur.classList.remove("wait");$("#xp-balloon").hidden=false},DIAL_MS);
-      later(()=>finish(false),DIAL_MS+1300);
+      later(()=>{cur.classList.remove("wait");xp.classList.add("ready");
+        $("#xp-balloon").hidden=false;const o=$("#xp-open");o.hidden=false;o.focus({preventScroll:true});},DIAL_MS);
     },1520);
   }
-  xp.addEventListener("click",()=>finish(true));
+  xp.addEventListener("click",e=>{
+    if(!xp.classList.contains("ready")){finish(true);return}
+    if(e.target.closest("#xp-open,#xp-balloon,.xp-x,#xp-dial"))finish(false);
+  });
   return {play,finish};
 })();
 if(document.documentElement.classList.contains("intro"))Intro.play();
