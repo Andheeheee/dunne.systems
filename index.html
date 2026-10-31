@@ -235,10 +235,187 @@ dialog::backdrop{background:rgba(10,25,45,.45)}
   main{padding:18px 14px}
   .tabbar{padding:0 6px}
 }
+
+/* ===== XP-style intro splash ===== */
+.xp{display:none}
+html.intro .xp{display:block}
+html.intro body{overflow:hidden}
+.xp{position:fixed;inset:0;z-index:100;overflow:hidden;font:11px Tahoma,"Segoe UI",Verdana,sans-serif;color:#fff;
+  background:#5b8fd6;transition:opacity .45s ease}
+.xp:not(.live),.xp:not(.live) *{cursor:none!important}
+.xp.live .xp-cursor{display:none}
+.xp.out{opacity:0;pointer-events:none}
+.xp-wall{position:absolute;inset:0;width:100%;height:100%}
+.xp-wall #xs-sun,.xp-wall #xs-moon,.xp-wall g,.xp-wall rect,.xp-wall stop{transition:opacity 1.2s,fill 1.2s,stop-color 1.2s}
+.xp-precip{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.xp-wx{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.xp-icons{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));left:calc(10px + env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px}
+.xp-icon{width:84px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;background:none;border:0;padding:2px;color:#fff;font:inherit;cursor:pointer}
+.xp-icon svg{width:40px;height:40px;filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35))}
+.xp-icon span{padding:1px 3px;text-shadow:1px 1px 1px #000,0 0 3px rgba(0,0,0,.6);line-height:1.25}
+.xp-icon.sel svg{filter:drop-shadow(1px 2px 1px rgba(0,0,0,.35)) brightness(.7) sepia(1) hue-rotate(180deg) saturate(4)}
+.xp-icon.sel span{background:#316ac5;text-shadow:none;outline:1px dotted #fff}
+.xp-win{position:absolute;left:calc(118px + env(safe-area-inset-left,0px));bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(420px,34vw);box-shadow:4px 6px 18px rgba(0,0,0,.45);line-height:0;transform-origin:30% 100%;animation:xpopen .18s ease-out}
+.xp-win img{width:100%;height:auto;image-rendering:pixelated;display:block}
+.xp-x{position:absolute;left:93.2%;top:2%;width:5%;height:6.6%;background:none;border:0;padding:0;cursor:pointer}
+.xp-drag{position:absolute;left:0;top:0;width:92%;height:8.6%;cursor:move;touch-action:none}
+@keyframes xpopen{from{transform:scale(.86);opacity:.2}to{transform:scale(1);opacity:1}}
+@keyframes xpopenc{from{transform:translate(-50%,-50%) scale(.86);opacity:.2}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@media (max-width:700px){.xp-win{left:50%;top:44%;bottom:auto;width:94vw;transform:translate(-50%,-50%);transform-origin:50% 50%;animation-name:xpopenc}}
+.xp-cursor{position:absolute;left:0;top:0;width:22px;height:33px;pointer-events:none;z-index:9999;will-change:transform}
+.xp-cursor .busy{display:none}
+.xp-cursor.wait .busy{display:inline}
+.xp-taskbar{position:absolute;z-index:9000;left:0;right:0;bottom:0;height:calc(32px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);
+  display:flex;align-items:stretch;gap:6px;background:linear-gradient(180deg,#3d8af7 0%,#2a6be0 8%,#245edb 40%,#1f53c9 88%,#1941a5 100%);border-top:1px solid #0c3fb8}
+.xp-start{display:flex;align-items:center;gap:6px;padding:0 18px 0 10px;font:italic bold 18px "Franklin Gothic Medium","Trebuchet MS",Tahoma,sans-serif;color:#fff;
+  text-shadow:1px 1px 2px rgba(0,0,0,.5);border-radius:0 12px 12px 0;background:linear-gradient(180deg,#5eb85e 0%,#3c9a3c 12%,#2f8b2f 60%,#24732a 100%);box-shadow:inset -1px 0 2px rgba(0,0,0,.3)}
+.xp-start svg{width:20px;height:20px;border-radius:4px}
+.xp-tasks{flex:1;min-width:0;display:flex;align-items:center;gap:3px;overflow:hidden}
+.xp-task{display:flex;align-items:center;gap:5px;height:24px;flex:0 1 160px;min-width:0;padding:0 8px;border-radius:3px;border:0;color:#fff;font:11px Tahoma,sans-serif;cursor:pointer;
+  background:linear-gradient(180deg,#3c81f3,#2f6fe4 50%,#2a63d6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25),1px 1px 1px rgba(0,0,0,.3)}
+.xp-task span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp-task svg{width:14px;height:14px;flex:none}
+.xp-task.active{background:linear-gradient(180deg,#1b3f97,#1e46a8);box-shadow:inset 1px 1px 3px rgba(0,0,0,.6)}
+.xp-tray{margin-left:auto;display:flex;align-items:center;gap:8px;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 12px;
+  background:linear-gradient(180deg,#1aa1e8,#0f8ad8 50%,#0e7ac4);border-left:1px solid #0b5aa8;box-shadow:inset 1px 0 0 #39b5f3;position:relative}
+.xp-tray svg,.xp-balloon svg{width:16px;height:16px;flex:none}
+.xp-balloon{position:absolute;z-index:9001;right:max(10px,env(safe-area-inset-right,0px));bottom:calc(44px + env(safe-area-inset-bottom,0px));width:min(250px,80vw);
+  background:#ffffe1;color:#000;border:1px solid #000;border-radius:7px;padding:8px 10px;box-shadow:2px 3px 6px rgba(0,0,0,.35);line-height:1.4}
+.xp-balloon b{display:flex;gap:6px;align-items:center;margin-bottom:2px}
+.xp-balloon::after{content:"";position:absolute;right:26px;bottom:-11px;border:10px solid transparent;border-top-color:#ffffe1;border-bottom:0;filter:drop-shadow(0 1px 0 #000)}
+.xp-skip{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:9001;cursor:pointer;
+  font:11px Tahoma,sans-serif;color:#000;padding:4px 10px;border:1px solid #003c74;border-radius:3px;background:linear-gradient(180deg,#fff,#ecebe5 85%,#d6d0c5)}
+.xp-skip kbd{background:#fff;color:#000;border-color:#999}
+.xp-open{position:absolute;left:50%;top:calc(100% + 12px);transform:translateX(-50%);z-index:4;cursor:pointer;line-height:normal;white-space:nowrap;
+  font:bold 13px Tahoma,"Segoe UI",sans-serif;color:#000;padding:8px 22px;border:1px solid #003c74;border-radius:3px;
+  background:linear-gradient(180deg,#ffffff 0%,#f4f3ee 45%,#e3e0d6 100%);box-shadow:inset 0 0 0 1px #fff,0 0 0 2px #7cb5f8,0 3px 10px rgba(0,0,0,.35);
+  animation:xpglow 1.4s ease-in-out infinite}
+.xp-open:hover{background:linear-gradient(180deg,#fff,#fdf3d8 50%,#f7d78a)}
+.xp-open:focus-visible{outline:1px dotted #000;outline-offset:-5px}
+@keyframes xpglow{50%{box-shadow:inset 0 0 0 1px #fff,0 0 0 3px #f0a43a,0 3px 14px rgba(0,0,0,.4)}}
+.xp.ready,.xp.ready .xp-icon,.xp.ready .xp-x{cursor:default}
+.xp.ready .xp-cursor,.xp.ready .xp-skip,.xp.live .xp-skip{display:none}
+.xp-balloon{cursor:pointer}
+@media (prefers-reduced-motion: reduce){.xp-open{animation:none}}
+
+/* XP windows */
+.xpw{position:absolute;display:flex;flex-direction:column;min-width:260px;max-width:calc(100% - 8px);font:11px Tahoma,"Segoe UI",sans-serif;color:#000;line-height:1.35;
+  border-radius:8px 8px 0 0;overflow:hidden;box-shadow:2px 5px 16px rgba(0,0,0,.45);animation:xpw-in .14s ease-out}
+@keyframes xpw-in{from{transform:scale(.92);opacity:.3}}
+.xpw-bar{height:29px;flex:none;display:flex;align-items:center;gap:5px;padding:0 5px 0 7px;color:#fff;font:bold 13px "Trebuchet MS",Tahoma,sans-serif;text-shadow:1px 1px #0f1f8a;
+  background:linear-gradient(180deg,#0997ff 0%,#0053ee 9%,#0050ee 40%,#0066ff 86%,#0055ea 93%,#0039b5 100%);touch-action:none;user-select:none;cursor:move}
+.xpw:not(.active) .xpw-bar{background:linear-gradient(180deg,#9db9eb,#7a96df 12%,#6c8bd9 60%,#7e9ae3);text-shadow:none;color:#dfe8f8}
+.xpw-ico svg{width:16px;height:16px;display:block}
+.xpw-title{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xpw-btn{width:21px;height:21px;flex:none;border:1px solid #fff;border-radius:3px;padding:0;display:grid;place-items:center;cursor:pointer;color:#fff;font:bold 13px/1 Tahoma,sans-serif;
+  background:radial-gradient(circle at 30% 25%,#7fb0ff,#2766e6 60%,#1d4fc4)}
+.xpw-btn.close{background:radial-gradient(circle at 30% 25%,#f3a487,#df5a2f 55%,#c13a15)}
+.xpw-btn:hover{filter:brightness(1.15)}
+.xpw-body{flex:1;min-height:0;display:flex;flex-direction:column;background:#ece9d8;border:3px solid #0055ea;border-top:0}
+.xpw:not(.active) .xpw-body{border-color:#7a96df}
+.xpw.max{left:0!important;top:0!important;width:100%!important;max-width:100%;height:calc(100% - 32px - env(safe-area-inset-bottom,0px))!important;border-radius:0}
+.xpw-menu{display:flex;gap:12px;padding:3px 8px;border-bottom:1px solid #d5d2c2;color:#000;flex:none;overflow:hidden;white-space:nowrap}
+.xp-btn{font:11px Tahoma,sans-serif;color:#000;padding:4px 12px;border:1px solid #003c74;border-radius:3px;cursor:pointer;text-decoration:none;display:inline-block;
+  background:linear-gradient(180deg,#fff,#ecebe5 85%,#d6d0c5)}
+.xp-btn:hover{background:linear-gradient(180deg,#fff,#fdf3d8 50%,#f7d78a);color:#000}
+/* Resume viewer */
+.xpr-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:5px 8px;border-bottom:1px solid #d5d2c2;flex:none}
+.xpr-tools .zoom{margin-left:auto;color:#444}
+.xpr-scroll{flex:1;min-height:0;overflow:auto;background:#7d7d7d;padding:16px 12px}
+.xpr-page{--ink:#1b1b1b;--muted:#555;--blue:#1f4f8a;--line:#c9c9c9;--panel-2:#f4f4f4;--panel:#fff;--code:#eee;--link:#1f4f8a;
+  background:#fff;color:#1b1b1b;max-width:640px;margin:0 auto;padding:28px clamp(16px,4vw,36px);box-shadow:2px 3px 8px rgba(0,0,0,.5);
+  font:12px/1.55 Verdana,Tahoma,sans-serif;display:flex;flex-direction:column;gap:14px}
+.xpr-page .rname{font:bold 24px/1.1 "Trebuchet MS",Tahoma,sans-serif;letter-spacing:.02em;margin:0;color:#111}
+.xpr-page .rcontact{color:#444;margin-top:-8px;border-bottom:2px solid #1b1b1b;padding-bottom:8px}
+.xpr-page h3{color:#111;border-bottom:1px solid #bbb;padding-bottom:2px;text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.xpr-page p{max-width:none}
+/* Explorer */
+.xpe-tools{display:flex;gap:4px;align-items:center;padding:3px 6px;border-bottom:1px solid #d5d2c2;flex:none}
+.xpe-tb{display:flex;align-items:center;gap:4px;border:1px solid transparent;border-radius:3px;background:none;font:11px Tahoma,sans-serif;color:#000;padding:3px 7px;cursor:pointer}
+.xpe-tb:hover:not(:disabled){border-color:#c3c0b0;background:#fff}
+.xpe-tb:disabled{opacity:.45;cursor:default}
+.xpe-tb b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;color:#fff;font-size:12px;background:radial-gradient(circle at 30% 30%,#7fe07f,#2c9a2c)}
+.xpe-addr{display:flex;align-items:center;gap:6px;padding:3px 6px;border-bottom:1px solid #d5d2c2;color:#555;flex:none}
+.xpe-path{flex:1;min-width:0;background:#fff;border:1px solid #7f9db9;padding:2px 6px;color:#000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xpe-main{flex:1;min-height:0;display:flex;background:#fff}
+.xpe-side{width:184px;flex:none;overflow:auto;padding:10px;background:linear-gradient(180deg,#7ba2e7,#6375d6);display:flex;flex-direction:column;gap:12px}
+.xpe-panel{border-radius:5px 5px 0 0;overflow:hidden;background:#d6dff7}
+.xpe-panel h6{margin:0;padding:5px 9px;font:bold 11px Tahoma,sans-serif;color:#215dc6;background:linear-gradient(90deg,#fff 30%,#c6d3f7)}
+.xpe-panel>div{padding:7px 9px;display:flex;flex-direction:column;gap:6px;color:#000}
+.xpe-link{background:none;border:0;padding:0;text-align:left;font:11px Tahoma,sans-serif;color:#215dc6;cursor:pointer}
+.xpe-link:hover{text-decoration:underline;color:#428eff}
+.xpe-files{flex:1;min-width:0;overflow:auto;padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:14px 10px;align-content:start}
+.xpe-item{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;background:none;border:0;padding:4px 2px;font:11px Tahoma,sans-serif;color:#000;cursor:pointer}
+.xpe-item svg{width:42px;height:42px}
+.xpe-item span{padding:1px 3px;line-height:1.3}
+.xpe-item:hover span,.xpe-item:focus-visible span{background:#316ac5;color:#fff}
+.xpe-item:focus-visible{outline:none}
+.xpe-status{padding:3px 8px;border-top:1px solid #d5d2c2;color:#333;flex:none}
+/* Notepad */
+.xpn-text{flex:1;min-height:0;margin:0;border:0;border-top:1px solid #d5d2c2;padding:8px 10px;resize:none;background:#fff;color:#000;font:13px/1.45 "Lucida Console",Consolas,monospace;white-space:pre-wrap}
+.xpn-text:focus{outline:none}
+@media (max-width:600px){
+  .xpw{left:4px!important;top:calc(4px + env(safe-area-inset-top,0px))!important;width:calc(100% - 8px)!important;height:calc(100% - 44px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important}
+  .xpw-bar{cursor:default}.xpe-side{display:none}
+}
+@media (hover:none){.xp-skip kbd{display:none}}
+@media (max-width:560px){.xp-icon{width:70px}.xp-icon svg{width:34px;height:34px}.xp-start{font-size:0;padding-right:10px;gap:0}.xp-task{flex-basis:44px}.xp-task span{display:none}}
 </style>
+<script>
+/* Decide before first paint whether the intro plays, so the site never flashes first. */
+(function(){var d=document.documentElement,h=location.hash;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(h&&h!=="#home")return;
+  try{if(sessionStorage.getItem("introSeen"))return}catch(e){}
+  d.classList.add("intro")})();
+</script>
 
 </head>
 <body>
+<div class="xp" id="xp" role="dialog" aria-label="Intro: connecting to dunne.systems">
+  <svg class="xp-wall" id="xp-wall" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="xsky" x1="0" y1="0" x2="0" y2="1"><stop id="xs-s0" offset="0" stop-color="#1f5fc8"/><stop id="xs-s1" offset=".55" stop-color="#5d9be6"/><stop id="xs-s2" offset="1" stop-color="#b9d6f2"/></linearGradient>
+    <linearGradient id="xwater" x1="0" y1="0" x2="0" y2="1"><stop id="xs-w0" offset="0" stop-color="#7fa6cf"/><stop id="xs-w1" offset="1" stop-color="#2d4a6a"/></linearGradient>
+    <linearGradient id="xfog" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".25"/><stop offset=".55" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity=".6"/></linearGradient>
+    <radialGradient id="xsun"><stop offset="0" stop-color="#fffbe8"/><stop offset=".25" stop-color="#ffe9a0"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#xsky)"/>
+  <g id="xs-stars" fill="#fff"><circle cx="121" cy="18" r="1.0"/><circle cx="495" cy="307" r="0.8"/><circle cx="1593" cy="237" r="1.2"/><circle cx="902" cy="302" r="1.0"/><circle cx="1063" cy="119" r="1.2"/><circle cx="1023" cy="2" r="0.8"/><circle cx="936" cy="335" r="1.2"/><circle cx="833" cy="282" r="0.8"/><circle cx="1449" cy="130" r="1.2"/><circle cx="1552" cy="117" r="1.2"/><circle cx="60" cy="35" r="0.8"/><circle cx="820" cy="55" r="1.2"/><circle cx="791" cy="34" r="0.8"/><circle cx="1402" cy="0" r="1.0"/><circle cx="429" cy="26" r="1.6"/><circle cx="768" cy="362" r="1.6"/><circle cx="859" cy="37" r="1.0"/><circle cx="1594" cy="345" r="1.2"/><circle cx="689" cy="44" r="1.2"/><circle cx="681" cy="7" r="1.6"/><circle cx="1552" cy="60" r="1.0"/><circle cx="504" cy="361" r="0.8"/><circle cx="22" cy="30" r="1.6"/><circle cx="997" cy="90" r="1.0"/><circle cx="916" cy="260" r="1.0"/><circle cx="1498" cy="393" r="1.0"/><circle cx="858" cy="329" r="1.6"/><circle cx="238" cy="202" r="1.6"/><circle cx="435" cy="0" r="1.2"/><circle cx="1213" cy="155" r="0.8"/><circle cx="431" cy="95" r="1.6"/><circle cx="1232" cy="328" r="0.8"/><circle cx="86" cy="74" r="1.0"/><circle cx="904" cy="132" r="0.8"/><circle cx="1582" cy="312" r="1.2"/><circle cx="606" cy="197" r="0.8"/><circle cx="152" cy="46" r="1.0"/><circle cx="1193" cy="325" r="1.0"/><circle cx="31" cy="307" r="1.2"/><circle cx="761" cy="318" r="1.6"/><circle cx="260" cy="300" r="1.6"/><circle cx="1176" cy="69" r="1.6"/><circle cx="374" cy="321" r="1.0"/><circle cx="636" cy="116" r="1.0"/><circle cx="1485" cy="97" r="1.0"/><circle cx="1514" cy="322" r="1.0"/><circle cx="1406" cy="198" r="1.6"/><circle cx="1236" cy="40" r="1.6"/><circle cx="97" cy="53" r="0.8"/><circle cx="79" cy="262" r="1.2"/><circle cx="488" cy="378" r="1.6"/><circle cx="526" cy="215" r="1.6"/><circle cx="600" cy="266" r="1.0"/><circle cx="1475" cy="35" r="1.0"/><circle cx="467" cy="245" r="0.8"/><circle cx="573" cy="108" r="1.0"/><circle cx="1533" cy="8" r="0.8"/><circle cx="551" cy="210" r="1.6"/><circle cx="510" cy="30" r="0.8"/><circle cx="360" cy="144" r="1.2"/><circle cx="1087" cy="292" r="1.0"/><circle cx="188" cy="185" r="1.0"/><circle cx="922" cy="169" r="1.0"/><circle cx="1208" cy="17" r="0.8"/><circle cx="972" cy="183" r="1.2"/><circle cx="68" cy="10" r="0.8"/><circle cx="987" cy="34" r="1.2"/><circle cx="653" cy="69" r="0.8"/><circle cx="154" cy="231" r="1.2"/><circle cx="1509" cy="22" r="1.0"/><circle cx="699" cy="180" r="0.8"/><circle cx="1403" cy="242" r="0.8"/><circle cx="854" cy="404" r="0.8"/><circle cx="1023" cy="293" r="0.8"/><circle cx="1279" cy="339" r="1.6"/><circle cx="776" cy="298" r="0.8"/><circle cx="1246" cy="36" r="0.8"/><circle cx="185" cy="327" r="0.8"/><circle cx="526" cy="213" r="1.2"/><circle cx="795" cy="376" r="1.6"/><circle cx="902" cy="236" r="0.8"/><circle cx="1062" cy="384" r="0.8"/><circle cx="635" cy="307" r="0.8"/><circle cx="984" cy="11" r="1.0"/><circle cx="1430" cy="57" r="1.6"/><circle cx="1597" cy="314" r="1.6"/><circle cx="523" cy="5" r="1.2"/><circle cx="616" cy="73" r="1.0"/><circle cx="1061" cy="86" r="1.2"/><circle cx="1351" cy="226" r="1.6"/></g>
+  <g id="xs-sun"><circle r="120" fill="url(#xsun)"/><circle r="34" fill="#fff6d5"/></g>
+  <mask id="xmoonm"><circle r="31" fill="#fff"/><circle id="xs-moonshade" cx="14" r="31" fill="#000"/></mask><g id="xs-moon"><circle r="38" fill="#f4f1e2" opacity=".12"/><circle r="30" fill="#f4f1e2" mask="url(#xmoonm)"/></g>
+  <g id="xs-rainier"><path id="xs-rbody" d="M480 638 L560 618 L616 589 L700 559 L823 500 L896 396 L952 359 L1002 328 L1015 319 L1042 346 L1067 336 L1109 318 L1148 325 L1184 348 L1214 331 L1239 354 L1277 396 L1344 478 L1456 544 L1568 604 L1680 655 L1760 675 V720 H480 Z" fill="#8fa0bf"/><path id="xs-rsnow" d="M616 589 L700 559 L823 500 L896 396 L952 359 L1002 328 L1015 319 L1042 346 L1067 336 L1109 318 L1148 325 L1184 348 L1214 331 L1239 354 L1277 396 L1344 478 L1456 544 L1568 604 L1568 568 L1538 575 L1508 569 L1478 568 L1448 572 L1418 577 L1388 552 L1358 551 L1328 572 L1298 570 L1268 580 L1238 579 L1208 551 L1178 546 L1148 568 L1118 559 L1088 549 L1058 545 L1028 574 L998 580 L968 542 L938 578 L908 565 L878 568 L848 581 L818 579 L788 581 L758 550 L728 579 L698 540 L668 573 L638 544 Z" fill="#ffffff"/><g id="xs-rribs" fill="#8fa0bf" opacity=".8"><path d="M1042 346 L981 456 L993 458 Z"/><path d="M1184 348 L1244 456 L1256 458 Z"/><path d="M907 411 L857 485 L869 487 Z"/><path d="M1114 352 L1107 478 L1119 480 Z"/><path d="M1305 441 L1356 515 L1368 517 Z"/></g></g>
+  <g id="xs-clouds" fill="#fff"><g class="cl" transform="translate(260 170) scale(1.2)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(1250 130) scale(1.4)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(700 95) scale(1.0)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(1500 250) scale(1.1)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(120 300) scale(1.0)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(950 210) scale(1.3)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(450 250) scale(1.1)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(1100 320) scale(1.2)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g><g class="cl" transform="translate(1600 90) scale(1.0)"><ellipse rx="150" ry="30"/><ellipse cx="-60" cy="-18" rx="80" ry="28"/><ellipse cx="50" cy="-26" rx="95" ry="34"/><ellipse cx="120" cy="-6" rx="70" ry="22"/></g></g>
+  <rect y="690" width="1600" height="120" fill="url(#xwater)"/>
+  <g id="xs-city" fill="#3e5568"><rect x="470" y="640" width="40" height="60"/><rect x="515" y="620" width="34" height="80"/><path d="M553 700 V673 H562 V655 H590 V673 H599 V700 Z"/><path d="M605 700 V628 H611 V610 H629 V628 H635 V700 Z"/><rect x="640" y="630" width="44" height="70"/><rect x="690" y="600" width="26" height="100"/><rect x="830" y="560" width="46" height="140"/><rect x="880" y="505" width="38" height="195"/><rect x="922" y="470" width="54" height="230"/><path d="M980 700 V444 L991 430 H1013 L1024 444 V700 Z"/><rect x="1028" y="385" width="60" height="315"/><path d="M1092 700 V468 H1100 V450 H1124 V468 H1132 V700 Z"/><rect x="1136" y="480" width="52" height="220"/><path d="M1192 700 V534 L1201 520 H1219 L1228 534 V700 Z"/><path d="M1232 700 V569 L1244 555 H1268 L1280 569 V700 Z"/><path d="M1284 700 V608 H1292 V590 H1316 V608 H1324 V700 Z"/><rect x="1328" y="620" width="56" height="80"/><path d="M1390 700 V658 H1399 V640 H1425 V658 H1434 V700 Z"/><rect x="1440" y="655" width="60" height="45"/><rect x="1050" y="350" width="3" height="36"/><g class="needle"><rect x="757.5" y="296" width="5" height="92"/>
+<path d="M745 392 Q760 384 775 392 Z"/><path d="M700 402 Q760 380 820 402 L810 416 Q760 428 710 416 Z"/>
+<path d="M716 420 H804 L798 428 H722 Z"/>
+<path d="M748 428 L744 520 L724 700 H739 L755 548 L760 532 L765 548 L781 700 H796 L776 520 L772 428 Z"/>
+<rect x="738" y="516" width="44" height="7"/><rect x="755" y="430" width="10" height="270" opacity=".55"/></g></g>
+  <g id="xs-lights" fill="#ffd27a"><rect x="491" y="662" width="4" height="5"/><rect x="483" y="688" width="4" height="5"/><rect x="491" y="688" width="4" height="5"/><rect x="536" y="642" width="4" height="5"/><rect x="520" y="655" width="4" height="5"/><rect x="536" y="655" width="4" height="5"/><rect x="520" y="668" width="4" height="5"/><rect x="528" y="681" width="4" height="5"/><rect x="574" y="677" width="4" height="5"/><rect x="558" y="690" width="4" height="5"/><rect x="618" y="632" width="4" height="5"/><rect x="610" y="645" width="4" height="5"/><rect x="618" y="645" width="4" height="5"/><rect x="626" y="645" width="4" height="5"/><rect x="618" y="684" width="4" height="5"/><rect x="669" y="652" width="4" height="5"/><rect x="677" y="652" width="4" height="5"/><rect x="645" y="678" width="4" height="5"/><rect x="669" y="678" width="4" height="5"/><rect x="669" y="691" width="4" height="5"/><rect x="703" y="661" width="4" height="5"/><rect x="835" y="582" width="4" height="5"/><rect x="851" y="582" width="4" height="5"/><rect x="859" y="582" width="4" height="5"/><rect x="843" y="595" width="4" height="5"/><rect x="859" y="595" width="4" height="5"/><rect x="835" y="608" width="4" height="5"/><rect x="859" y="608" width="4" height="5"/><rect x="835" y="621" width="4" height="5"/><rect x="859" y="621" width="4" height="5"/><rect x="843" y="673" width="4" height="5"/><rect x="867" y="673" width="4" height="5"/><rect x="867" y="686" width="4" height="5"/><rect x="909" y="527" width="4" height="5"/><rect x="909" y="540" width="4" height="5"/><rect x="909" y="566" width="4" height="5"/><rect x="885" y="592" width="4" height="5"/><rect x="901" y="592" width="4" height="5"/><rect x="909" y="605" width="4" height="5"/><rect x="885" y="618" width="4" height="5"/><rect x="909" y="618" width="4" height="5"/><rect x="893" y="631" width="4" height="5"/><rect x="901" y="631" width="4" height="5"/><rect x="909" y="631" width="4" height="5"/><rect x="885" y="657" width="4" height="5"/><rect x="901" y="657" width="4" height="5"/><rect x="885" y="670" width="4" height="5"/><rect x="893" y="670" width="4" height="5"/><rect x="909" y="683" width="4" height="5"/><rect x="943" y="492" width="4" height="5"/><rect x="951" y="492" width="4" height="5"/><rect x="927" y="505" width="4" height="5"/><rect x="959" y="505" width="4" height="5"/><rect x="935" y="518" width="4" height="5"/><rect x="951" y="518" width="4" height="5"/><rect x="959" y="518" width="4" height="5"/><rect x="927" y="531" width="4" height="5"/><rect x="935" y="531" width="4" height="5"/><rect x="935" y="544" width="4" height="5"/><rect x="959" y="544" width="4" height="5"/><rect x="959" y="570" width="4" height="5"/><rect x="951" y="583" width="4" height="5"/><rect x="959" y="583" width="4" height="5"/><rect x="967" y="583" width="4" height="5"/><rect x="927" y="596" width="4" height="5"/><rect x="935" y="596" width="4" height="5"/><rect x="959" y="596" width="4" height="5"/><rect x="927" y="609" width="4" height="5"/><rect x="935" y="609" width="4" height="5"/><rect x="967" y="609" width="4" height="5"/><rect x="943" y="622" width="4" height="5"/><rect x="951" y="622" width="4" height="5"/><rect x="951" y="635" width="4" height="5"/><rect x="927" y="648" width="4" height="5"/><rect x="927" y="661" width="4" height="5"/><rect x="959" y="661" width="4" height="5"/><rect x="967" y="661" width="4" height="5"/><rect x="935" y="674" width="4" height="5"/><rect x="951" y="674" width="4" height="5"/><rect x="943" y="687" width="4" height="5"/><rect x="951" y="687" width="4" height="5"/><rect x="959" y="687" width="4" height="5"/><rect x="993" y="452" width="4" height="5"/><rect x="985" y="465" width="4" height="5"/><rect x="1009" y="491" width="4" height="5"/><rect x="993" y="504" width="4" height="5"/><rect x="1009" y="504" width="4" height="5"/><rect x="1017" y="504" width="4" height="5"/><rect x="993" y="517" width="4" height="5"/><rect x="1001" y="517" width="4" height="5"/><rect x="993" y="543" width="4" height="5"/><rect x="1017" y="543" width="4" height="5"/><rect x="993" y="556" width="4" height="5"/><rect x="1009" y="556" width="4" height="5"/><rect x="993" y="569" width="4" height="5"/><rect x="1001" y="582" width="4" height="5"/><rect x="985" y="595" width="4" height="5"/><rect x="1001" y="595" width="4" height="5"/><rect x="1009" y="595" width="4" height="5"/><rect x="1017" y="595" width="4" height="5"/><rect x="985" y="608" width="4" height="5"/><rect x="993" y="608" width="4" height="5"/><rect x="993" y="621" width="4" height="5"/><rect x="1017" y="621" width="4" height="5"/><rect x="1017" y="634" width="4" height="5"/><rect x="1001" y="660" width="4" height="5"/><rect x="985" y="673" width="4" height="5"/><rect x="993" y="673" width="4" height="5"/><rect x="1009" y="673" width="4" height="5"/><rect x="1001" y="686" width="4" height="5"/><rect x="1049" y="407" width="4" height="5"/><rect x="1057" y="407" width="4" height="5"/><rect x="1041" y="420" width="4" height="5"/><rect x="1033" y="433" width="4" height="5"/><rect x="1041" y="433" width="4" height="5"/><rect x="1073" y="433" width="4" height="5"/><rect x="1081" y="433" width="4" height="5"/><rect x="1033" y="446" width="4" height="5"/><rect x="1057" y="446" width="4" height="5"/><rect x="1073" y="446" width="4" height="5"/><rect x="1081" y="446" width="4" height="5"/><rect x="1073" y="459" width="4" height="5"/><rect x="1049" y="472" width="4" height="5"/><rect x="1057" y="472" width="4" height="5"/><rect x="1033" y="485" width="4" height="5"/><rect x="1049" y="485" width="4" height="5"/><rect x="1081" y="498" width="4" height="5"/><rect x="1041" y="511" width="4" height="5"/><rect x="1049" y="511" width="4" height="5"/><rect x="1081" y="511" width="4" height="5"/><rect x="1041" y="524" width="4" height="5"/><rect x="1049" y="524" width="4" height="5"/><rect x="1065" y="524" width="4" height="5"/><rect x="1073" y="524" width="4" height="5"/><rect x="1041" y="537" width="4" height="5"/><rect x="1049" y="537" width="4" height="5"/><rect x="1081" y="537" width="4" height="5"/><rect x="1033" y="563" width="4" height="5"/><rect x="1041" y="563" width="4" height="5"/><rect x="1073" y="563" width="4" height="5"/><rect x="1065" y="576" width="4" height="5"/><rect x="1057" y="589" width="4" height="5"/><rect x="1081" y="589" width="4" height="5"/><rect x="1033" y="602" width="4" height="5"/><rect x="1033" y="615" width="4" height="5"/><rect x="1057" y="615" width="4" height="5"/><rect x="1065" y="615" width="4" height="5"/><rect x="1033" y="628" width="4" height="5"/><rect x="1049" y="628" width="4" height="5"/><rect x="1073" y="628" width="4" height="5"/><rect x="1081" y="628" width="4" height="5"/><rect x="1073" y="680" width="4" height="5"/><rect x="1097" y="485" width="4" height="5"/><rect x="1097" y="498" width="4" height="5"/><rect x="1105" y="498" width="4" height="5"/><rect x="1105" y="511" width="4" height="5"/><rect x="1097" y="524" width="4" height="5"/><rect x="1105" y="524" width="4" height="5"/><rect x="1105" y="589" width="4" height="5"/><rect x="1097" y="602" width="4" height="5"/><rect x="1105" y="602" width="4" height="5"/><rect x="1121" y="615" width="4" height="5"/><rect x="1105" y="641" width="4" height="5"/><rect x="1113" y="654" width="4" height="5"/><rect x="1105" y="667" width="4" height="5"/><rect x="1105" y="680" width="4" height="5"/><rect x="1121" y="680" width="4" height="5"/><rect x="1165" y="502" width="4" height="5"/><rect x="1173" y="502" width="4" height="5"/><rect x="1141" y="515" width="4" height="5"/><rect x="1141" y="528" width="4" height="5"/><rect x="1173" y="528" width="4" height="5"/><rect x="1141" y="541" width="4" height="5"/><rect x="1165" y="541" width="4" height="5"/><rect x="1181" y="541" width="4" height="5"/><rect x="1141" y="554" width="4" height="5"/><rect x="1149" y="554" width="4" height="5"/><rect x="1157" y="554" width="4" height="5"/><rect x="1149" y="567" width="4" height="5"/><rect x="1149" y="580" width="4" height="5"/><rect x="1173" y="580" width="4" height="5"/><rect x="1149" y="593" width="4" height="5"/><rect x="1173" y="593" width="4" height="5"/><rect x="1141" y="606" width="4" height="5"/><rect x="1165" y="606" width="4" height="5"/><rect x="1149" y="619" width="4" height="5"/><rect x="1157" y="619" width="4" height="5"/><rect x="1173" y="632" width="4" height="5"/><rect x="1181" y="632" width="4" height="5"/><rect x="1141" y="645" width="4" height="5"/><rect x="1165" y="645" width="4" height="5"/><rect x="1149" y="658" width="4" height="5"/><rect x="1157" y="658" width="4" height="5"/><rect x="1165" y="658" width="4" height="5"/><rect x="1173" y="658" width="4" height="5"/><rect x="1141" y="671" width="4" height="5"/><rect x="1173" y="684" width="4" height="5"/><rect x="1197" y="555" width="4" height="5"/><rect x="1197" y="568" width="4" height="5"/><rect x="1213" y="581" width="4" height="5"/><rect x="1197" y="607" width="4" height="5"/><rect x="1213" y="620" width="4" height="5"/><rect x="1205" y="633" width="4" height="5"/><rect x="1213" y="633" width="4" height="5"/><rect x="1221" y="633" width="4" height="5"/><rect x="1213" y="659" width="4" height="5"/><rect x="1197" y="672" width="4" height="5"/><rect x="1205" y="685" width="4" height="5"/><rect x="1245" y="577" width="4" height="5"/><rect x="1261" y="577" width="4" height="5"/><rect x="1237" y="590" width="4" height="5"/><rect x="1261" y="590" width="4" height="5"/><rect x="1237" y="603" width="4" height="5"/><rect x="1245" y="603" width="4" height="5"/><rect x="1253" y="603" width="4" height="5"/><rect x="1245" y="616" width="4" height="5"/><rect x="1253" y="629" width="4" height="5"/><rect x="1261" y="629" width="4" height="5"/><rect x="1237" y="642" width="4" height="5"/><rect x="1261" y="642" width="4" height="5"/><rect x="1237" y="655" width="4" height="5"/><rect x="1269" y="655" width="4" height="5"/><rect x="1245" y="668" width="4" height="5"/><rect x="1297" y="625" width="4" height="5"/><rect x="1305" y="625" width="4" height="5"/><rect x="1313" y="638" width="4" height="5"/><rect x="1297" y="651" width="4" height="5"/><rect x="1297" y="677" width="4" height="5"/><rect x="1313" y="677" width="4" height="5"/><rect x="1313" y="690" width="4" height="5"/><rect x="1365" y="655" width="4" height="5"/><rect x="1341" y="668" width="4" height="5"/><rect x="1349" y="668" width="4" height="5"/><rect x="1365" y="668" width="4" height="5"/><rect x="1349" y="681" width="4" height="5"/><rect x="1365" y="681" width="4" height="5"/><rect x="1373" y="681" width="4" height="5"/><rect x="1395" y="675" width="4" height="5"/><rect x="1403" y="675" width="4" height="5"/><rect x="1419" y="675" width="4" height="5"/><rect x="1419" y="688" width="4" height="5"/><rect x="1427" y="688" width="4" height="5"/><rect x="1445" y="677" width="4" height="5"/><rect x="1477" y="677" width="4" height="5"/><rect x="1445" y="690" width="4" height="5"/><rect x="1461" y="690" width="4" height="5"/><rect x="1477" y="690" width="4" height="5"/><rect x="1485" y="690" width="4" height="5"/></g>
+  <g id="xs-nlights"><circle cx="760" cy="296" r="3.5" fill="#ff5a4a"/><g fill="#ffe7a8"><circle cx="712" cy="405" r="2"/><circle cx="722" cy="409" r="2"/><circle cx="732" cy="409" r="2"/><circle cx="742" cy="409" r="2"/><circle cx="752" cy="409" r="2"/><circle cx="762" cy="409" r="2"/><circle cx="772" cy="409" r="2"/><circle cx="782" cy="409" r="2"/><circle cx="792" cy="409" r="2"/><circle cx="802" cy="409" r="2"/></g><path d="M716 420 H804" stroke="#ffd27a" stroke-width="2" opacity=".8"/></g>
+  <path id="xs-ground" d="M-10 900 V770 L-10 752 L-1 778 L8 754 L17 778 L26 749 L35 778 L44 740 L53 778 L62 758 L71 778 L80 752 L89 778 L98 740 L107 778 L116 738 L125 778 L134 748 L143 778 L152 749 L161 778 L170 760 L179 778 L188 757 L197 778 L206 755 L215 778 L224 753 L233 778 L242 759 L251 778 L260 740 L269 778 L278 740 L287 778 L296 756 L305 778 L314 754 L323 778 L332 757 L341 778 L350 739 L359 778 L368 755 L377 778 L386 746 L395 778 L404 741 L413 778 L422 753 L431 778 L440 737 L449 778 L458 754 L467 778 L476 751 L485 778 L494 737 L503 778 L512 741 L521 778 L530 746 L539 778 L548 759 L557 778 L566 744 L575 778 L584 746 L593 778 L602 755 L611 778 L620 778 Q900 800 1200 788 Q1450 780 1610 796 V900 Z" fill="#132219"/>
+  <rect id="xs-fog" width="1600" height="900" fill="url(#xfog)" opacity="0"/>
+  <rect id="xs-flash" width="1600" height="900" fill="#fff" opacity="0"/>
+</svg>
+<canvas class="xp-precip" id="xp-precip" aria-hidden="true"></canvas>
+  <div class="xp-icons">
+    <button class="xp-icon" id="xp-dial" type="button"><svg viewBox="0 0 40 40"><rect x="3" y="4" width="12" height="30" rx="1.5" fill="#2b333b" stroke="#111"/><g fill="#45dd63"><rect x="5" y="7" width="8" height="2"/><rect x="5" y="12" width="8" height="2"/><rect x="5" y="17" width="8" height="2"/></g><rect x="5" y="22" width="8" height="2" fill="#f07a1c"/>
+<rect x="20" y="10" width="17" height="14" rx="1.5" fill="#efe9d6" stroke="#6d6a5e"/><rect x="22.5" y="12.5" width="12" height="9" fill="#2a6ad8"/><rect x="24" y="15" width="9" height="4" fill="#fff"/><rect x="22" y="26" width="15" height="5" rx="1" fill="#e2dcc6" stroke="#6d6a5e"/>
+<path d="M15 20 Q19 30 22 28" fill="none" stroke="#7fe3ff" stroke-width="1.6"/></svg><span>dunne.systems</span></button>
+    <button class="xp-icon" id="xp-res" type="button"><svg viewBox="0 0 40 40"><path d="M9 3 H25 L32 10 V37 H9 Z" fill="#fff" stroke="#6b7a8c"/><path d="M25 3 V10 H32" fill="#dfe6ee" stroke="#6b7a8c"/><rect x="9" y="22" width="23" height="9" fill="#d23a2e"/><text x="20.5" y="29.2" font-size="7" font-family="Tahoma,sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">PDF</text><g fill="#9aa8b8"><rect x="13" y="13" width="14" height="1.6"/><rect x="13" y="17" width="10" height="1.6"/></g></svg><span>Resume.pdf</span></button>
+    <button class="xp-icon" id="xp-proj" type="button"><svg viewBox="0 0 40 40"><path d="M3 10 H15 L18 13 H37 V34 H3 Z" fill="#e8b83a" stroke="#a87b12"/><path d="M3 16 H37 V34 H3 Z" fill="#f6d36b" stroke="#a87b12"/></svg><span>Projects</span></button>
+  </div>
+  <div class="xp-win" id="xp-win" hidden><img id="xp-gif" width="640" height="460" alt="Dialing Progress window: connecting to dunne.systems over fiber, then Connected."><div class="xp-drag" aria-hidden="true"></div><button class="xp-x" type="button" aria-label="Close and open the site"></button><button class="xp-open" id="xp-open" type="button" hidden>Open dunne.systems</button></div>
+  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps. Click <u>Open dunne.systems</u> to enter.</div>
+  <svg class="xp-cursor" id="xp-cursor" viewBox="0 0 22 33" aria-hidden="true"><path d="M1 1 L1 24 L6.5 18.5 L10.5 27.5 L14 26 L10 17.2 L17.5 17.2 Z" fill="#fff" stroke="#000" stroke-width="1.3" stroke-linejoin="round"/>
+<g class="busy"><path d="M13 20 h8 v1.5 l-3 3.5 l3 3.5 v1.5 h-8 v-1.5 l3 -3.5 l-3 -3.5 Z" fill="#fff" stroke="#000" stroke-width="1"/><path d="M15 27.5 h4 l-2 -2 Z" fill="#c8a24a"/></g></svg>
+  <button class="xp-skip" id="xp-skip" type="button">Skip intro <kbd>Esc</kbd></button>
+  <div class="xp-taskbar"><span class="xp-start"><svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="xs1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f6a66"/><stop offset=".6" stop-color="#9b8064"/><stop offset="1" stop-color="#b98a6e"/></linearGradient>
+<linearGradient id="xa1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1c4"/><stop offset=".25" stop-color="#ffc35a"/><stop offset=".7" stop-color="#f29a6a"/><stop offset="1" stop-color="#e89aa0"/></linearGradient><clipPath id="xk"><rect width="64" height="64" rx="14"/></clipPath></defs><g clip-path="url(#xk)">
+<rect width="64" height="64" fill="url(#xs1)"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 V66 H-2 Z" fill="#6b4f6e"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 L66 39 L62 41 L59 38.5 L56 41.5 L53 38 L50 41 L47 37.5 L44 40.5 L41 37 L38 40.5 L35 36.5 L32 40 L29 37 L26 40.5 L23 37.5 L20 40.5 L17 38 L14 40.5 L11 38 L8 40 L5 38 L2 39.5 L-2 39 Z" fill="url(#xa1)"/><path d="M27.8 18.2 L22.5 26 L23.6 26.4 Z" fill="#9a6a7a"/><path d="M35.5 18.4 L31.5 27.5 L32.8 27.8 Z" fill="#9a6a7a"/><path d="M38.2 18.6 L43 27 L41.8 27.4 Z" fill="#9a6a7a"/><path d="M16 28.5 L12 34.5 L13.4 34.7 Z" fill="#9a6a7a"/><path d="M47 29 L51.5 35.5 L50.2 35.8 Z" fill="#9a6a7a"/><path d="M-2 56 L4 51 L8 54 L13 49 L18 54 L23 50 L28 55 L33 50 L38 54 L43 49 L48 54 L53 49 L58 53 L66 49 V66 H-2 Z" fill="#0f1d26"/></g></svg>start</span><div class="xp-tasks" id="xp-tasks"></div>
+    <span class="xp-tray"><span class="xp-wx" id="xp-wx" hidden></span><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg><span id="xp-clock"></span></span></div>
+</div>
 <div class="wrap">
   <header class="masthead">
     <canvas id="rain" aria-hidden="true"></canvas>
@@ -654,11 +831,15 @@ tick();setInterval(tick,15000);
 
 /* Live weather from the National Weather Service (Sea-Tac, KSEA) */
 let wxRainy=true;
+const SEA_WX=(async()=>{try{
+    const r=await fetch("https://api.weather.gov/stations/KSEA/observations/latest",{headers:{Accept:"application/geo+json"}});
+    if(!r.ok)return null; const o=(await r.json()).properties;
+    return {c:o.temperature&&o.temperature.value,d:o.textDescription||""};
+  }catch(e){return null}})();
 (async function weather(){
   try{
-    const r=await fetch("https://api.weather.gov/stations/KSEA/observations/latest",{headers:{Accept:"application/geo+json"}});
-    if(!r.ok)throw 0; const o=(await r.json()).properties;
-    const c=o.temperature&&o.temperature.value; const d=o.textDescription||"Conditions unavailable";
+    const w=await SEA_WX;if(!w)throw 0;
+    const c=w.c, d=w.d||"Conditions unavailable";
     $("#wx-temp").textContent=c==null?"—":Math.round(c*9/5+32)+"°F";
     $("#wx-desc").textContent=d;
     wxRainy=/rain|drizzle|shower|mist|fog/i.test(d);
@@ -686,6 +867,269 @@ function setRain(on){rainOn=on;store.set("rain",on?"on":"off");cancelAnimationFr
 sizeRain();setRain(rainOn);addEventListener("resize",()=>{sizeRain();if(rainOn&&reduceMotion.matches)drawRain(true)});
 document.addEventListener("visibilitychange",()=>{if(document.hidden)cancelAnimationFrame(rainRaf);else if(rainOn)setRain(true)});
 CMDS.push({label:"Toggle rain",hint:"action",run:()=>{setRain(!rainOn);toast(rainOn?"Rain on":"Rain off. Must be August.")}});
+
+
+
+/* ===== Live Seattle wallpaper: real sun position + Sea-Tac weather ===== */
+const Scene=(function(){
+  const g=id=>document.getElementById(id);
+  const hx=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+  const mix=(a,b,t)=>"#"+hx(a).map((v,i)=>Math.round(v+(hx(b)[i]-v)*t).toString(16).padStart(2,"0")).join("");
+  function sun(d,lat=47.6205,lon=-122.3493){
+    const R=Math.PI/180,n=d/864e5+2440587.5-2451545,L=(280.46+.9856474*n)%360,G=((357.528+.9856003*n)%360)*R;
+    const lam=(L+1.915*Math.sin(G)+.02*Math.sin(2*G))*R,eps=23.439*R;
+    const dec=Math.asin(Math.sin(eps)*Math.sin(lam)),ra=Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam));
+    const ha=(((280.46061837+360.98564736629*n+lon)%360)*R-ra);
+    const el=Math.asin(Math.sin(lat*R)*Math.sin(dec)+Math.cos(lat*R)*Math.cos(dec)*Math.cos(ha))/R;
+    return {el,am:Math.sin(ha)<0};
+  }
+  function moonPhase(d){return(((d-Date.UTC(2000,0,6,18,14))/864e5)%29.530588+29.530588)%29.530588/29.530588}
+  function kindOf(desc){
+    const t=(desc||"").toLowerCase();
+    if(/thunder|storm/.test(t))return"storm";
+    if(/snow|sleet|ice|flurr/.test(t))return"snow";
+    if(/rain|drizzle|shower/.test(t))return/light|drizzle/.test(t)?"drizzle":"rain";
+    if(/fog|mist|haze|smoke/.test(t))return"fog";
+    if(/overcast/.test(t))return"overcast";
+    if(/mostly cloudy|^cloudy|considerable/.test(t))return"mostly";
+    if(/partly|few|scattered/.test(t))return"partly";
+    if(/clear|fair|sunny/.test(t))return"clear";
+    return"partly";
+  }
+  const SKY={night:["#050a1c","#0e1733","#1b2747"],twilight:["#141c46","#4b3e72","#d27f6c"],golden:["#3d6fc6","#e59c6e","#ffcf88"],day:["#1f5fc8","#5d9be6","#b9d6f2"]};
+  const GREY={night:"#1e242d",twilight:"#4a4b57",golden:"#8c8a92",day:"#a3acb6"};
+  const CITY={night:"#0a0f1c",twilight:"#1e1a2e",golden:"#3a3048",day:"#3e5568"};
+  const RAIN={night:["#25304e","#3d4a6c"],twilight:["#4a4570","#a996c4"],golden:["#8a6f8a","#ffd2a8"],day:["#8fa0bf","#ffffff"]};
+  const CLOUD={night:"#2a3245",twilight:"#8a7598",golden:"#f3c4a6",day:"#ffffff"};
+  const W={clear:{grey:0,clouds:0,rainier:1,fog:0},partly:{grey:.1,clouds:4,rainier:1,fog:0},mostly:{grey:.4,clouds:7,rainier:.8,fog:0},
+    overcast:{grey:.7,clouds:9,rainier:.35,fog:.12},drizzle:{grey:.72,clouds:9,rainier:.2,fog:.2,rain:90},rain:{grey:.8,clouds:9,rainier:.1,fog:.25,rain:170},
+    storm:{grey:.86,clouds:9,rainier:0,fog:.2,rain:240,flash:1},snow:{grey:.6,clouds:8,rainier:.25,fog:.2,snow:110},fog:{grey:.75,clouds:3,rainier:0,fog:.72}};
+  let raf=0,drops=[],mode=null,flashT=0,current=null;
+  function apply(date=new Date(),desc=null){
+    const s=sun(date),el=s.el,phase=el<-12?"night":el<-4?"twilight":el<8?"golden":"day";
+    const kind=kindOf(desc),w=W[kind];current={phase,kind,el:Math.round(el),am:s.am};
+    const sky=SKY[phase].map(c=>mix(c,GREY[phase],w.grey));
+    ["xs-s0","xs-s1","xs-s2"].forEach((id,i)=>g(id).setAttribute("stop-color",sky[i]));
+    g("xs-w0").setAttribute("stop-color",mix(sky[2],"#1a2a3a",.35));g("xs-w1").setAttribute("stop-color",mix(sky[1],"#0a1420",.6));
+    const clearish=w.grey<.5;
+    g("xs-stars").style.opacity=(phase==="night"?1:phase==="twilight"?.35:0)*(clearish?(1-w.grey*1.6):0);
+    /* sun: rises on the left in the morning, sets to the right in the evening */
+    const sunOn=el>-3&&clearish,sx=s.am?250+Math.min(1,Math.max(0,(el+3)/45))*550:800+Math.min(1,Math.max(0,1-(el+3)/45))*650,sy=600-Math.max(-3,el)*9;
+    g("xs-sun").setAttribute("transform",`translate(${Math.round(sx)} ${Math.round(Math.max(110,sy))})`);g("xs-sun").style.opacity=sunOn?(kind==="mostly"?.5:1):0;
+    const ph=moonPhase(date),moonOn=el<-4&&clearish;
+    g("xs-moon").setAttribute("transform","translate(1290 150)");g("xs-moon").style.opacity=moonOn?1:0;
+    const off=(ph<.5?-1:1)*62*Math.sin(Math.PI*ph);g("xs-moonshade").setAttribute("cx",off.toFixed(1));
+    g("xs-rbody").setAttribute("fill",mix(RAIN[phase][0],GREY[phase],w.grey*.6));g("xs-rribs").setAttribute("fill",mix(RAIN[phase][0],GREY[phase],w.grey*.6));
+    g("xs-rsnow").setAttribute("fill",mix(RAIN[phase][1],GREY[phase],w.grey*.5));g("xs-rainier").style.opacity=w.rainier;
+    const cc=mix(CLOUD[phase],GREY[phase],Math.min(1,w.grey*1.1));
+    document.querySelectorAll("#xs-clouds .cl").forEach((c,i)=>{c.style.opacity=i<w.clouds?(w.grey>.6?.95:.8):0;c.setAttribute("fill",cc)});
+    g("xs-city").setAttribute("fill",mix(CITY[phase],GREY[phase],w.grey*.25));
+    g("xs-ground").setAttribute("fill",mix("#132219",CITY[phase],.5));
+    const lit=phase==="night"?1:phase==="twilight"?.85:phase==="golden"?.3:(w.grey>.65?.15:0);
+    g("xs-lights").style.opacity=lit;g("xs-nlights").style.opacity=lit;
+    const fog=g("xs-fog");fog.style.opacity=w.fog;
+    precip(w.rain?"rain":w.snow?"snow":null,w.rain||w.snow||0,!!w.flash,phase);
+    return current;
+  }
+  function precip(kind,count,flash,phase){
+    const cv=g("xp-precip"),cx=cv.getContext("2d");cancelAnimationFrame(raf);mode=kind;
+    const size=()=>{const dpr=devicePixelRatio||1;cv.width=cv.clientWidth*dpr;cv.height=cv.clientHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0)};size();
+    const Wd=cv.clientWidth,Ht=cv.clientHeight;cx.clearRect(0,0,Wd,Ht);if(!kind)return;
+    const n=Math.round(count*Math.min(1.4,Wd/1200));
+    drops=Array.from({length:n},()=>({x:Math.random()*Wd,y:Math.random()*Ht,l:kind==="rain"?8+Math.random()*12:1.5+Math.random()*2.2,v:kind==="rain"?6+Math.random()*6:.6+Math.random()*1.1,p:Math.random()*6}));
+    const col=phase==="day"||phase==="golden"?"rgba(225,235,245,.55)":"rgba(180,200,230,.45)";
+    const loop=t=>{
+      cx.clearRect(0,0,Wd,Ht);
+      if(kind==="rain"){cx.strokeStyle=col;cx.lineWidth=1;cx.beginPath();
+        for(const d of drops){cx.moveTo(d.x,d.y);cx.lineTo(d.x-d.l*.2,d.y+d.l);d.y+=d.v;d.x-=d.v*.2;if(d.y>Ht){d.y=-d.l;d.x=Math.random()*(Wd+60)}}cx.stroke()}
+      else{cx.fillStyle="rgba(255,255,255,.9)";for(const d of drops){cx.beginPath();cx.arc(d.x,d.y,d.l,0,7);cx.fill();d.y+=d.v;d.x+=Math.sin(t/900+d.p)*.5;if(d.y>Ht){d.y=-4;d.x=Math.random()*Wd}}}
+      if(flash&&t-flashT>5200+Math.random()*4000){flashT=t;const f=g("xs-flash");f.style.transition="none";f.style.opacity=.55;setTimeout(()=>{f.style.transition="opacity .6s";f.style.opacity=0},90)}
+      raf=requestAnimationFrame(loop)};
+    raf=requestAnimationFrame(loop);
+  }
+  function stop(){cancelAnimationFrame(raf);const cv=g("xp-precip");cv.getContext("2d").clearRect(0,0,cv.width,cv.height)}
+  return {apply,stop,kindOf,get current(){return current}};
+})();
+const WX_ICON={clear:'<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="3.5" fill="#ffd84a"/><g stroke="#ffd84a" stroke-width="1.4"><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3 3l1.4 1.4M11.6 11.6L13 13M3 13l1.4-1.4M11.6 4.4L13 3"/></g></svg>',
+  cloud:'<svg viewBox="0 0 16 16"><path d="M4 12h8a3 3 0 0 0 0-6 4 4 0 0 0-7.6 1A2.6 2.6 0 0 0 4 12z" fill="#fff" stroke="#5a6b85" stroke-width=".8"/></svg>',
+  rain:'<svg viewBox="0 0 16 16"><path d="M4 10h8a3 3 0 0 0 0-6 4 4 0 0 0-7.6 1A2.6 2.6 0 0 0 4 10z" fill="#e8eef6" stroke="#5a6b85" stroke-width=".8"/><g stroke="#7fd0ff" stroke-width="1.2"><path d="M5 12l-1 2.5M8 12l-1 2.5M11 12l-1 2.5"/></g></svg>',
+  snow:'<svg viewBox="0 0 16 16"><path d="M4 10h8a3 3 0 0 0 0-6 4 4 0 0 0-7.6 1A2.6 2.6 0 0 0 4 10z" fill="#e8eef6" stroke="#5a6b85" stroke-width=".8"/><g fill="#fff"><circle cx="5" cy="13" r="1"/><circle cx="8.5" cy="14" r="1"/><circle cx="11.5" cy="12.6" r="1"/></g></svg>'};
+async function sceneWeather(){
+  const w=await SEA_WX,box=$("#xp-wx");
+  const desc=w?w.d:null,info=Scene.apply(new Date(),desc);
+  if(w&&box){const k=info.kind,ic=k==="clear"?WX_ICON.clear:/rain|drizzle|storm/.test(k)?WX_ICON.rain:k==="snow"?WX_ICON.snow:WX_ICON.cloud;
+    box.innerHTML=ic+(w.c==null?"":Math.round(w.c*9/5+32)+"°F");box.title=(w.d||"")+" at Sea-Tac";box.hidden=false}
+}
+/* ===== Intro splash: a small XP-style desktop ===== */
+const DIAL_GIF="/assets/images/dialing-connect.gif", IDLE_GIF="/assets/images/dialing-idle.gif", DIAL_MS=2450;
+const TXT_ICON='<svg viewBox="0 0 40 40"><path d="M9 3 H25 L32 10 V37 H9 Z" fill="#fff" stroke="#6b7a8c"/><path d="M25 3 V10 H32" fill="#dfe6ee" stroke="#6b7a8c"/><g fill="#7d8a99"><rect x="13" y="15" width="15" height="1.6"/><rect x="13" y="19" width="15" height="1.6"/><rect x="13" y="23" width="11" height="1.6"/><rect x="13" y="27" width="14" height="1.6"/></g></svg>';
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const WM=(function(){
+  const xp=$("#xp"),tasks=$("#xp-tasks");let z=20;const wins=new Map();
+  function setActive(id){wins.forEach((w,k)=>{const on=k===id&&!w.el.hidden;w.el.classList.toggle("active",on);w.task.classList.toggle("active",on)})}
+  function focus(id){const w=wins.get(id);if(!w)return;w.el.hidden=false;w.el.style.zIndex=++z;setActive(id)}
+  function minimize(id){const w=wins.get(id);if(!w)return;w.el.hidden=true;w.task.classList.remove("active")}
+  function close(id){const w=wins.get(id);if(!w)return;if(w.own)w.el.remove();else w.el.hidden=true;w.task.remove();wins.delete(id)}
+  function closeAll(){[...wins.keys()].forEach(close);$("#xp-dial").classList.remove("sel")}
+  function topmost(){let best=null,bz=-1;wins.forEach((w,k)=>{const zi=+w.el.style.zIndex||0;if(!w.el.hidden&&zi>bz){bz=zi;best=k}});return best}
+  function draggable(el,handle){
+    handle.addEventListener("pointerdown",e=>{
+      if(e.target.closest("button")||el.classList.contains("max")||innerWidth<=600)return;
+      const r=el.getBoundingClientRect();el.style.left=r.left+"px";el.style.top=r.top+"px";el.style.bottom="auto";el.style.transform="none";el.style.animation="none";
+      const dx=e.clientX-r.left,dy=e.clientY-r.top;handle.setPointerCapture(e.pointerId);
+      const move=ev=>{el.style.left=Math.min(innerWidth-60,Math.max(-r.width+80,ev.clientX-dx))+"px";el.style.top=Math.min(innerHeight-70,Math.max(0,ev.clientY-dy))+"px"};
+      const up=()=>{handle.removeEventListener("pointermove",move);handle.removeEventListener("pointerup",up)};
+      handle.addEventListener("pointermove",move);handle.addEventListener("pointerup",up);
+    });
+  }
+  function addTask(id,title,icon){
+    const t=document.createElement("button");t.type="button";t.className="xp-task";t.title=title;t.innerHTML=icon+`<span>${esc(title)}</span>`;
+    t.onclick=()=>{const w=wins.get(id);if(w.el.hidden)focus(id);else if(w.el.classList.contains("active"))minimize(id);else focus(id)};
+    tasks.appendChild(t);return t;
+  }
+  /* Register an element that already exists (the dialing window). */
+  function adopt(id,el,title,icon,handle){
+    if(wins.has(id)){focus(id);return}
+    wins.set(id,{el,task:addTask(id,title,icon),own:false});draggable(el,handle);
+    el.addEventListener("pointerdown",()=>focus(id));focus(id);
+  }
+  /* Create a new XP window. */
+  function open({id,title,icon,body,w=560,h=420,x,y,onReady}){
+    if(wins.has(id)){focus(id);return wins.get(id).el}
+    const n=wins.size,el=document.createElement("div");el.className="xpw";el.setAttribute("role","dialog");el.setAttribute("aria-label",title);
+    el.style.width=Math.min(w,innerWidth-16)+"px";el.style.height=Math.min(h,innerHeight-60)+"px";
+    el.style.left=(x??Math.max(8,Math.min(innerWidth-w-8,110+n*26)))+"px";el.style.top=(y??Math.max(8,24+n*26))+"px";
+    el.innerHTML=`<div class="xpw-bar"><span class="xpw-ico">${icon}</span><span class="xpw-title">${esc(title)}</span>
+      <button class="xpw-btn" type="button" data-a="min" aria-label="Minimize">_</button><button class="xpw-btn" type="button" data-a="max" aria-label="Maximize">&#9633;</button><button class="xpw-btn close" type="button" data-a="close" aria-label="Close">&#10005;</button></div>
+      <div class="xpw-body">${body}</div>`;
+    xp.insertBefore(el,$("#xp-cursor"));
+    wins.set(id,{el,task:addTask(id,title,icon),own:true});
+    const bar=el.querySelector(".xpw-bar");draggable(el,bar);
+    bar.addEventListener("dblclick",e=>{if(!e.target.closest("button"))el.classList.toggle("max")});
+    el.querySelector('[data-a="min"]').onclick=()=>minimize(id);
+    el.querySelector('[data-a="max"]').onclick=()=>el.classList.toggle("max");
+    el.querySelector('[data-a="close"]').onclick=()=>close(id);
+    el.addEventListener("pointerdown",()=>focus(id));
+    focus(id);if(onReady)onReady(el);return el;
+  }
+  return {open,adopt,focus,close,closeAll,topmost,has:id=>wins.has(id)};
+})();
+
+const Apps={
+  resume(){
+    const src=document.querySelector('section[data-route="resume"]').cloneNode(true);
+    const pdf=src.querySelector(".res-head a")?.getAttribute("href")||"/assets/Andrew_Dunne_Resume.pdf";
+    src.querySelector(".res-head")?.remove();src.querySelectorAll("[id]").forEach(n=>n.removeAttribute("id"));
+    WM.open({id:"resume",title:"Resume.pdf - dunne Reader",icon:$("#xp-res svg").outerHTML,w:720,h:Math.round(innerHeight*0.8),x:Math.max(8,Math.round(innerWidth*0.12)),y:16,
+      body:`<div class="xpw-menu"><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></div>
+        <div class="xpr-tools"><a class="xp-btn" href="${pdf}" target="_blank" rel="noopener">Download PDF</a><button class="xp-btn" type="button" data-go="resume">View on dunne.systems</button><span class="zoom">Page 1 of 1 &middot; 100%</span></div>
+        <div class="xpr-scroll"><article class="xpr-page"><h2 class="rname">ANDREW DUNNE</h2><div class="rcontact">Renton, WA &middot; andy@dunne.systems &middot; www.dunne.systems</div>${src.innerHTML}</article></div>`});
+  },
+  projects(){
+    WM.open({id:"projects",title:"Projects",icon:$("#xp-proj svg").outerHTML,w:660,h:440,x:Math.max(8,Math.round(innerWidth*0.22)),y:Math.round(innerHeight*0.12),
+      body:`<div class="xpw-menu"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Tools</span><span>Help</span></div>
+        <div class="xpe-tools"><button class="xpe-tb" type="button" data-nav="back"><b>&#8592;</b>Back</button><button class="xpe-tb" type="button" data-nav="up">&#8679; Up</button></div>
+        <div class="xpe-addr">Address <span class="xpe-path"></span></div>
+        <div class="xpe-main"><aside class="xpe-side"></aside><div class="xpe-files" role="list"></div></div>
+        <div class="xpe-status"></div>`,
+      onReady:el=>Apps.explore(el,null)});
+  },
+  explore(el,rackId){
+    const rack=RACKS.find(r=>r.id===rackId);
+    const files=el.querySelector(".xpe-files"),side=el.querySelector(".xpe-side");
+    el.querySelector(".xpe-path").textContent="C:\\dunne.systems\\Projects"+(rack?"\\"+rack.name:"");
+    el.querySelectorAll("[data-nav]").forEach(b=>{b.disabled=!rack;b.onclick=()=>Apps.explore(el,null)});
+    const dir=$("#xp-proj svg").outerHTML;
+    if(!rack){
+      files.innerHTML=RACKS.map(r=>`<button class="xpe-item" type="button" role="listitem" data-rack="${r.id}">${dir}<span>${r.name}</span></button>`).join("");
+      files.querySelectorAll("[data-rack]").forEach(b=>b.onclick=()=>Apps.explore(el,b.dataset.rack));
+      el.querySelector(".xpe-status").textContent=RACKS.length+" objects";
+    }else{
+      const ps=PROJECTS.filter(p=>p.rack===rack.id);
+      files.innerHTML=ps.map(p=>`<button class="xpe-item" type="button" role="listitem" data-p="${p.id}">${TXT_ICON}<span>${esc(p.name)}.txt</span></button>`).join("");
+      files.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>Apps.notepad(b.dataset.p));
+      el.querySelector(".xpe-status").innerHTML=ps.length+" objects &middot; Rack "+rack.code;
+    }
+    side.innerHTML=`<div class="xpe-panel"><h6>File and Folder Tasks</h6><div>
+        <button class="xpe-link" type="button" data-go="${rack?"p-"+PROJECTS.find(p=>p.rack===rack.id).id:"projects"}">View ${rack?"this rack":"all projects"} on the site</button></div></div>
+      <div class="xpe-panel"><h6>Other Places</h6><div>
+        <button class="xpe-link" type="button" data-app="resume">Resume.pdf</button>
+        <button class="xpe-link" type="button" data-go="home">dunne.systems</button></div></div>
+      <div class="xpe-panel"><h6>Details</h6><div><b>${rack?rack.name:"Projects"}</b><span>File Folder</span>${rack?`<span>Rack ${rack.code}, ${PROJECTS.filter(p=>p.rack===rack.id).length} of ${rack.size}U used</span>`:`<span>${PROJECTS.length} projects in ${RACKS.length} racks</span>`}</div></div>`;
+  },
+  notepad(pid){
+    const p=PROJECTS.find(x=>x.id===pid);
+    const text=`${p.name}\r\nRack ${p.rackCode} · ${p.rackName} · ${p.u} · ${p.status==="amber"?"completed":"running"}\r\n${"=".repeat(Math.min(48,p.name.length))}\r\n\r\n${p.desc}\r\n\r\nHow it works\r\n${p.notes.map(n=>"- "+n).join("\r\n")}\r\n\r\nStack: ${p.stack.join(", ")}\r\nTags: ${p.tags.map(t=>"#"+t).join(" ")}\r\n`;
+    WM.open({id:"np-"+pid,title:p.name+".txt - Notepad",icon:TXT_ICON,w:500,h:380,
+      body:`<div class="xpw-menu"><span>File</span><span>Edit</span><span>Format</span><span>View</span><span>Help</span></div><textarea class="xpn-text" readonly spellcheck="false" aria-label="${esc(p.name)}"></textarea>`,
+      onReady:el=>{el.querySelector("textarea").value=text}});
+  }
+};
+
+const Intro=(function(){
+  const xp=$("#xp");let timers=[],done=false,anims=[],start=null;
+  const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
+  const clock=()=>{const c=$("#xp-clock");if(c)c.textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/Los_Angeles",hour:"numeric",minute:"2-digit"}).format(new Date())};
+  function goLive(){if(xp.classList.contains("live"))return;xp.classList.add("live");anims.forEach(a=>a.cancel());anims=[]}
+  function finish(fast,hash){
+    if(done)return;done=true;timers.forEach(clearTimeout);anims.forEach(a=>a.cancel());
+    try{sessionStorage.setItem("introSeen","1")}catch(e){}
+    if(hash&&location.hash!=="#"+hash)location.hash=hash;
+    xp.classList.add("out");
+    setTimeout(()=>{document.documentElement.classList.remove("intro");xp.classList.remove("out","live","ready");WM.closeAll();Scene.stop()},fast?200:460);
+    removeEventListener("keydown",onKey,true);
+  }
+  function onKey(e){if(e.key==="Escape"){e.preventDefault();e.stopPropagation();finish(true)}}
+  function select(icon){document.querySelectorAll(".xp-icon").forEach(i=>i.classList.toggle("sel",i===icon))}
+  function play(){
+    done=false;timers=[];anims=[];start=null;WM.closeAll();
+    document.documentElement.classList.add("intro");
+    ["#xp-win","#xp-balloon","#xp-open"].forEach(s=>$(s).hidden=true);xp.classList.remove("ready","live");
+    select(null);$("#xp-cursor").classList.remove("wait");
+    clock();addEventListener("keydown",onKey,true);
+    Scene.apply(new Date(),null);sceneWeather();
+    [DIAL_GIF,IDLE_GIF].forEach(u=>{const i=new Image();i.src=u});
+    const cur=$("#xp-cursor"),icon=$("#xp-dial svg").getBoundingClientRect();
+    const W=innerWidth,H=innerHeight;
+    const from=[W*0.62,H*0.72],to=[icon.left+icon.width*0.55,icon.top+icon.height*0.55];
+    const at=(p,s=1)=>`translate(${p[0]}px,${p[1]}px) scale(${s})`;
+    cur.style.transform=at(from);
+    anims.push(cur.animate([{transform:at(from),opacity:0},{transform:at(from),opacity:1,offset:.12},{transform:at(to)}],{duration:1050,easing:"cubic-bezier(.45,.05,.3,1)",fill:"forwards"}));
+    const click=t=>later(()=>{if(!xp.classList.contains("live"))anims.push(cur.animate([{transform:at(to)},{transform:at(to,.86)},{transform:at(to)}],{duration:130,fill:"forwards"}))},t);
+    click(1150);later(()=>select($("#xp-dial")),1160);click(1330);
+    later(()=>{
+      const win=$("#xp-win");win.style.cssText="";$("#xp-gif").src=DIAL_GIF;win.hidden=false;cur.classList.add("wait");
+      WM.adopt("dial",win,"Dialing Progress",$("#xp-dial svg").outerHTML,win.querySelector(".xp-drag"));
+      if(!xp.classList.contains("live")){const r=win.getBoundingClientRect(),rest=[r.left+r.width*0.78,r.top+r.height*0.86];
+        anims.push(cur.animate([{transform:at(to)},{transform:at(rest)}],{duration:700,easing:"ease-in-out",fill:"forwards"}))}
+      later(()=>{
+        $("#xp-gif").src=IDLE_GIF; /* keep the data moving after it connects */
+        cur.classList.remove("wait");xp.classList.add("ready","live");
+        $("#xp-balloon").hidden=false;const o=$("#xp-open");o.hidden=false;
+        if(WM.topmost()==="dial")o.focus({preventScroll:true});
+        later(()=>{$("#xp-balloon").hidden=true},9000);
+      },DIAL_MS);
+    },1520);
+  }
+  /* The real pointer takes over as soon as the visitor moves it. */
+  xp.addEventListener("pointermove",e=>{if(!start){start=[e.clientX,e.clientY];return}if(Math.hypot(e.clientX-start[0],e.clientY-start[1])>6)goLive()});
+  xp.addEventListener("pointerdown",goLive);
+  xp.addEventListener("click",e=>{
+    const t=e.target;
+    if(t.closest("#xp-skip"))return finish(true);
+    const go=t.closest("[data-go]");if(go)return finish(false,go.dataset.go);
+    const app=t.closest("[data-app]");if(app)return Apps[app.dataset.app]();
+    if(t.closest("#xp-res")){select($("#xp-res"));return Apps.resume()}
+    if(t.closest("#xp-proj")){select($("#xp-proj"));return Apps.projects()}
+    if(t.closest("#xp-dial")){select($("#xp-dial"));if(WM.has("dial"))WM.focus("dial");return}
+    if(t.closest("#xp-open,#xp-balloon,.xp-x"))return finish(false);
+    if(!t.closest(".xpw,.xp-win,.xp-taskbar"))select(null);
+  });
+  return {play,finish};
+})();
+if(document.documentElement.classList.contains("intro"))Intro.play();
+CMDS.push({label:"Replay intro",hint:"action",run:()=>Intro.play()});
 
 renderProjects();route();
 </script>
