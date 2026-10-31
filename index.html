@@ -358,6 +358,61 @@ html.intro body{overflow:hidden}
   .xpw{left:4px!important;top:calc(4px + env(safe-area-inset-top,0px))!important;width:calc(100% - 8px)!important;height:calc(100% - 44px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))!important}
   .xpw-bar{cursor:default}.xpe-side{display:none}
 }
+.map-svg{position:absolute;left:0;top:0;width:1600px;height:1000px;overflow:visible}
+.map-svg .f0{fill:none;stroke:#062a36;stroke-width:12;opacity:.35;transform:translate(4px,5px)}
+.map-svg .f1{fill:none;stroke:#7fe3ff;stroke-width:9;opacity:.45}
+.map-svg .f2{fill:none;stroke:#eafcff;stroke-width:3}
+.map-svg .f3{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-dasharray:1 34;animation:pkt 1.6s linear infinite}
+@keyframes pkt{to{stroke-dashoffset:-35}}
+.map-svg .lbl{font:bold 19px "Courier New",Courier,monospace;fill:#ffe23a;stroke:#1a1206;stroke-width:5px;paint-order:stroke;stroke-linejoin:round;text-anchor:middle;letter-spacing:.5px}
+.map-svg .lm{cursor:pointer;outline:none}
+.map-svg .lm .art{transition:transform .18s ease;transform-box:fill-box;transform-origin:50% 100%}
+.map-svg .lm:hover .art,.map-svg .lm:focus-visible .art{transform:translateY(-7px) scale(1.07)}
+.map-svg .lm:hover .lbl,.map-svg .lm:focus-visible .lbl{fill:#fff}
+.map-svg .ring{fill:none;stroke:#ffe23a;stroke-width:3;opacity:0;transition:opacity .18s}
+.map-svg .lm:hover .ring,.map-svg .lm:focus-visible .ring{opacity:.9}
+.map-svg .lm[data-k="rainier"] .ring{rx:110;ry:30}
+.map-svg .led{fill:#45dd63;animation:ledb 1s steps(2) infinite}
+.map-svg .led2{fill:#7fd0ff}
+@keyframes ledb{50%{opacity:.3}}
+.map-svg .beacon{animation:ledb 1.4s steps(2) infinite}
+.map-svg .smoke circle{animation:smoke 3s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.map-svg .smoke circle:nth-child(2){animation-delay:1s}.map-svg .smoke circle:nth-child(3){animation-delay:2s}
+@keyframes smoke{0%{opacity:0;transform:translate(0,8px) scale(.6)}30%{opacity:.9}100%{opacity:0;transform:translate(6px,-14px) scale(1.4)}}
+.map-svg .flag{animation:flag 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:0 50%}
+@keyframes flag{to{transform:skewY(6deg) scaleX(.9)}}
+.map-svg .radar{animation:radar 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes radar{to{transform:rotate(-18deg)}}
+
+.map-tools{display:flex;align-items:center;gap:6px;padding:4px 8px;border-bottom:1px solid #d5d2c2;flex:none;flex-wrap:wrap}
+.map-tools .xp-btn{padding:2px 9px;min-width:26px}
+.map-zoom{width:120px;accent-color:#2766e6}
+.map-hint{margin-left:auto;color:#555}
+.map-view{position:relative;flex:1;min-height:0;overflow:hidden;background:#1d4f9a;cursor:grab;touch-action:none}
+.map-view.drag{cursor:grabbing}
+.map-stage{position:absolute;left:0;top:0;width:1600px;height:1000px;transform-origin:0 0;will-change:transform}
+.map-terrain{position:absolute;left:0;top:0;width:1600px;height:1000px;max-width:none;user-select:none;-webkit-user-drag:none;pointer-events:none}
+.map-tint{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;transition:background .8s}
+.map-hub{position:absolute;top:10px;right:10px;width:124px;padding:0;border:3px solid #1a1a1a;box-shadow:0 0 0 2px #ffe23a,3px 4px 10px rgba(0,0,0,.5);background:#6bb4f0;cursor:pointer;transition:transform .15s}
+.map-hub svg{display:block;width:100%;height:auto}
+.map-hub span{position:absolute;left:0;right:0;bottom:5px;font:bold 15px "Courier New",monospace;color:#ffe23a;text-align:center;
+  text-shadow:-2px -2px 0 #1a1206,2px -2px 0 #1a1206,-2px 2px 0 #1a1206,2px 2px 0 #1a1206}
+.map-hub:hover,.map-hub:focus-visible{transform:translateY(-3px)}
+.map-hub .hub-float{animation:hubf 3s ease-in-out infinite alternate}
+@keyframes hubf{to{transform:translateY(-4px)}}
+.map-status{display:flex;justify-content:space-between;gap:10px}
+.map-coord{font-variant-numeric:tabular-nums;color:#555;white-space:nowrap}
+.lm-info{flex:1;min-height:0;overflow:auto;padding:12px 14px;background:#fff;display:flex;flex-direction:column;gap:10px;font:12px/1.5 Tahoma,sans-serif;color:#111}
+.lm-info h4{margin:0;font:bold 15px Tahoma,sans-serif;color:#0b3a8a}
+.lm-info .when{color:#555;margin-top:-8px}
+.lm-info ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}
+.lm-info .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.lm-info code{font:13px "Lucida Console",monospace;background:#eef3f8;border:1px solid #c9d4e0;padding:2px 6px;user-select:all}
+.lm-info .pill{display:inline-block;font:bold 10px Tahoma,sans-serif;padding:1px 7px;border-radius:8px;color:#fff;background:#2f8f46;margin-right:6px}
+.lm-info .pill.prog{background:#c15504}
+.lm-info a{color:#0b3a8a}
+.lm-info p{margin:0;max-width:none}
+@media (max-width:600px){.map-hint,.map-zoom{display:none}.map-hub{width:92px}.map-hub span{font-size:12px}}
 @media (hover:none){.xp-skip kbd{display:none}}
 @media (max-width:560px){.xp-icon{width:70px}.xp-icon svg{width:34px;height:34px}.xp-start{font-size:0;padding-right:10px;gap:0}.xp-task{flex-basis:44px}.xp-task span{display:none}}
 </style>
@@ -403,11 +458,12 @@ html.intro body{overflow:hidden}
     <button class="xp-icon" id="xp-dial" type="button"><svg viewBox="0 0 40 40"><rect x="3" y="4" width="12" height="30" rx="1.5" fill="#2b333b" stroke="#111"/><g fill="#45dd63"><rect x="5" y="7" width="8" height="2"/><rect x="5" y="12" width="8" height="2"/><rect x="5" y="17" width="8" height="2"/></g><rect x="5" y="22" width="8" height="2" fill="#f07a1c"/>
 <rect x="20" y="10" width="17" height="14" rx="1.5" fill="#efe9d6" stroke="#6d6a5e"/><rect x="22.5" y="12.5" width="12" height="9" fill="#2a6ad8"/><rect x="24" y="15" width="9" height="4" fill="#fff"/><rect x="22" y="26" width="15" height="5" rx="1" fill="#e2dcc6" stroke="#6d6a5e"/>
 <path d="M15 20 Q19 30 22 28" fill="none" stroke="#7fe3ff" stroke-width="1.6"/></svg><span>dunne.systems</span></button>
+    <button class="xp-icon" id="xp-map" type="button"><svg viewBox="0 0 40 40"><path d="M4 9 L14 5 L26 9 L36 5 V31 L26 35 L14 31 L4 35 Z" fill="#7fc36a" stroke="#2e5a2a"/><path d="M14 5 L26 9 V35 L14 31 Z" fill="#5aa8ee"/><path d="M14 5 V31 M26 9 V35" stroke="#2e5a2a"/><path d="M6 25 Q16 18 22 22 T34 17" stroke="#fff" stroke-width="1.6" fill="none" stroke-dasharray="2 2"/><path d="M27 9 a5.5 5.5 0 0 1 11 0 c0 4.5 -5.5 10 -5.5 10 s-5.5 -5.5 -5.5 -10z" fill="#e23a2e" stroke="#7a1a12"/><circle cx="32.5" cy="9" r="2" fill="#fff"/></svg><span>Map</span></button>
     <button class="xp-icon" id="xp-res" type="button"><svg viewBox="0 0 40 40"><path d="M9 3 H25 L32 10 V37 H9 Z" fill="#fff" stroke="#6b7a8c"/><path d="M25 3 V10 H32" fill="#dfe6ee" stroke="#6b7a8c"/><rect x="9" y="22" width="23" height="9" fill="#d23a2e"/><text x="20.5" y="29.2" font-size="7" font-family="Tahoma,sans-serif" font-weight="bold" fill="#fff" text-anchor="middle">PDF</text><g fill="#9aa8b8"><rect x="13" y="13" width="14" height="1.6"/><rect x="13" y="17" width="10" height="1.6"/></g></svg><span>Resume.pdf</span></button>
     <button class="xp-icon" id="xp-proj" type="button"><svg viewBox="0 0 40 40"><path d="M3 10 H15 L18 13 H37 V34 H3 Z" fill="#e8b83a" stroke="#a87b12"/><path d="M3 16 H37 V34 H3 Z" fill="#f6d36b" stroke="#a87b12"/></svg><span>Projects</span></button>
   </div>
   <div class="xp-win" id="xp-win" hidden><img id="xp-gif" width="640" height="460" alt="Dialing Progress window: connecting to dunne.systems over fiber, then Connected."><div class="xp-drag" aria-hidden="true"></div><button class="xp-x" type="button" aria-label="Close and open the site"></button><button class="xp-open" id="xp-open" type="button" hidden>Open dunne.systems</button></div>
-  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps. Click <u>Open dunne.systems</u> to enter.</div>
+  <div class="xp-balloon" id="xp-balloon" hidden><b><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg> Connected to dunne.systems</b>Speed: 10.0 Gbps. Click <u>Open dunne.systems</u> to enter, or open <u>Map</u> to explore.</div>
   <svg class="xp-cursor" id="xp-cursor" viewBox="0 0 22 33" aria-hidden="true"><path d="M1 1 L1 24 L6.5 18.5 L10.5 27.5 L14 26 L10 17.2 L17.5 17.2 Z" fill="#fff" stroke="#000" stroke-width="1.3" stroke-linejoin="round"/>
 <g class="busy"><path d="M13 20 h8 v1.5 l-3 3.5 l3 3.5 v1.5 h-8 v-1.5 l3 -3.5 l-3 -3.5 Z" fill="#fff" stroke="#000" stroke-width="1"/><path d="M15 27.5 h4 l-2 -2 Z" fill="#c8a24a"/></g></svg>
   <button class="xp-skip" id="xp-skip" type="button">Skip intro <kbd>Esc</kbd></button>
@@ -416,6 +472,61 @@ html.intro body{overflow:hidden}
 <rect width="64" height="64" fill="url(#xs1)"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 V66 H-2 Z" fill="#6b4f6e"/><path d="M-2 35.7 L0.0 35.1 L3.2 33.2 L8.0 31.3 L15.0 27.6 L19.2 21.0 L22.4 18.6 L25.3 16.7 L26.2 14.9 L27.9 18.4 L29.2 17.0 L31.4 14.4 L33.8 15.0 L35.6 18.0 L37.4 15.4 L39.0 18.4 L41.0 21.0 L44.8 26.2 L51.2 30.4 L57.6 34.1 L64.0 37.4 L66 38.0 L66 39 L62 41 L59 38.5 L56 41.5 L53 38 L50 41 L47 37.5 L44 40.5 L41 37 L38 40.5 L35 36.5 L32 40 L29 37 L26 40.5 L23 37.5 L20 40.5 L17 38 L14 40.5 L11 38 L8 40 L5 38 L2 39.5 L-2 39 Z" fill="url(#xa1)"/><path d="M27.8 18.2 L22.5 26 L23.6 26.4 Z" fill="#9a6a7a"/><path d="M35.5 18.4 L31.5 27.5 L32.8 27.8 Z" fill="#9a6a7a"/><path d="M38.2 18.6 L43 27 L41.8 27.4 Z" fill="#9a6a7a"/><path d="M16 28.5 L12 34.5 L13.4 34.7 Z" fill="#9a6a7a"/><path d="M47 29 L51.5 35.5 L50.2 35.8 Z" fill="#9a6a7a"/><path d="M-2 56 L4 51 L8 54 L13 49 L18 54 L23 50 L28 55 L33 50 L38 54 L43 49 L48 54 L53 49 L58 53 L66 49 V66 H-2 Z" fill="#0f1d26"/></g></svg>start</span><div class="xp-tasks" id="xp-tasks"></div>
     <span class="xp-tray"><span class="xp-wx" id="xp-wx" hidden></span><svg viewBox="0 0 16 16"><rect x="1" y="3" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="7" y="7" width="8" height="6" fill="#dfe8f5" stroke="#1d3f7a"/><rect x="2.5" y="4.5" width="5" height="3" fill="#3a78d8" id="xp-net1"/><rect x="8.5" y="8.5" width="5" height="3" fill="#3a78d8" id="xp-net2"/></svg><span id="xp-clock"></span></span></div>
 </div>
+<template id="map-tpl"><svg class="map-svg" viewBox="0 0 1600 1000" width="1600" height="1000" aria-hidden="false"><path id="ferryroute" d="M430 300 C520 270 620 330 712 318" fill="none"/><g class="ferry"><path d="M-30 0 Q0 7 30 0 L26 -7 H-26 Z" fill="#f4f6f9" stroke="#2b3440" stroke-width="1.2"/><rect x="-16" y="-14" width="30" height="7" fill="#fff" stroke="#2b3440" stroke-width="1"/><rect x="-6" y="-21" width="12" height="7" fill="#e9eef3" stroke="#2b3440" stroke-width="1"/><path d="M-14 -11 H12" stroke="#2e7d4a" stroke-width="2"/><rect x="2" y="-27" width="3" height="6" fill="#2b3440"/><path d="M-30 3 Q-46 6 -62 2" stroke="#d8f2ff" stroke-width="2.5" fill="none" opacity=".8"/><animateMotion dur="38s" repeatCount="indefinite" rotate="0" keyPoints="0;1;1;0;0" keyTimes="0;.42;.5;.92;1" calcMode="linear"><mpath href="#ferryroute"/></animateMotion></g><g class="fiber"><path d="M240 348 C270 332 360 255 420 250 C480 245 543 309 600 318 C657 327 728 287 760 302 C792 317 774 374 790 410 C806 446 831 491 858 516 C885 541 924 541 950 560 C976 579 1018 606 1015 628 C1012 650 960 670 930 690 C900 710 830 728 835 748 C840 768 918 793 960 810 C1002 827 1037 845 1085 848 C1133 851 1199 837 1250 830 C1301 823 1367 812 1390 808" class="f0"/><path d="M240 348 C270 332 360 255 420 250 C480 245 543 309 600 318 C657 327 728 287 760 302 C792 317 774 374 790 410 C806 446 831 491 858 516 C885 541 924 541 950 560 C976 579 1018 606 1015 628 C1012 650 960 670 930 690 C900 710 830 728 835 748 C840 768 918 793 960 810 C1002 827 1037 845 1085 848 C1133 851 1199 837 1250 830 C1301 823 1367 812 1390 808" class="f1"/><path d="M240 348 C270 332 360 255 420 250 C480 245 543 309 600 318 C657 327 728 287 760 302 C792 317 774 374 790 410 C806 446 831 491 858 516 C885 541 924 541 950 560 C976 579 1018 606 1015 628 C1012 650 960 670 930 690 C900 710 830 728 835 748 C840 768 918 793 960 810 C1002 827 1037 845 1085 848 C1133 851 1199 837 1250 830 C1301 823 1367 812 1390 808" class="f2"/><path d="M240 348 C270 332 360 255 420 250 C480 245 543 309 600 318 C657 327 728 287 760 302 C792 317 774 374 790 410 C806 446 831 491 858 516 C885 541 924 541 950 560 C976 579 1018 606 1015 628 C1012 650 960 670 930 690 C900 710 830 728 835 748 C840 768 918 793 960 810 C1002 827 1037 845 1085 848 C1133 851 1199 837 1250 830 C1301 823 1367 812 1390 808" class="f3"/><path d="M858 516 C835 528 761 556 720 590 C679 624 640 682 610 720 C580 758 563 788 540 820 C517 852 482 899 470 915" class="f0"/><path d="M858 516 C835 528 761 556 720 590 C679 624 640 682 610 720 C580 758 563 788 540 820 C517 852 482 899 470 915" class="f1"/><path d="M858 516 C835 528 761 556 720 590 C679 624 640 682 610 720 C580 758 563 788 540 820 C517 852 482 899 470 915" class="f2"/><path d="M858 516 C835 528 761 556 720 590 C679 624 640 682 610 720 C580 758 563 788 540 820 C517 852 482 899 470 915" class="f3"/></g><g class="lm" data-k="needle" transform="translate(760 290) scale(1.3)" tabindex="0" role="button" aria-label="Space Needle (Contact)"><rect class="hit" x="-55.0" y="-170" width="110" height="256" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="34" ry="9" fill="#000" opacity=".32"/>
+<path d="M-10 -78 L-26 0 H-18 L-4 -60 L0 -66 L4 -60 L18 0 H26 L10 -78 Z" fill="#dfe4ea" stroke="#5d6672" stroke-width="1.5"/>
+<path d="M4 -60 L18 0 H26 L10 -78 Z" fill="#b6bec9"/>
+<rect x="-13" y="-62" width="26" height="4" fill="#c9cfd8" stroke="#5d6672"/>
+<rect x="-3" y="-130" width="6" height="60" fill="#c9cfd8" stroke="#5d6672" stroke-width="1"/>
+<path d="M-40 -136 Q0 -152 40 -136 L32 -126 Q0 -118 -32 -126 Z" fill="#f4f6f9" stroke="#4d5662" stroke-width="1.5"/>
+<path d="M-32 -126 Q0 -118 32 -126 L28 -121 Q0 -114 -28 -121 Z" fill="#9aa6b6"/>
+<g fill="#ffd25a"><rect x="-30" y="-133" width="4" height="3"/><rect x="-22" y="-133" width="4" height="3"/><rect x="-14" y="-133" width="4" height="3"/><rect x="-6" y="-133" width="4" height="3"/><rect x="2" y="-133" width="4" height="3"/><rect x="10" y="-133" width="4" height="3"/><rect x="18" y="-133" width="4" height="3"/><rect x="26" y="-133" width="4" height="3"/></g>
+<path d="M-14 -146 Q0 -152 14 -146 L10 -141 H-10 Z" fill="#e8743a" stroke="#4d5662"/>
+<rect x="-1.2" y="-176" width="2.4" height="30" fill="#8a94a3"/><circle class="beacon" cx="0" cy="-177" r="2.6" fill="#ff4a3a"/></g><text class="lbl" y="34"><tspan x="0" dy="0">Space Needle</tspan><tspan x="0" dy="21">(Contact)</tspan></text></g><g class="lm" data-k="akamai" transform="translate(858 505) scale(1.3)" tabindex="0" role="button" aria-label="Akamai Data Center"><rect class="hit" x="-70.0" y="-90" width="140" height="166" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="58" ry="13" fill="#000" opacity=".32"/>
+<path d="M-56 -8 L0 14 L56 -8 L56 -46 L0 -24 L-56 -46 Z" fill="#8f9aa8"/>
+<path d="M0 14 L56 -8 L56 -46 L0 -24 Z" fill="#6c7786"/>
+<path d="M-56 -46 L0 -68 L56 -46 L0 -24 Z" fill="#c9d1db" stroke="#4d5662" stroke-width="1"/>
+<path d="M-56 -8 L0 14 L56 -8 L56 -46 L0 -24 L-56 -46 Z" fill="none" stroke="#3d4652" stroke-width="1.5"/>
+<g><path d="M-26 -52 L-12 -46 L2 -52 L-12 -58 Z" fill="#e6ebf1" stroke="#4d5662"/><path d="M-26 -52 V-58 L-12 -64 L2 -58 V-52" fill="none" stroke="#4d5662"/><circle cx="-12" cy="-58" r="4" fill="#9aa6b6" stroke="#4d5662"/>
+<path d="M14 -44 L26 -39 L38 -44 L26 -49 Z" fill="#e6ebf1" stroke="#4d5662"/><circle cx="26" cy="-47" r="3.5" fill="#9aa6b6" stroke="#4d5662"/></g>
+<path d="M-50 -22 L-6 -5" stroke="#e8743a" stroke-width="4"/>
+<g transform="matrix(1 .39 0 1 -50 -40)"><rect class="led" x="0" y="0" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="4" y="0" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="8" y="0" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="12" y="0" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="16" y="0" width="3" height="3" style="animation-delay:0.8s"/><rect class="led" x="20" y="0" width="3" height="3" style="animation-delay:0.5s"/><rect class="led" x="24" y="0" width="3" height="3" style="animation-delay:0.2s"/><rect class="led" x="28" y="0" width="3" height="3" style="animation-delay:0.9s"/><rect class="led" x="32" y="0" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="36" y="0" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="40" y="0" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="0" y="6" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="4" y="6" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="8" y="6" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="12" y="6" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="16" y="6" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="20" y="6" width="3" height="3" style="animation-delay:0.8s"/><rect class="led" x="24" y="6" width="3" height="3" style="animation-delay:0.5s"/><rect class="led" x="28" y="6" width="3" height="3" style="animation-delay:0.2s"/><rect class="led" x="32" y="6" width="3" height="3" style="animation-delay:0.9s"/><rect class="led" x="36" y="6" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="40" y="6" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="0" y="12" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="4" y="12" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="8" y="12" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="12" y="12" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="16" y="12" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="20" y="12" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="24" y="12" width="3" height="3" style="animation-delay:0.8s"/><rect class="led" x="28" y="12" width="3" height="3" style="animation-delay:0.5s"/><rect class="led" x="32" y="12" width="3" height="3" style="animation-delay:0.2s"/><rect class="led" x="36" y="12" width="3" height="3" style="animation-delay:0.9s"/><rect class="led" x="40" y="12" width="3" height="3" style="animation-delay:0.6s"/></g>
+<g transform="matrix(1 -.39 0 1 6 -14)"><rect class="led led2" x="0" y="0" width="3" height="3" style="animation-delay:0.0s"/><rect class="led led2" x="4" y="0" width="3" height="3" style="animation-delay:0.7s"/><rect class="led led2" x="8" y="0" width="3" height="3" style="animation-delay:0.4s"/><rect class="led led2" x="12" y="0" width="3" height="3" style="animation-delay:0.1s"/><rect class="led led2" x="16" y="0" width="3" height="3" style="animation-delay:0.8s"/><rect class="led led2" x="20" y="0" width="3" height="3" style="animation-delay:0.5s"/><rect class="led led2" x="24" y="0" width="3" height="3" style="animation-delay:0.2s"/><rect class="led led2" x="28" y="0" width="3" height="3" style="animation-delay:0.9s"/><rect class="led led2" x="32" y="0" width="3" height="3" style="animation-delay:0.6s"/><rect class="led led2" x="36" y="0" width="3" height="3" style="animation-delay:0.3s"/><rect class="led led2" x="40" y="0" width="3" height="3" style="animation-delay:0.0s"/><rect class="led led2" x="0" y="6" width="3" height="3" style="animation-delay:0.3s"/><rect class="led led2" x="4" y="6" width="3" height="3" style="animation-delay:0.0s"/><rect class="led led2" x="8" y="6" width="3" height="3" style="animation-delay:0.7s"/><rect class="led led2" x="12" y="6" width="3" height="3" style="animation-delay:0.4s"/><rect class="led led2" x="16" y="6" width="3" height="3" style="animation-delay:0.1s"/><rect class="led led2" x="20" y="6" width="3" height="3" style="animation-delay:0.8s"/><rect class="led led2" x="24" y="6" width="3" height="3" style="animation-delay:0.5s"/><rect class="led led2" x="28" y="6" width="3" height="3" style="animation-delay:0.2s"/><rect class="led led2" x="32" y="6" width="3" height="3" style="animation-delay:0.9s"/><rect class="led led2" x="36" y="6" width="3" height="3" style="animation-delay:0.6s"/><rect class="led led2" x="40" y="6" width="3" height="3" style="animation-delay:0.3s"/><rect class="led led2" x="0" y="12" width="3" height="3" style="animation-delay:0.6s"/><rect class="led led2" x="4" y="12" width="3" height="3" style="animation-delay:0.3s"/><rect class="led led2" x="8" y="12" width="3" height="3" style="animation-delay:0.0s"/><rect class="led led2" x="12" y="12" width="3" height="3" style="animation-delay:0.7s"/><rect class="led led2" x="16" y="12" width="3" height="3" style="animation-delay:0.4s"/><rect class="led led2" x="20" y="12" width="3" height="3" style="animation-delay:0.1s"/><rect class="led led2" x="24" y="12" width="3" height="3" style="animation-delay:0.8s"/><rect class="led led2" x="28" y="12" width="3" height="3" style="animation-delay:0.5s"/><rect class="led led2" x="32" y="12" width="3" height="3" style="animation-delay:0.2s"/><rect class="led led2" x="36" y="12" width="3" height="3" style="animation-delay:0.9s"/><rect class="led led2" x="40" y="12" width="3" height="3" style="animation-delay:0.6s"/></g>
+<rect x="40" y="-86" width="2" height="34" fill="#4d5662"/><circle class="beacon" cx="41" cy="-87" r="2.4" fill="#ff4a3a"/></g><text class="lbl" y="34"><tspan x="0" dy="0">Akamai</tspan><tspan x="0" dy="21">Data Center</tspan></text></g><g class="lm" data-k="homelab" transform="translate(1015 615) scale(1.3)" tabindex="0" role="button" aria-label="Home Lab (Renton)"><rect class="hit" x="-60.0" y="-110" width="120" height="176" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="50" ry="12" fill="#000" opacity=".32"/>
+<path d="M-44 0 V-40 L-20 -62 L4 -40 V0 Z" fill="#efe3c8" stroke="#5a4a30" stroke-width="1.5"/>
+<path d="M-48 -38 L-20 -66 L8 -38" fill="none" stroke="#8e2f22" stroke-width="7" stroke-linejoin="round"/>
+<rect x="-30" y="-30" width="9" height="9" fill="#9fd3ff" stroke="#5a4a30"/><rect x="-14" y="-30" width="9" height="9" fill="#9fd3ff" stroke="#5a4a30"/>
+<rect x="-26" y="-16" width="11" height="16" fill="#6b4a2a"/>
+<path d="M4 0 V-34 L46 -34 V0 Z" fill="#e3d6b8" stroke="#5a4a30" stroke-width="1.5"/><path d="M0 -34 L50 -34 L46 -42 L4 -42 Z" fill="#8e2f22"/>
+<rect x="10" y="-28" width="30" height="28" fill="#1a1f25"/><rect x="10" y="-28" width="30" height="5" fill="#b9b2a0" stroke="#5a4a30"/>
+<rect x="15" y="-22" width="20" height="22" fill="#2b333b" stroke="#0d1014"/><rect class="led" x="18" y="-19" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="22" y="-19" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="26" y="-19" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="30" y="-19" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="18" y="-15" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="22" y="-15" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="26" y="-15" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="30" y="-15" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="18" y="-11" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="22" y="-11" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="26" y="-11" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="30" y="-11" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="18" y="-7" width="3" height="3" style="animation-delay:0.9s"/><rect class="led" x="22" y="-7" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="26" y="-7" width="3" height="3" style="animation-delay:0.3s"/><rect class="led" x="30" y="-7" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="18" y="-3" width="3" height="3" style="animation-delay:0.2s"/><rect class="led" x="22" y="-3" width="3" height="3" style="animation-delay:0.9s"/><rect class="led" x="26" y="-3" width="3" height="3" style="animation-delay:0.6s"/><rect class="led" x="30" y="-3" width="3" height="3" style="animation-delay:0.3s"/>
+<rect x="-12" y="-76" width="7" height="16" fill="#7a3a2a"/>
+<g class="smoke" fill="#e9eef3"><circle cx="-8" cy="-82" r="5"/><circle cx="-4" cy="-92" r="6"/><circle cx="2" cy="-103" r="7"/></g></g><text class="lbl" y="34"><tspan x="0" dy="0">Home Lab</tspan><tspan x="0" dy="21">(Renton)</tspan></text></g><g class="lm" data-k="school" transform="translate(835 735) scale(1.3)" tabindex="0" role="button" aria-label="High School Labs"><rect class="hit" x="-80.0" y="-75" width="160" height="146" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="60" ry="12" fill="#000" opacity=".32"/>
+<rect x="-56" y="-30" width="96" height="30" fill="#d9b36a" stroke="#5a4520" stroke-width="1.5"/><rect x="-60" y="-34" width="104" height="5" fill="#8a6a3a"/>
+<g fill="#cfe8ff" stroke="#5a4520"><rect x="-48" y="-24" width="9" height="9"/><rect x="-34" y="-24" width="9" height="9"/><rect x="-20" y="-24" width="9" height="9"/><rect x="-6" y="-24" width="9" height="9"/><rect x="8" y="-24" width="9" height="9"/><rect x="22" y="-24" width="9" height="9"/></g>
+<rect x="-8" y="-12" width="14" height="12" fill="#6b4a2a"/>
+<rect x="-50" y="-70" width="2" height="40" fill="#6d737b"/><path d="M-48 -70 H-28 V-58 H-48 Z" fill="#2e5d8a"/><path d="M-48 -64 H-28" stroke="#fff" stroke-width="2"/>
+<g transform="translate(46 0)"><rect x="0" y="-8" width="26" height="8" fill="#2b5fa8" stroke="#0e2448"/><rect x="2" y="-16" width="24" height="8" fill="#3a74c4" stroke="#0e2448"/><rect x="-1" y="-24" width="25" height="8" fill="#2b5fa8" stroke="#0e2448"/><rect class="led" x="3" y="-6" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="7" y="-6" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="11" y="-6" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="15" y="-6" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="19" y="-6" width="3" height="3" style="animation-delay:0.8s"/><rect class="led" x="5" y="-14" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="9" y="-14" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="13" y="-14" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="17" y="-14" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="21" y="-14" width="3" height="3" style="animation-delay:0.8s"/><rect class="led" x="2" y="-22" width="3" height="3" style="animation-delay:0.0s"/><rect class="led" x="6" y="-22" width="3" height="3" style="animation-delay:0.7s"/><rect class="led" x="10" y="-22" width="3" height="3" style="animation-delay:0.4s"/><rect class="led" x="14" y="-22" width="3" height="3" style="animation-delay:0.1s"/><rect class="led" x="18" y="-22" width="3" height="3" style="animation-delay:0.8s"/></g></g><text class="lbl" y="34"><tspan x="0" dy="0">High School</tspan><tspan x="0" dy="21">Labs</tspan></text></g><g class="lm" data-k="grc" transform="translate(1085 835) scale(1.3)" tabindex="0" role="button" aria-label="Green River College"><rect class="hit" x="-70.0" y="-100" width="140" height="176" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="62" ry="13" fill="#000" opacity=".32"/>
+<rect x="-58" y="-40" width="116" height="40" fill="#b5523a" stroke="#4a2218" stroke-width="1.5"/>
+<g fill="#f4efe4" stroke="#7a6a58"><rect x="-20" y="-38" width="6" height="38"/><rect x="-8" y="-38" width="6" height="38"/><rect x="4" y="-38" width="6" height="38"/><rect x="16" y="-38" width="6" height="38"/></g>
+<path d="M-28 -40 L0 -58 L28 -40 Z" fill="#f4efe4" stroke="#7a6a58" stroke-width="1.5"/>
+<g fill="#ffe79a" stroke="#4a2218"><rect x="-52" y="-30" width="8" height="10"/><rect x="-52" y="-15" width="8" height="10"/><rect x="-40" y="-30" width="8" height="10"/><rect x="-40" y="-15" width="8" height="10"/><rect x="32" y="-30" width="8" height="10"/><rect x="32" y="-15" width="8" height="10"/><rect x="44" y="-30" width="8" height="10"/><rect x="44" y="-15" width="8" height="10"/></g>
+<rect x="-8" y="-86" width="16" height="30" fill="#c86a4e" stroke="#4a2218"/><path d="M-11 -86 L0 -98 L11 -86 Z" fill="#2e5d8a" stroke="#1a2a3a"/>
+<circle cx="0" cy="-74" r="5.5" fill="#fff" stroke="#4a2218"/><path d="M0 -74 V-77.5 M0 -74 H2.5" stroke="#1a1a1a" stroke-width="1"/>
+<rect x="-40" y="6" width="80" height="14" rx="2" fill="#1b3f8a" stroke="#0b1a3a"/><text x="0" y="16.5" font-size="9" font-weight="bold" fill="#ffe23a" text-anchor="middle" font-family="Tahoma,sans-serif">PC REPAIR SHOP</text></g><text class="lbl" y="34"><tspan x="0" dy="0">Green River</tspan><tspan x="0" dy="21">College</tspan></text></g><g class="lm" data-k="pisces" transform="translate(470 905) scale(1.3)" tabindex="0" role="button" aria-label="PISCES SOC"><rect class="hit" x="-75.0" y="-75" width="150" height="146" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="60" ry="12" fill="#000" opacity=".32"/>
+<rect x="-50" y="-34" width="80" height="34" fill="#dfe2e6" stroke="#4d5662" stroke-width="1.5"/>
+<path d="M-24 -34 Q-10 -62 4 -34 Z" fill="#c9a24a" stroke="#6a5420" stroke-width="1.5"/><rect x="-11" y="-68" width="2" height="10" fill="#6a5420"/>
+<g fill="#f4f6f9" stroke="#8a94a3"><rect x="-44" y="-30" width="5" height="30"/><rect x="-34" y="-30" width="5" height="30"/><rect x="-24" y="-30" width="5" height="30"/><rect x="-14" y="-30" width="5" height="30"/><rect x="-4" y="-30" width="5" height="30"/><rect x="6" y="-30" width="5" height="30"/><rect x="16" y="-30" width="5" height="30"/><rect x="24" y="-30" width="5" height="30"/></g>
+<path d="M-56 -34 H36 L30 -40 H-50 Z" fill="#b6bec9" stroke="#4d5662"/>
+<g transform="translate(46 0)"><path d="M0 0 L8 -26 L16 0 M8 -26 V0" stroke="#4d5662" stroke-width="2" fill="none"/>
+<g class="radar"><path d="M-8 -40 Q8 -20 26 -36 Q12 -52 -8 -40 Z" fill="#eef1f5" stroke="#4d5662" stroke-width="1.5"/><path d="M9 -38 L18 -48" stroke="#4d5662" stroke-width="1.5"/><circle cx="18" cy="-48" r="2" fill="#e8743a"/></g></g></g><text class="lbl" y="34"><tspan x="0" dy="0">PISCES SOC</tspan></text></g><g class="lm" data-k="ccdc" transform="translate(235 330) scale(1.3)" tabindex="0" role="button" aria-label="PRCCDC Arena"><rect class="hit" x="-65.0" y="-90" width="130" height="166" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><ellipse class="sh" cx="10" cy="3" rx="56" ry="13" fill="#000" opacity=".32"/>
+<rect x="-40" y="-40" width="80" height="40" fill="#9aa1aa" stroke="#3d4450" stroke-width="1.5"/>
+<g fill="#9aa1aa" stroke="#3d4450" stroke-width="1.5"><rect x="-40" y="-48" width="8" height="8"/><rect x="-24" y="-48" width="8" height="8"/><rect x="-8" y="-48" width="8" height="8"/><rect x="8" y="-48" width="8" height="8"/><rect x="24" y="-48" width="8" height="8"/></g>
+<rect x="-56" y="-62" width="22" height="62" fill="#868d97" stroke="#3d4450" stroke-width="1.5"/><rect x="34" y="-62" width="22" height="62" fill="#868d97" stroke="#3d4450" stroke-width="1.5"/>
+<g fill="#868d97" stroke="#3d4450"><rect x="-56" y="-70" width="6" height="8"/><rect x="-48" y="-70" width="6" height="8"/><rect x="-40" y="-70" width="6" height="8"/><rect x="34" y="-70" width="6" height="8"/><rect x="42" y="-70" width="6" height="8"/><rect x="50" y="-70" width="6" height="8"/></g>
+<path d="M-12 0 V-20 Q0 -32 12 -20 V0 Z" fill="#3a2a1a" stroke="#1a120a"/>
+<rect x="-46" y="-48" width="4" height="10" fill="#1a1f25"/><rect x="44" y="-48" width="4" height="10" fill="#1a1f25"/>
+<rect x="-1" y="-86" width="2" height="38" fill="#3d4450"/><path class="flag" d="M1 -86 Q12 -90 22 -84 Q12 -78 1 -80 Z" fill="#d23a2e"/>
+<g transform="translate(0 -24)"><path d="M-9 -12 H9 V0 Q9 9 0 13 Q-9 9 -9 0 Z" fill="#2e5d8a" stroke="#ffe23a" stroke-width="1.5"/><path d="M-4 0 L-1 4 L5 -4" stroke="#ffe23a" stroke-width="2" fill="none"/></g></g><text class="lbl" y="34"><tspan x="0" dy="0">PRCCDC</tspan><tspan x="0" dy="21">Arena</tspan></text></g><g class="lm" data-k="rainier" transform="translate(1450 840) scale(1.3)" tabindex="0" role="button" aria-label="Mt. Rainier (About me)"><rect class="hit" x="-80.0" y="-100" width="160" height="206" fill="transparent"/><ellipse class="ring" cx="0" cy="2" rx="62" ry="16"/><g class="art"><circle r="90" fill="transparent"/><g transform="translate(0 -6)"><rect x="-1" y="-40" width="2.5" height="40" fill="#5a4a30"/><path class="flag" d="M1.5 -40 L22 -33 L1.5 -26 Z" fill="#ffe23a" stroke="#5a4a30"/></g></g><text class="lbl" y="-60"><tspan x="0" dy="0">Mt. Rainier</tspan><tspan x="0" dy="21">(About me)</tspan></text></g></svg></template>
 <div class="wrap">
   <header class="masthead">
     <canvas id="rain" aria-hidden="true"></canvas>
@@ -991,8 +1102,9 @@ const WM=(function(){
   /* Register an element that already exists (the dialing window). */
   function adopt(id,el,title,icon,handle){
     if(wins.has(id)){focus(id);return}
-    wins.set(id,{el,task:addTask(id,title,icon),own:false});draggable(el,handle);
-    el.addEventListener("pointerdown",()=>focus(id));focus(id);
+    const busy=wins.size>0;wins.set(id,{el,task:addTask(id,title,icon),own:false});draggable(el,handle);
+    el.addEventListener("pointerdown",()=>focus(id));
+    if(busy){el.hidden=false;el.style.zIndex=10;el.classList.remove("active")}else focus(id); /* don't jump in front of a window the visitor already opened */
   }
   /* Create a new XP window. */
   function open({id,title,icon,body,w=560,h=420,x,y,onReady}){
@@ -1067,6 +1179,108 @@ const Apps={
   }
 };
 
+
+/* ===== Map.exe: an explorable Puget Sound map ===== */
+const MAP_TERRAIN="/assets/images/map-terrain.jpg";
+const MAP_ICON=$("#xp-map svg").outerHTML;
+const HUB_SVG=`<svg viewBox="0 0 124 110" aria-hidden="true"><defs><linearGradient id="hubsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7fe0"/><stop offset="1" stop-color="#bfe2ff"/></linearGradient></defs><rect width="124" height="110" fill="url(#hubsky)"/><g fill="#fff" opacity=".95"><ellipse cx="26" cy="70" rx="22" ry="8"/><ellipse cx="40" cy="64" rx="16" ry="9"/><ellipse cx="96" cy="30" rx="18" ry="6"/><ellipse cx="106" cy="26" rx="10" ry="6"/></g><g class="hub-float"><ellipse cx="64" cy="64" rx="34" ry="10" fill="#fff"/><ellipse cx="50" cy="58" rx="18" ry="10" fill="#fff"/><ellipse cx="76" cy="57" rx="16" ry="11" fill="#fff"/><rect x="52" y="22" width="24" height="36" rx="2" fill="#2b333b" stroke="#0d1014"/><g fill="#45dd63"><rect x="56" y="27" width="16" height="2"/><rect x="56" y="33" width="16" height="2"/><rect x="56" y="39" width="10" height="2"/></g><rect x="56" y="45" width="16" height="2" fill="#f07a1c"/><path d="M64 6 L72 16 H67 V22 H61 V16 H56 Z" fill="#ffe23a" stroke="#1a1206"/></g></svg>`;
+const LMINFO={
+  needle:{title:"Space Needle - Contact",status:"Space Needle: get in touch",h:330,html:`<h4>Get in touch</h4>
+    <p>I'm open to data center, infrastructure and security roles around Puget Sound. Email is the fastest way to reach me.</p>
+    <div class="row"><code>andy@dunne.systems</code><button class="xp-btn" type="button" data-copy="andy@dunne.systems">Copy</button></div>
+    <div class="row"><a href="https://www.linkedin.com/in/andhee" target="_blank" rel="noopener">LinkedIn</a> &middot; <a href="https://github.com/Andheeheee" target="_blank" rel="noopener">GitHub</a></div>
+    <div class="row"><button class="xp-btn" type="button" data-go="contact">Open the contact form</button></div>`},
+  akamai:{title:"Akamai Data Center",status:"Akamai: Data Center Field Technician, July 2026 to now",h:360,html:`<h4>Data Center Field Technician &middot; Akamai</h4><div class="when">July 2026 &ndash; present &middot; Greater Seattle</div>
+    <ul><li>Maintain and troubleshoot high-availability compute, storage and network infrastructure on a 24/7 on-call SLA.</li>
+    <li>Plan, test and run hardware upgrades, firmware updates and circuit deployments under change management.</li>
+    <li>Coordinate escalations and maintenance with vendors, contractors and engineering teams.</li>
+    <li>Keep asset inventory, configurations and rack mappings current, with automated reports.</li></ul>
+    <div class="row"><button class="xp-btn" type="button" data-go="resume">Full resume</button></div>`},
+  homelab:{title:"Home Lab (Renton)",status:"Home Lab: three racks of side projects",h:380,html:`<h4>Home Lab &middot; Renton</h4>
+    <p>Where the side projects live, in three racks. Open one to read its notes:</p>
+    <div class="row">${PROJECTS.map(p=>`<button class="xp-btn" type="button" data-np="${p.id}">${esc(p.name)}</button>`).join("")}</div>
+    <div class="row"><button class="xp-btn" type="button" data-app="projects">Browse the Projects folder</button><button class="xp-btn" type="button" data-go="projects">View the racks on dunne.systems</button></div>`},
+  school:{title:"High School Labs",status:"High School Labs: Zero Touch Provisioning volunteer",h:300,html:`<h4>Community Infrastructure Volunteer</h4>
+    <p>I set up Linux ZTP servers (DHCP, TFTP, HTTP) that wipe and provision donated Cisco switches and routers, so local high schools can run networking labs.</p>
+    <div class="row"><button class="xp-btn" type="button" data-np="ztp">Open the ZTP notes</button></div>`},
+  grc:{title:"Green River College",status:"Green River College: PC Repair Shop manager, BAS 2026",h:380,html:`<h4>Manager, PC Repair Shop &middot; Green River College</h4><div class="when">Jan 2025 &ndash; June 2026 &middot; Auburn, WA</div>
+    <ul><li>Ran daily shop operations: schedules, deadlines, and training junior technicians.</li>
+    <li>Built backup, recovery and OS deployment pipelines on FOG Project (UEFI PXE, SATA/NVMe imaging).</li>
+    <li>Reviewed accounts, permissions and access across Linux and Windows, and wrote the SOPs.</li></ul>
+    <p><b>BAS, IT &ndash; Cybersecurity &amp; Networking</b>, graduated June 2026.</p>
+    <div class="row"><button class="xp-btn" type="button" data-np="fog">Open the FOG imaging notes</button></div>`},
+  pisces:{title:"PISCES SOC",status:"PISCES: SOC Analyst for Washington local government",h:310,html:`<h4>SOC Analyst &middot; PISCES</h4><div class="when">Jan 2025 &ndash; Mar 2026 &middot; Washington local government</div>
+    <ul><li>Monitored infrastructure health and security telemetry for public-sector networks and handled incident response within SLA.</li>
+    <li>Reviewed Palo Alto and WatchGuard firewall rules and server logs; wrote governance reports with IT leadership.</li></ul>`},
+  ccdc:{title:"PRCCDC Arena",status:"PRCCDC: collegiate cyber defense team captain",h:320,html:`<h4>PRCCDC Team Captain &middot; Cyberops President</h4><div class="when">2025 &ndash; 2026</div>
+    <p>Captained Green River's team at the Pacific Rim Collegiate Cyber Defense Competition: defending and hardening a live network under attack while keeping services up.</p>
+    <div class="row"><button class="xp-btn" type="button" data-np="ccdc">Open the PRCCDC notes</button><button class="xp-btn" type="button" data-np="ad">AD hardening lab</button></div>`},
+  rainier:{title:"Mt. Rainier - About me",status:"Mt. Rainier: about Andrew",h:340,html:`<h4>Hi, I'm Andrew.</h4>
+    <p>I keep data center hardware running and secure, and I like knowing a system all the way from the fiber up to the firewall rules.</p>
+    <p>I'm based in Renton, work as a Data Center Field Technician at Akamai, and I'm looking for data center engineering, infrastructure and AI/GPU operations roles around Puget Sound.</p>
+    <div class="row"><button class="xp-btn" type="button" data-go="home">Open dunne.systems</button></div>`},
+  hub:{title:"Cloud Hub - Certifications",status:"Cloud Hub: certifications and training",h:320,html:`<h4>Certifications &amp; training</h4>
+    <ul style="list-style:none;padding:0"><li><span class="pill">Active</span><b>CompTIA Security+</b> (SY0-701)</li>
+    <li><span class="pill prog">In progress</span><b>NVIDIA NCA-AIIO</b>, AI Infrastructure &amp; Operations</li>
+    <li><span class="pill">Oct 2024</span><b>FBI Teen Academy</b>, cyber operations &amp; intelligence</li>
+    <li><span class="pill">2025&ndash;26</span><b>PRCCDC</b> team captain</li></ul>`}
+};
+const MapApp={
+  open(){
+    const W=Math.min(1080,innerWidth-140),H=Math.min(Math.round(innerHeight*0.84),760);
+    WM.open({id:"map",title:"dunne.systems Map",icon:MAP_ICON,w:W,h:H,x:Math.max(8,Math.min(innerWidth-W-8,124)),y:10,
+      body:`<div class="xpw-menu"><span>File</span><span>View</span><span>Go</span><span>Help</span></div>
+      <div class="map-tools"><button class="xp-btn" type="button" data-z="out" aria-label="Zoom out">&minus;</button><input type="range" class="map-zoom" min="0" max="100" value="0" aria-label="Zoom"><button class="xp-btn" type="button" data-z="in" aria-label="Zoom in">+</button><button class="xp-btn" type="button" data-z="fit">Whole map</button><span class="map-hint">Drag to move &middot; scroll to zoom &middot; click a place</span></div>
+      <div class="map-view"><div class="map-stage"><img class="map-terrain" src="${MAP_TERRAIN}" width="1600" height="1000" alt="" draggable="false"><div class="map-tint"></div>${$("#map-tpl").innerHTML}</div>
+        <button class="map-hub" type="button" data-k="hub" aria-label="Cloud Hub: certifications">${HUB_SVG}<span>Cloud Hub</span></button></div>
+      <div class="xpe-status map-status"><span class="map-st">Ready</span><span class="map-coord"></span></div>`,
+      onReady:el=>MapApp.init(el)});
+  },
+  init(el){
+    const view=el.querySelector(".map-view"),stage=el.querySelector(".map-stage"),zoom=el.querySelector(".map-zoom"),st=el.querySelector(".map-st"),coord=el.querySelector(".map-coord");
+    let s=1,tx=0,ty=0,minS=1,maxS=3,moved=false,pinch=null,down=null;const ptrs=new Map();
+    const vw=()=>view.clientWidth,vh=()=>view.clientHeight;
+    const fit=()=>{minS=Math.max(vw()/1600,vh()/1000);maxS=minS*3.2};
+    function draw(anim){s=Math.min(maxS,Math.max(minS,s));tx=Math.min(0,Math.max(vw()-1600*s,tx));ty=Math.min(0,Math.max(vh()-1000*s,ty));
+      stage.style.transition=anim?"transform .55s cubic-bezier(.3,.7,.2,1)":"none";stage.style.transform=`translate(${tx}px,${ty}px) scale(${s})`;
+      zoom.value=Math.round((s-minS)/((maxS-minS)||1)*100)}
+    function zoomAt(ns,mx,my,anim){ns=Math.min(maxS,Math.max(minS,ns));tx=mx-(mx-tx)*ns/s;ty=my-(my-ty)*ns/s;s=ns;draw(anim)}
+    function flyTo(x,y,ns){s=Math.min(maxS,Math.max(minS,ns));tx=vw()/2-x*s;ty=vh()/2-y*s;draw(true)}
+    function whole(anim){s=minS;tx=(vw()-1600*s)/2;ty=(vh()-1000*s)/2;draw(anim)}
+    fit();whole();
+    let prev=[vw(),vh()];
+    new ResizeObserver(()=>{if(!vw())return;const cx=(prev[0]/2-tx)/s,cy=(prev[1]/2-ty)/s,k=s/minS;fit();s=minS*k;tx=vw()/2-cx*s;ty=vh()/2-cy*s;draw();prev=[vw(),vh()]}).observe(view);
+    /* time-of-day tint from the live Seattle scene */
+    const ph=Scene.current?.phase,kind=Scene.current?.kind||"";
+    el.querySelector(".map-tint").style.background=ph==="night"?"rgba(25,35,95,.62)":ph==="twilight"?"rgba(120,90,175,.42)":ph==="golden"?"rgba(255,175,105,.25)":/rain|drizzle|storm|overcast|fog/.test(kind)?"rgba(140,150,160,.3)":"transparent";
+    const rel=e=>{const r=view.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+    view.addEventListener("pointerdown",e=>{if(e.target.closest(".map-hub"))return;ptrs.set(e.pointerId,rel(e));moved=false;down=rel(e);
+      if(ptrs.size===2){const[a,b]=[...ptrs.values()];pinch={d:Math.hypot(a[0]-b[0],a[1]-b[1]),s}}});
+    view.addEventListener("pointermove",e=>{
+      const p=rel(e),mx=(p[0]-tx)/s,my=(p[1]-ty)/s;
+      coord.textContent=`${(47.86-my/1000*.75).toFixed(3)}° N, ${(122.78-mx/1600*1.05).toFixed(3)}° W`;
+      if(!ptrs.has(e.pointerId))return;const last=ptrs.get(e.pointerId);ptrs.set(e.pointerId,p);
+      if(ptrs.size===2&&pinch){const[a,b]=[...ptrs.values()];moved=true;zoomAt(pinch.s*Math.hypot(a[0]-b[0],a[1]-b[1])/pinch.d,(a[0]+b[0])/2,(a[1]+b[1])/2);return}
+      if(!moved&&Math.hypot(p[0]-down[0],p[1]-down[1])<5)return;
+      if(!moved){moved=true;view.classList.add("drag");try{view.setPointerCapture(e.pointerId)}catch(_){}}
+      tx+=p[0]-last[0];ty+=p[1]-last[1];draw()});
+    const up=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;view.classList.remove("drag")};
+    view.addEventListener("pointerup",up);view.addEventListener("pointercancel",up);
+    view.addEventListener("wheel",e=>{e.preventDefault();const p=rel(e);zoomAt(s*Math.exp(-e.deltaY*.0016),p[0],p[1])},{passive:false});
+    el.querySelectorAll("[data-z]").forEach(b=>b.onclick=()=>{const z=b.dataset.z;if(z==="fit")return whole(true);zoomAt(s*(z==="in"?1.45:1/1.45),vw()/2,vh()/2,true)});
+    zoom.addEventListener("input",()=>zoomAt(minS+(maxS-minS)*zoom.value/100,vw()/2,vh()/2));
+    view.addEventListener("pointerover",e=>{const t=e.target.closest(".lm,.map-hub");st.textContent=t?LMINFO[t.dataset.k].status+" (click to open)":"Ready"});
+    const visit=t=>{const k=t.dataset.k;
+      if(k!=="hub"){const m=/translate\(([\d.]+) ([\d.]+)\)/.exec(t.getAttribute("transform"));flyTo(+m[1],+m[2]-40,Math.max(s,minS*2))}
+      setTimeout(()=>MapApp.info(k),k==="hub"?0:420)};
+    view.addEventListener("click",e=>{if(moved){moved=false;return}const t=e.target.closest(".lm,.map-hub");if(t)visit(t)});
+    view.addEventListener("keydown",e=>{const t=e.target.closest(".lm");if(t&&(e.key==="Enter"||e.key===" ")){e.preventDefault();visit(t)}});
+  },
+  info(k){const i=LMINFO[k];
+    WM.open({id:"lm-"+k,title:i.title,icon:MAP_ICON,w:400,h:i.h,x:Math.max(8,innerWidth-424),y:46,body:`<div class="lm-info">${i.html}</div>`})}
+};
+Apps.map=()=>MapApp.open();
+
 const Intro=(function(){
   const xp=$("#xp");let timers=[],done=false,anims=[],start=null;
   const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
@@ -1120,6 +1334,9 @@ const Intro=(function(){
     if(t.closest("#xp-skip"))return finish(true);
     const go=t.closest("[data-go]");if(go)return finish(false,go.dataset.go);
     const app=t.closest("[data-app]");if(app)return Apps[app.dataset.app]();
+    const np=t.closest("[data-np]");if(np)return Apps.notepad(np.dataset.np);
+    const cp=t.closest("[data-copy]");if(cp){const v=cp.dataset.copy;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>{cp.textContent="Copied"}).catch(()=>{const c=cp.parentElement.querySelector("code");if(c){const r=document.createRange();r.selectNodeContents(c);getSelection().removeAllRanges();getSelection().addRange(r)}cp.textContent="Press Ctrl+C"});return}
+    if(t.closest("#xp-map")){select($("#xp-map"));return Apps.map()}
     if(t.closest("#xp-res")){select($("#xp-res"));return Apps.resume()}
     if(t.closest("#xp-proj")){select($("#xp-proj"));return Apps.projects()}
     if(t.closest("#xp-dial")){select($("#xp-dial"));if(WM.has("dial"))WM.focus("dial");return}
