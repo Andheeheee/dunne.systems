@@ -1,0 +1,37 @@
+/* Error screens (404, offline, /errors/*): a Windows 95-style desktop where the
+   dialog fills the screen and the taskbar's Home button leads back. */
+:root{
+  --desk:#008080; --face:#c0c0c0; --hi:#ffffff; --lo:#808080; --dark:#000000; --ink:#000000; --navy:#000080;
+  --bar:36px; --gap:12px;
+  --ui:Tahoma,"MS Sans Serif",Verdana,Geneva,"DejaVu Sans",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--desk);color:var(--ink);font:12px/1.4 var(--ui);overflow:hidden;
+  padding:env(safe-area-inset-top,0) env(safe-area-inset-right,0) 0 env(safe-area-inset-left,0)}
+:focus-visible{outline:1px dotted var(--ink);outline-offset:-4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* The dialog, as big as the screen allows, kept pixel-sharp */
+.desk{position:fixed;inset:0 0 calc(var(--bar) + env(safe-area-inset-bottom,0px)) 0;display:grid;place-items:center;padding:var(--gap)}
+.desk img{display:block;image-rendering:pixelated;height:auto;
+  width:min(calc(100vw - 2 * var(--gap)), calc((100dvh - var(--bar) - env(safe-area-inset-bottom,0px) - 2 * var(--gap)) * 640 / 460));
+  box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+
+/* Taskbar */
+.taskbar{position:fixed;left:0;right:0;bottom:0;height:calc(var(--bar) + env(safe-area-inset-bottom,0px));
+  padding:3px 4px calc(3px + env(safe-area-inset-bottom,0px));display:flex;gap:4px;align-items:stretch;
+  background:var(--face);border-top:1px solid var(--face);box-shadow:inset 0 1px 0 var(--hi)}
+.btn{display:flex;align-items:center;gap:6px;padding:0 8px;min-width:0;color:var(--ink);text-decoration:none;font:12px var(--ui);background:var(--face);
+  border:1px solid;border-color:var(--hi) var(--dark) var(--dark) var(--hi);box-shadow:inset -1px -1px 0 var(--lo),inset 1px 1px 0 #dfdfdf}
+.btn:active,.btn.down{border-color:var(--dark) var(--hi) var(--hi) var(--dark);box-shadow:inset 1px 1px 0 var(--lo),inset -1px -1px 0 #dfdfdf;padding-top:2px;padding-left:9px}
+button.btn{cursor:pointer}
+.home{font-weight:bold;flex:none}
+.next{flex:none}
+.home img{width:20px;height:20px}
+.task{flex:0 1 260px;background:repeating-conic-gradient(var(--face) 0 25%,#d8d8d8 0 50%) 0 0/2px 2px}
+.task span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.task img{width:16px;height:16px;flex:none}
+.tray{margin-left:auto;flex:none;display:flex;align-items:center;padding:0 10px;font:12px var(--ui);
+  border:1px solid;border-color:var(--lo) var(--hi) var(--hi) var(--lo);font-variant-numeric:tabular-nums}
+@media (max-width:420px){ .tray{display:none} .task{flex:1 1 auto} }

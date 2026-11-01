@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>503 Service Unavailable · dunne.systems</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#008080">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/css/error-screen.css">
+</head>
+<body data-loop="/assets/images/dialing-503-loop.gif" data-once="2800">
+<main class="desk">
+  <h1 class="sr">503: rack A01 is down for maintenance</h1>
+  <picture>
+    <source media="(prefers-reduced-motion: reduce)" srcset="/assets/images/dialing-503-end.png">
+    <img id="dialog" src="/assets/images/dialing-503.gif" width="640" height="460"
+      alt="A Dialing Progress window. The rack's lights go dark, a yellow MAINTENANCE sign is hung across it, and the orange cat naps on top of the monitor, whose screen says BRB, BACK SOON. The status reads 'Error 503: rack A01 is down for maintenance.'">
+  </picture>
+</main>
+
+<nav class="taskbar" aria-label="Taskbar">
+  <a class="btn home" href="/"><img src="/assets/images/favicon.svg" alt="">Home</a>
+  <span class="btn task down" title="Just a demo. The real site is fine."><img src="/assets/images/favicon-32.png" alt=""><span id="task">503 Service Unavailable (demo)</span></span>
+  <a class="btn next" href="/errors/418.html" title="Next error screen">Next ›</a>
+  <span class="tray" aria-hidden="true" id="clock"></span>
+</nav>
+
+<script src="/assets/js/error-screen.js"></script>
+</body>
+</html>
