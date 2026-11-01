@@ -1,0 +1,25 @@
+.map-svg{position:absolute;left:0;top:0;width:1600px;height:1000px;overflow:visible}
+.map-svg .f0{fill:none;stroke:#062a36;stroke-width:12;opacity:.35;transform:translate(4px,5px)}
+.map-svg .f1{fill:none;stroke:#7fe3ff;stroke-width:9;opacity:.45}
+.map-svg .f2{fill:none;stroke:#eafcff;stroke-width:3}
+.map-svg .f3{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-dasharray:1 34;animation:pkt 1.6s linear infinite}
+@keyframes pkt{to{stroke-dashoffset:-35}}
+.map-svg .lbl{font:bold 19px "Courier New",Courier,monospace;fill:#ffe23a;stroke:#1a1206;stroke-width:5px;paint-order:stroke;stroke-linejoin:round;text-anchor:middle;letter-spacing:.5px}
+.map-svg .lm{cursor:pointer;outline:none}
+.map-svg .lm .art{transition:transform .18s ease;transform-box:fill-box;transform-origin:50% 100%}
+.map-svg .lm:hover .art,.map-svg .lm:focus-visible .art{transform:translateY(-7px) scale(1.07)}
+.map-svg .lm:hover .lbl,.map-svg .lm:focus-visible .lbl{fill:#fff}
+.map-svg .ring{fill:none;stroke:#ffe23a;stroke-width:3;opacity:0;transition:opacity .18s}
+.map-svg .lm:hover .ring,.map-svg .lm:focus-visible .ring{opacity:.9}
+.map-svg .lm[data-k="rainier"] .ring{rx:110;ry:30}
+.map-svg .led{fill:#45dd63;animation:ledb 1s steps(2) infinite}
+.map-svg .led2{fill:#7fd0ff}
+@keyframes ledb{50%{opacity:.3}}
+.map-svg .beacon{animation:ledb 1.4s steps(2) infinite}
+.map-svg .smoke circle{animation:smoke 3s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.map-svg .smoke circle:nth-child(2){animation-delay:1s}.map-svg .smoke circle:nth-child(3){animation-delay:2s}
+@keyframes smoke{0%{opacity:0;transform:translate(0,8px) scale(.6)}30%{opacity:.9}100%{opacity:0;transform:translate(6px,-14px) scale(1.4)}}
+.map-svg .flag{animation:flag 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:0 50%}
+@keyframes flag{to{transform:skewY(6deg) scaleX(.9)}}
+.map-svg .radar{animation:radar 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes radar{to{transform:rotate(-18deg)}}
