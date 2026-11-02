@@ -686,10 +686,13 @@ html.intro body{overflow:hidden}
       <!-- BLOG -->
       <section data-route="blog" aria-labelledby="h-blog" hidden>
         <h2 id="h-blog">Blog</h2>
-        <div class="empty">
-          <div class="construction"><span>UNDER CONSTRUCTION</span></div>
-          <p style="margin:0 auto 8px">No posts yet. The first write-ups will cover the labs on the rack: how they're built, what broke, and what I'd change.</p>
-          <p class="note" style="margin:0 auto">An RSS feed will be at <code>/feed.xml</code> when the first post goes up.</p>
+        <p class="crumb" style="margin:0">Write-ups of the labs on the rack: how they're built, what broke, and what I'd change.</p>
+        <div class="cards">
+          <article class="card">
+            <header><h3><a href="/blog/tailscale-mullvad-exit-node/">A Tailscale exit node that leaves through Mullvad</a></h3><span class="meta">Nov 1, 2026 · ~11 min</span></header>
+            <p>How I reach my VM server and NAS from anywhere with Tailscale, and how I turned a Raspberry Pi 4 into an exit node that sends everything out through a random Mullvad server. Featuring: an nftables kill switch, a routing bug that ate way too much of my time, and a little web page so I can switch servers from my phone.</p>
+            <div class="stack"><code>Tailscale</code><code>WireGuard</code><code>Mullvad</code><code>nftables</code><code>Alpine</code></div>
+          </article>
         </div>
       </section>
 
@@ -787,7 +790,7 @@ const PROJECTS=[
  {id:"vpn",rack:"net",name:"Secure VPN Gateway on a Raspberry Pi 4",short:"Dual-tunnel VPN gateway with policy-based traffic routing.",
   desc:"A Raspberry Pi 4 that runs two VPN tunnels and decides which traffic goes where, built to learn routing tables and policy routing on real hardware.",
   stack:["Raspberry Pi 4","Linux","VPN","nftables","Policy routing"],
-  tags:["networking","linux","security"],status:"on",
+  tags:["networking","linux","security"],status:"on",post:"/blog/tailscale-mullvad-exit-node/",
   notes:["Two tunnels up at once, with routing rules choosing the path","Small, low-power box that runs 24/7"]},
  {id:"ztp",rack:"net",name:"Zero Touch Provisioning for School Labs",short:"Volunteer ZTP server that wipes and provisions Cisco gear for high schools.",
   desc:"As a community volunteer, I set up Linux ZTP servers (DHCP, TFTP and HTTP) that wipe and provision donated Cisco switches and routers so local high schools can run networking labs.",
@@ -847,10 +850,11 @@ function showProject(id){
   const p=PROJECTS.find(x=>x.id===id)||PROJECTS[0];current=p.id;
   document.querySelectorAll(".unit[data-id]").forEach(u=>u.setAttribute("aria-pressed",String(u.dataset.id===current)));
   $("#detail").innerHTML=`<span class="meta">RACK ${p.rackCode} · ${p.rackName} · ${p.u} · ${p.status==="amber"?"completed":"running"}</span>
-    <h3>${p.name}</h3><p>${p.desc}</p>
+    <h3>${p.post?`<a href="${p.post}">${p.name}</a>`:p.name}</h3><p>${p.desc}</p>
     <h5>How it works</h5><ul>${p.notes.map(n=>`<li>${n}</li>`).join("")}</ul>
     <h5>Stack</h5><div class="stack">${p.stack.map(t=>`<code>${t}</code>`).join("")}</div>
-    <div class="stack">${p.tags.map(t=>`<button class="chip" type="button" data-tag="${t}">#${t}</button>`).join("")}</div>`;
+    <div class="stack">${p.tags.map(t=>`<button class="chip" type="button" data-tag="${t}">#${t}</button>`).join("")}</div>
+    ${p.post?`<div><a class="gloss orange" href="${p.post}">Read the write-up ›</a></div>`:""}`;
   $("#detail").querySelectorAll(".chip").forEach(c=>c.onclick=()=>setFilter(c.dataset.tag));
   const v=visible(),i=v.findIndex(x=>x.id===current);
   $("#pos").textContent=i<0?"":`${i+1} of ${v.length}${filter?" tagged "+filter:""}`;
