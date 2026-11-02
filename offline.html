@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Offline · dunne.systems</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#008080">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/css/error-screen.css">
+</head>
+<body data-loop="/assets/images/dialing-offline-loop.gif" data-once="3200">
+<main class="desk">
+  <h1 class="sr">You're offline</h1>
+  <picture>
+    <source media="(prefers-reduced-motion: reduce)" srcset="/assets/images/dialing-offline-end.png">
+    <img id="dialog" src="/assets/images/dialing-offline.gif" width="640" height="460"
+      alt="A Dialing Progress window. The PC dials three times with no answer, then gives up: the fiber has been chewed in half, and the orange cat sits next to the gap looking innocent. The screen says NO DIALTONE and the status reads 'Error: no dial tone. Check your connection.'">
+  </picture>
+</main>
+
+<nav class="taskbar" aria-label="Taskbar">
+  <a class="btn home" href="/"><img src="/assets/images/favicon.svg" alt="">Home</a>
+  <span class="btn task down" title="No dial tone"><img src="/assets/images/favicon-32.png" alt=""><span id="task">No dial tone</span></span>
+  <button class="btn next" id="retry" type="button">Redial</button>
+  <span class="tray" aria-hidden="true" id="clock"></span>
+</nav>
+
+<script src="/assets/js/error-screen.js"></script>
+<script>
+// Redial by hand, or on its own once the connection comes back
+document.getElementById("retry").onclick=function(){location.reload()};
+addEventListener("online",function(){location.reload()});
+</script>
+</body>
+</html>

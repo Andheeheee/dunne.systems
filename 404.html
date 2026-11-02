@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>404 Not Found · dunne.systems</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#008080">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/css/error-screen.css">
+</head>
+<body data-loop="/assets/images/dialing-404-loop.gif" data-once="3600">
+<main class="desk">
+  <h1 class="sr">404: that page doesn't exist</h1>
+  <picture>
+    <source media="(prefers-reduced-motion: reduce)" srcset="/assets/images/dialing-404-end.png">
+    <img id="dialog" src="/assets/images/dialing-404.gif" width="640" height="460"
+      alt="A Dialing Progress window. The PC searches the server rack unit by unit for the page, panics with a question mark, and gives up: the screen says 404 Not Found and the status reads 'Error 404: that page doesn't exist.'">
+  </picture>
+</main>
+
+<nav class="taskbar" aria-label="Taskbar">
+  <a class="btn home" href="/"><img src="/assets/images/favicon.svg" alt="">Home</a>
+  <span class="btn task down" title="Not found"><img src="/assets/images/favicon-32.png" alt=""><span id="task">Not found</span></span>
+  <span class="tray" aria-hidden="true" id="clock"></span>
+</nav>
+
+<script src="/assets/js/error-screen.js"></script>
+<script>
+// Name the missing page in the task button (as text, never as HTML)
+(function(){var p=location.pathname;if(p&&p!=="/404.html"){var t=document.getElementById("task");t.textContent="Not found: "+p;t.parentNode.title="Not found: "+p}})();
+</script>
+</body>
+</html>

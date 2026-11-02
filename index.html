@@ -1348,6 +1348,15 @@ const Intro=(function(){
 if(document.documentElement.classList.contains("intro"))Intro.play();
 CMDS.push({label:"Replay intro",hint:"action",run:()=>Intro.play()});
 
+/* Error screen gallery (the real ones are 404.html and offline.html) */
+[["403","403 Forbidden"],["500","500 Internal Server Error"],["503","503 Service Unavailable"],["418","418 I'm a teapot"]]
+  .forEach(([n,t])=>CMDS.push({label:"Break the site: "+t,hint:"joke",run:()=>location.href="/errors/"+n+".html"}));
+CMDS.push({label:"Preview the offline screen",hint:"joke",run:()=>location.href="/offline.html"});
+CMDS.push({label:"Preview the 404 screen",hint:"joke",run:()=>location.href="/404.html"});
+
+/* Offline screen: sw.js serves offline.html when a page can't load */
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
+
 renderProjects();route();
 </script>
 
